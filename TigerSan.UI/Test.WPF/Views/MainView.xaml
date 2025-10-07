@@ -19,12 +19,6 @@
     Style="{StaticResource CustomWindowStyle}"
     mc:Ignorable="d">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Window_LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <TabControl>
         <!--  表单：  -->
         <TabItem Header="表单">

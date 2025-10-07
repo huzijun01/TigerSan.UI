@@ -28,7 +28,7 @@ namespace TigerSan.UI.Controls
                 nameof(Text),
                 typeof(string),
                 typeof(ToolBarButton),
-                new PropertyMetadata("Button"));
+                new PropertyMetadata("X"));
         #endregion
 
         #region 命令
@@ -92,8 +92,6 @@ namespace TigerSan.UI.Controls
         public ToolBarButton()
         {
             InitializeComponent();
-            Width = 45;
-            FontSize = 12;
             // 鼠标进入：
             content.MouseEnter += ToolBarButton_MouseEnter;
             background.MouseEnter += ToolBarButton_MouseEnter;
@@ -129,4 +127,14 @@ namespace TigerSan.UI.Controls
         #endregion
         #endregion 【Events】
     }
+
+    #region 设计数据
+    public class ToolBarButtonDesignData : ToolBarButton
+    {
+        public ToolBarButtonDesignData()
+        {
+            UsingBackgroundOpacity = 0.25;
+        }
+    }
+    #endregion
 }

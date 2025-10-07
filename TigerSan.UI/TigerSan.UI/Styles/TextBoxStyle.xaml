@@ -54,7 +54,7 @@
                 <Setter
                         TargetName="border"
                         Property="BorderBrush"
-                        Value="{StaticResource Colors.DarkerBorder}"/>
+                        Value="{StaticResource Colors.DisabledText}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocused" Value="True">
                 <Setter
@@ -67,13 +67,14 @@
 
     <!-- 自定义文本框样式： -->
     <Style x:Key="CustomTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Padding" Value="10,5"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="FontFamily" Value="{StaticResource Global.FontFamily}"/>
         <Setter Property="FontSize" Value="{StaticResource Global.Content.FontSize}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Colors.BaseBorder}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Colors.DarkBorder}"/>
         <Setter Property="CaretBrush" Value="{StaticResource Colors.BasicWhite}"/>
         <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
-        <Setter Property="Background" Value="{StaticResource Colors.BaseFill}"/>
+        <Setter Property="Background" Value="{StaticResource Colors.DarkFill}"/>
         <Setter Property="Template" Value="{StaticResource CustomTextBoxTemplate}"/>
     </Style>
 

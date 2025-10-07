@@ -9,7 +9,10 @@
     xmlns:local="clr-namespace:TigerSan.UI.Controls"
     mc:Ignorable="d" 
     d:DesignWidth="200"
-    d:DesignHeight="100">
+    d:DesignHeight="50"
+    BorderThickness="1"
+    Background="{StaticResource Colors.DarkFill}"
+    Style="{StaticResource TransparentUserControlStyle}">
 
     <UserControl.Resources>
         <ResourceDictionary Source="/TigerSan.UI;component/Windows/MenuWindowStyle.xaml" />
@@ -23,6 +26,8 @@
         <!--  背景：  -->
         <Border
             BorderBrush="{Binding BorderBrush}"
+            BorderThickness="{Binding BorderThickness}"
+            Background="{Binding Background}"
             Style="{StaticResource SelectBorderStyle}"/>
 
         <Grid Margin="15,0">

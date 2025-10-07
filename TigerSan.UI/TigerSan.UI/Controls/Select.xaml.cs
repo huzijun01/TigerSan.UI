@@ -151,7 +151,10 @@ namespace TigerSan.UI.Controls
                 nameof(Value),
                 typeof(object),
                 typeof(Select),
-                new PropertyMetadata(null, OnValueChanged));
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    OnValueChanged));
 
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -399,8 +402,9 @@ namespace TigerSan.UI.Controls
         public Select()
         {
             InitializeComponent();
-            UpdateState();
+            Loaded += OnLoaded;
             _timerMenuShowDelay._action = ShowMenu;
+            UpdateState();
         }
         #endregion 【Ctor】
 
@@ -466,7 +470,7 @@ namespace TigerSan.UI.Controls
             #region 边框色
             if (!IsEnabled)
             {
-                SetBorderColor(Generic.BaseFill.Color);
+                SetBorderColor(Generic.BaseBorder.Color);
             }
             else if (IsOpen)
             {
@@ -474,11 +478,11 @@ namespace TigerSan.UI.Controls
             }
             else if (_isHover)
             {
-                SetBorderColor(Generic.DarkerBorder.Color);
+                SetBorderColor(Generic.DisabledText.Color);
             }
             else
             {
-                SetBorderColor(Generic.BaseFill.Color);
+                SetBorderColor(Generic.DarkBorder.Color);
             }
             #endregion 边框色
 

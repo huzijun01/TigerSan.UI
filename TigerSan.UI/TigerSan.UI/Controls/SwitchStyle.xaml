@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:TigerSan.UI.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TransparentUserControlStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type controls:Switch}" BasedOn="{StaticResource TransparentUserControlStyle}">
+        <Setter Property="Background" Value="{StaticResource Colors.Brand}"/>
+    </Style>
+</ResourceDictionary>

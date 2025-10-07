@@ -6,6 +6,7 @@
         <!--  控件：  -->
         <ResourceDictionary Source="Controls/TableGrid/TableGridStyle.xaml" />
         <ResourceDictionary Source="Controls/PixelDotStyle.xaml" />
+        <ResourceDictionary Source="Controls/SwitchStyle.xaml" />
         <!--  样式：  -->
         <ResourceDictionary Source="Styles/Global.xaml" />
         <ResourceDictionary Source="Styles/BorderStyle.xaml" />
@@ -20,6 +21,7 @@
         <ResourceDictionary Source="Styles/TabItemStyle.xaml" />
         <ResourceDictionary Source="Styles/TextBlockStyle.xaml" />
         <ResourceDictionary Source="Styles/TextBoxStyle.xaml" />
+        <ResourceDictionary Source="Styles/TransparentUserControlStyle.xaml" />
         <!--  窗口：  -->
         <ResourceDictionary Source="Windows/CustomWindowStyle.xaml" />
         <ResourceDictionary Source="Windows/DialogWindowStyle.xaml" />

@@ -48,7 +48,6 @@ namespace TigerSan.UI.Windows
             Loaded += OnLoaded;
             Closed += OnClosed;
             Deactivated += OnDeactivated;
-            InitItems();
         }
         #endregion 【Ctor】
 
@@ -56,6 +55,7 @@ namespace TigerSan.UI.Windows
         #region 加载完成
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            InitItems();
             InitSize();
             InitPosition();
         }
@@ -112,7 +112,7 @@ namespace TigerSan.UI.Windows
         }
         #endregion
 
-        #region 初始位置
+        #region 初始项目集合
         private void InitItems()
         {
             Items = _select.Items;

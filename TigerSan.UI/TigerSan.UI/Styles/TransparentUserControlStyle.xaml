@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 透明用户控件： -->
+    <Style x:Key="TransparentUserControlStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="UserControl">
+                    <!-- 使用DockPanel作为默认容器 -->
+                    <Grid Background="Transparent">
+                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -71,7 +71,7 @@ namespace TigerSan.UI.Windows
                 nameof(ToolBarForeground),
                 typeof(Brush),
                 typeof(CustomWindow),
-                new PropertyMetadata(Generic.BasicWhite));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
         #region 工具栏背景色
@@ -88,7 +88,7 @@ namespace TigerSan.UI.Windows
                 nameof(ToolBarBackground),
                 typeof(Brush),
                 typeof(CustomWindow),
-                new PropertyMetadata(Generic.ToolBar_Active_Background));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
         #region 最小化按钮可见性
@@ -161,9 +161,6 @@ namespace TigerSan.UI.Windows
             SizeChanged += OnSizeChanged;
             StateChanged += OnStateChanged;
             MouseDown += CustomWindow_MouseDown;
-            // 字段：
-            _toolBarForeground = ToolBarForeground;
-            _toolBarBackground = ToolBarBackground;
             SourceInitialized += OnSourceInitialized_NoResize;
         }
         #endregion 【Ctor】
@@ -281,6 +278,11 @@ namespace TigerSan.UI.Windows
         #region 初始化
         public void Init()
         {
+            #region 工具栏
+            _toolBarForeground = ToolBarForeground;
+            _toolBarBackground = ToolBarBackground;
+            #endregion 工具栏
+
             #region 按钮
             switch (ResizeMode)
             {

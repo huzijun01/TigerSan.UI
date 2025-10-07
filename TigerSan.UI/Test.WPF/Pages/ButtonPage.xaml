@@ -10,15 +10,24 @@
              mc:Ignorable="d" 
              d:DesignWidth="400"
              d:DesignHeight="300">
-    <StackPanel HorizontalAlignment="Left">
+    <StackPanel
+        HorizontalAlignment="Left"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}">
+        <!-- 屏保按钮： -->
         <Button Content="X"
                 Margin="{StaticResource Button.MarginBottom}"
                 Style="{StaticResource ScreenSaverButtonStyle}"/>
+        
+        <!-- 像素点： -->
         <controls:PixelDot Margin="{StaticResource Button.MarginBottom}"/>
+        
+        <!-- 文件选择器按钮： -->
         <Button Content="选择图片"
                 HorizontalAlignment="Left"
                 Margin="{StaticResource Button.MarginBottom}"
                 Style="{StaticResource FileSelectorButtonStyle}"/>
+        
+        <!-- 工具栏按钮： -->
         <controls:ToolBarButton
             x:Name="btnBye"
             Height="60"
@@ -28,6 +37,8 @@
             Command="{Binding btnBye_ClickCommand}"
             Margin="{StaticResource Button.MarginBottom}"/>
         <controls:Switch Margin="{StaticResource Button.MarginBottom}"/>
+
+        <!-- 开关按钮： -->
         <controls:Switch
             Value="{Binding SwitchValue}"
             ValueChangedCommand="{Binding Switch_ValueChangedCommand}"

@@ -158,7 +158,6 @@ When the data is incorrect, the item mask will automatically turn red.
 ## Styles:
 ### Global:
 Colors, Constant.
-`TransparentUserControlStyle`:
 
 ### BorderStyle:
 `CardBorderStyle`:
@@ -226,6 +225,9 @@ Colors, Constant.
 `CustomTextBoxStyle`:
 
 `TextBoxStyle`: Global.
+
+### TransparentUserControlStyle:
+`TransparentUserControlStyle`:
 
 ## Windows:
 ### ByeWindow:

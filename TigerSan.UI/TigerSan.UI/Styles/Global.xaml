@@ -48,7 +48,7 @@
     <!-- 遮罩: -->
     <SolidColorBrush x:Key="Colors.Mask.Hover" Color="#22000000"/>
     <SolidColorBrush x:Key="Colors.Mask.Pressed" Color="#22FFFFFF"/>
-    <!--  标题栏：  -->
+    <!--  工具栏：  -->
     <SolidColorBrush x:Key="ToolBar_Static_Background" Color="#2b2b2b" />
     <SolidColorBrush x:Key="ToolBar_Active_Background" Color="#0063b1" />
     <!--  像素点：  -->
@@ -58,21 +58,6 @@
     <SolidColorBrush x:Key="PixelDot_NotSelected_BorderBrush" Color="#777" />
     <!--  菜单项目：  -->
     <SolidColorBrush x:Key="Colors.MenuItem.Hover" Color="#404040"/>
-
-    <!-- 【样式】: -->
-    <!-- 透明用户控件： -->
-    <Style x:Key="TransparentUserControlStyle" TargetType="{x:Type UserControl}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="UserControl">
-                    <!-- 使用DockPanel作为默认容器 -->
-                    <Grid Background="Transparent">
-                        <ContentPresenter Content="{TemplateBinding Content}"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
     <!-- 【常量】: -->
     <!-- 全局: -->

@@ -198,7 +198,7 @@ namespace TigerSan.UI.Windows
                 nameof(CloseButtonForeground),
                 typeof(Brush),
                 typeof(DialogWindow),
-                new PropertyMetadata(Generic.BasicWhite));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
         #region 关闭按钮悬浮前景色
@@ -215,7 +215,7 @@ namespace TigerSan.UI.Windows
                 nameof(CloseButtonHoverForegroundProperty),
                 typeof(Brush),
                 typeof(DialogWindow),
-                new PropertyMetadata(Generic.Brand));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
         #endregion 【DependencyProperties】
 

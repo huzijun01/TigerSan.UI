@@ -6,6 +6,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
         <ResourceDictionary Source="/TigerSan.UI;component/Windows/CustomWindowStyle.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TransparentUserControlStyle.xaml"/>
         <ResourceDictionary>
             <!-- 设计数据： -->
             <controls:SelectDesignData x:Key="SelectDesignData"/>
@@ -26,7 +27,7 @@
                 <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
                 <Setter Property="FontSize" Value="{DynamicResource MenuItem.FontSize}" />
                 <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
-                <Setter Property="Background" Value="{StaticResource Colors.BaseFill}"/>
+                <Setter Property="Background" Value="{StaticResource Colors.DarkFill}"/>
                 <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource NoResizeWindowChrome}"/>
             </Style>
 
@@ -36,16 +37,16 @@
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                <Setter Property="Background" Value="{DynamicResource Colors.BaseFill}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource Colors.BaseBorder}"/>
+                <Setter Property="Background" Value="{DynamicResource Colors.DarkFill}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Colors.DisabledText}"/>
             </Style>
 
             <!--  选择器内容：  -->
             <Style x:Key="SelectContentTextBlockStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="Padding" Value="8" />
-                <Setter Property="FontSize" Value="{StaticResource MenuItem.FontSize}" />
                 <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="Foreground" Value="{DynamicResource Colors.RegularText}" />
+                <Setter Property="FontSize" Value="{StaticResource MenuItem.FontSize}" />
+                <Setter Property="Foreground" Value="{DynamicResource Colors.PrimaryText}" />
             </Style>
 
             <!--  选择器占位文本：  -->
@@ -65,7 +66,7 @@
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="Foreground" Value="{StaticResource Colors.RegularText}"/>
+                <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
                 <Setter Property="FontSize" Value="{StaticResource MenuItem.FontSize}"/>
                 <Setter Property="FontFamily" Value="{StaticResource Global.FontFamily}"/>
                 <Setter Property="Template">

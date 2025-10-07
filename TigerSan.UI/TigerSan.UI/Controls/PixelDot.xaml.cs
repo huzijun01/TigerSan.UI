@@ -62,7 +62,7 @@ namespace TigerSan.UI.Controls
                 nameof(SelectedBackground),
                 typeof(Brush),
                 typeof(PixelDot),
-                new PropertyMetadata(Generic.PixelDot_Selected_Background));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
         #region 选中后的边框色
@@ -79,7 +79,7 @@ namespace TigerSan.UI.Controls
                 nameof(SelectedBorderBrush),
                 typeof(Brush),
                 typeof(PixelDot),
-                new PropertyMetadata(Generic.PixelDot_Selected_BorderBrush));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
         #region 圆角

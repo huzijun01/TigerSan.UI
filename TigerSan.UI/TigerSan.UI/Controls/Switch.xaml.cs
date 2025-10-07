@@ -106,7 +106,7 @@ namespace TigerSan.UI.Controls
                 nameof(UsingSwitchBackground),
                 typeof(Brush),
                 typeof(Switch),
-                new PropertyMetadata(Generic.Brand));
+                new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
         #region 使用中的开关背景色
@@ -123,7 +123,7 @@ namespace TigerSan.UI.Controls
                 nameof(UsingSwitchBackgroundColor),
                 typeof(Color),
                 typeof(Switch),
-                new PropertyMetadata(Generic.Brand.Color, UsingSwitchBackgroundColorChanged));
+                new PropertyMetadata(Colors.Transparent, UsingSwitchBackgroundColorChanged));
 
         private static void UsingSwitchBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -237,33 +237,16 @@ namespace TigerSan.UI.Controls
         public new Brush Background
         {
             get { return (Brush)GetValue(BackgroundProperty); }
-            private set { SetValue(BackgroundProperty, value); }
+            set { SetValue(BackgroundProperty, value); }
         }
         public static new readonly DependencyProperty BackgroundProperty =
             DependencyProperty.Register(
                 nameof(Background),
                 typeof(Brush),
                 typeof(Switch),
-                new PropertyMetadata(new SolidColorBrush()));
-        #endregion
+                new PropertyMetadata(new SolidColorBrush(), BackgroundChanged));
 
-        #region 开关背景
-        /// <summary>
-        /// 开关背景
-        /// </summary>
-        public SolidColorBrush SwitchBackground
-        {
-            get { return (SolidColorBrush)GetValue(SwitchBackgroundProperty); }
-            set { SetValue(SwitchBackgroundProperty, value); }
-        }
-        public static readonly DependencyProperty SwitchBackgroundProperty =
-            DependencyProperty.Register(
-                nameof(SwitchBackground),
-                typeof(SolidColorBrush),
-                typeof(Switch),
-                new PropertyMetadata(Generic.Brand, SwitchBackgroundChanged));
-
-        private static void SwitchBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void BackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (Switch)d;
             control.Init();
@@ -321,10 +304,10 @@ namespace TigerSan.UI.Controls
         public Switch()
         {
             InitializeComponent();
-            Init();
             // 事件：
             MouseDown -= OnMouseDown;
             MouseDown += OnMouseDown;
+            Init();
         }
         #endregion 【Ctor】
 
@@ -347,7 +330,7 @@ namespace TigerSan.UI.Controls
         {
             // 属性：
             Text = Value ? OnText : OffText;
-            UsingSwitchBackground = Value ? SwitchBackground : Generic.DarkerBorder;
+            UsingSwitchBackground = Value ? Background : Generic.DarkerBorder;
             Cursor = IsEnable ? Cursors.Hand : Cursors.Arrow;
             // 网格：
             UpdateCircGridleLeftColumnProportion();
@@ -388,7 +371,7 @@ namespace TigerSan.UI.Controls
         /// </summary>
         private void UpdateUsingSwitchBackgroundColor()
         {
-            var brush = SwitchBackground;
+            var brush = UsingSwitchBackground as SolidColorBrush;
             if (brush == null)
             {
                 LogHelper.Instance.IsNull(nameof(brush));
@@ -433,8 +416,7 @@ namespace TigerSan.UI.Controls
         public SwitchDesignData()
         {
             Value = true;
-            //OnText = "男";
-            //OffText = "女";
+            Background = Generic.Brand;
         }
     }
     #endregion

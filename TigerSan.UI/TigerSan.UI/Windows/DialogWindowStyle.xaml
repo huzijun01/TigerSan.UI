@@ -5,9 +5,9 @@
     xmlns:panels="clr-namespace:TigerSan.UI.Panels">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Styles/Global.xaml"/>
-        <ResourceDictionary Source="../Styles/TextBoxStyle.xaml"/>
-        <ResourceDictionary Source="./CustomWindowStyle.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TextBoxStyle.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Windows/CustomWindowStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- 对话框： -->
@@ -21,7 +21,8 @@
         <Setter Property="Topmost" Value="True" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="WindowChrome.WindowChrome" Value="{DynamicResource CustomWindowChrome}" />
+        <Setter Property="CloseButtonForeground" Value="{StaticResource Colors.BasicWhite}" />
+        <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource CustomWindowChrome}" />
         <Setter Property="Template">
             <Setter.Value>
                 <!--  模板：  -->

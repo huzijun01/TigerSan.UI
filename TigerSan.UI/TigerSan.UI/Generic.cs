@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shell;
-using TigerSan.UI.Controls;
 
 namespace TigerSan.UI
 {

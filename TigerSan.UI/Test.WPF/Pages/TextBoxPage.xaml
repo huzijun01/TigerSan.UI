@@ -8,13 +8,15 @@
              mc:Ignorable="d" 
              d:DesignWidth="400"
              d:DesignHeight="300">
-    <UserControl.Resources>
-    </UserControl.Resources>
-    <Grid Margin="5">
+
+    <Grid
+        Margin="5"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <!-- 文本框： -->
         <TextBox
             x:Name="txt1"

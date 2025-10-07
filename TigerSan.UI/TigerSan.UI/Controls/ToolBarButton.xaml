@@ -5,14 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TigerSan.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignWidth="200"
-             d:DesignHeight="60">
+             d:DesignWidth="100"
+             d:DesignHeight="30"
+             Width="45"
+             FontSize="12"
+             Foreground="White">
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+    <UserControl.Resources>
+        <local:ToolBarButtonDesignData x:Key="ToolBarButtonDesignData"/>
+    </UserControl.Resources>
+
+    <Grid
         x:Name="panel"
+        Cursor="Hand"
         Width="{Binding Path=Width}"
         Height="{Binding Path=Height}"
-        Cursor="Hand">
+        d:DataContext="{StaticResource ToolBarButtonDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
         <Border
             x:Name="background"
             Background="{Binding Path=MouseOverBackground}"

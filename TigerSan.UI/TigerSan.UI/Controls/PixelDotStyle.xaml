@@ -3,6 +3,7 @@
                     xmlns:controls="clr-namespace:TigerSan.UI.Controls">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TransparentUserControlStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--  像素点：  -->
@@ -13,5 +14,7 @@
         <Setter Property="Margin" Value="0,0,5,0"/>
         <Setter Property="CornerRadius" Value="3"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SelectedBackground" Value="{StaticResource PixelDot_Selected_Background}"/>
+        <Setter Property="SelectedBorderBrush" Value="{StaticResource PixelDot_Selected_BorderBrush}"/>
     </Style>
 </ResourceDictionary>

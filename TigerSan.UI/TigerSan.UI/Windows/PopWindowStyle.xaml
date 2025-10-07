@@ -15,7 +15,7 @@
            BasedOn="{StaticResource CustomWindowStyle}">
         <Setter Property="Topmost" Value="True" />
         <Setter Property="ResizeMode" Value="NoResize" />
-        <Setter Property="Background" Value="{DynamicResource Colors.BaseFill}" />
+        <Setter Property="Background" Value="{StaticResource Colors.BaseFill}" />
     </Style>
 
     <!--  无标题栏弹窗：  -->
@@ -26,7 +26,7 @@
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
-        <Setter Property="Background" Value="{DynamicResource Colors.BaseFill}" />
+        <Setter Property="Background" Value="{StaticResource Colors.BaseFill}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome

@@ -11,8 +11,11 @@
     <UserControl.Resources>
         <Thickness x:Key="MarginTop">0,10,0,0</Thickness>
     </UserControl.Resources>
-    
-    <Border Margin="15" Style="{StaticResource CardBorderStyle}">
+
+    <Border
+        Margin="15"
+        Style="{StaticResource CardBorderStyle}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
