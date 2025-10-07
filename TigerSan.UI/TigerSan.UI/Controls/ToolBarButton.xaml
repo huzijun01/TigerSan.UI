@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.ToolBarButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TigerSan.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignWidth="200"
+             d:DesignHeight="60">
+
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+        x:Name="panel"
+        Width="{Binding Path=Width}"
+        Height="{Binding Path=Height}"
+        Cursor="Hand">
+        <Border
+            x:Name="background"
+            Background="{Binding Path=MouseOverBackground}"
+            BorderBrush="{Binding Path=BorderBrush}"
+            BorderThickness="{Binding Path=BorderThickness}"
+            Opacity="{Binding Path=UsingBackgroundOpacity}"
+            Cursor="Hand"/>
+        <TextBlock
+            x:Name="content"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{Binding Path=Text}"
+            Margin="{Binding Path=Padding}"
+            Foreground="{Binding Path=Foreground}"
+            FontSize="{Binding Path=FontSize}"
+            FontFamily="{DynamicResource Iconfont}"
+            Cursor="Hand"/>
+    </Grid>
+</UserControl>

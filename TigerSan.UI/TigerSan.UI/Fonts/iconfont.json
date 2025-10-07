@@ -1,0 +1,324 @@
+{
+  "id": "3474551",
+  "name": "HoloTools",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1288599",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "9430532",
+      "name": "关  闭",
+      "font_class": "guanbi3",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "44694613",
+      "name": "缓动动画",
+      "font_class": "huandongdonghua",
+      "unicode": "e6ec",
+      "unicode_decimal": 59116
+    },
+    {
+      "icon_id": "6536709",
+      "name": "禁用",
+      "font_class": "jinyong1",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "43884956",
+      "name": "关于",
+      "font_class": "a-shuxing1moren-3",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "12860502",
+      "name": "键盘",
+      "font_class": "jianpan3",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "6506978",
+      "name": "所有-01",
+      "font_class": "suoyou-",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "10184744",
+      "name": "全选",
+      "font_class": "quanxuan",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "28975638",
+      "name": "menu_xtaq",
+      "font_class": "menu_xtaq",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "683291",
+      "name": "显示器",
+      "font_class": "xianshiqi",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "25341642",
+      "name": "插件附件",
+      "font_class": "chajianfujian",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "6517479",
+      "name": "文件-文件-1",
+      "font_class": "wj-wj-1",
+      "unicode": "e718",
+      "unicode_decimal": 59160
+    },
+    {
+      "icon_id": "11882919",
+      "name": "bg-file",
+      "font_class": "bg-file",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "20717940",
+      "name": "闪电",
+      "font_class": "lightning",
+      "unicode": "e7e0",
+      "unicode_decimal": 59360
+    },
+    {
+      "icon_id": "16436736",
+      "name": "maximize",
+      "font_class": "maximize2",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "1213156",
+      "name": "close",
+      "font_class": "close2",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "9648359",
+      "name": "Minimize",
+      "font_class": "Minimize",
+      "unicode": "e70d",
+      "unicode_decimal": 59149
+    },
+    {
+      "icon_id": "695273",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "12381343",
+      "name": "相册",
+      "font_class": "xiangce",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "41475167",
+      "name": "mti-停止1(实)",
+      "font_class": "a-mti-tingzhishi-1",
+      "unicode": "e737",
+      "unicode_decimal": 59191
+    },
+    {
+      "icon_id": "2442095",
+      "name": "添加图片",
+      "font_class": "tianjiatupian",
+      "unicode": "e78d",
+      "unicode_decimal": 59277
+    },
+    {
+      "icon_id": "1447736",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "1447738",
+      "name": "播放",
+      "font_class": "bofang",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "3755138",
+      "name": "静音",
+      "font_class": "jingyin",
+      "unicode": "e99b",
+      "unicode_decimal": 59803
+    },
+    {
+      "icon_id": "25042871",
+      "name": "取消静音",
+      "font_class": "a-cancelMute-quxiaojingyin",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "7822262",
+      "name": "全部壁纸",
+      "font_class": "quanbubizhi",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "12050268",
+      "name": "关闭所有",
+      "font_class": "guanbisuoyou",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "7049485",
+      "name": "宠物",
+      "font_class": "chongwu1",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "1048890",
+      "name": "减少",
+      "font_class": "icon_cut",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "1727457",
+      "name": "223保存",
+      "font_class": "baocun",
+      "unicode": "e8c8",
+      "unicode_decimal": 59592
+    },
+    {
+      "icon_id": "23900715",
+      "name": "取消置顶",
+      "font_class": "quxiaozhiding",
+      "unicode": "e892",
+      "unicode_decimal": 59538
+    },
+    {
+      "icon_id": "701412",
+      "name": "托盘_tray17",
+      "font_class": "tuopantray17",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "9475875",
+      "name": "编辑",
+      "font_class": "youjianbianji",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "6337460",
+      "name": "居中对齐",
+      "font_class": "juzhongduiqi",
+      "unicode": "ec80",
+      "unicode_decimal": 60544
+    },
+    {
+      "icon_id": "6337463",
+      "name": "右对齐",
+      "font_class": "youduiqi",
+      "unicode": "ec82",
+      "unicode_decimal": 60546
+    },
+    {
+      "icon_id": "6337476",
+      "name": "左右对齐",
+      "font_class": "zuoyouduiqi",
+      "unicode": "ec87",
+      "unicode_decimal": 60551
+    },
+    {
+      "icon_id": "29522597",
+      "name": "11E打开文件夹",
+      "font_class": "a-11Edakaiwenjianjia",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "1115072",
+      "name": "时间",
+      "font_class": "shijian1",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "145719",
+      "name": "删除_填充",
+      "font_class": "shanchutianchong",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
+      "icon_id": "826168",
+      "name": "置顶",
+      "font_class": "zhiding",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "982327",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "4686545",
+      "name": "刷新",
+      "font_class": "shuaxin1",
+      "unicode": "ec08",
+      "unicode_decimal": 60424
+    },
+    {
+      "icon_id": "15796329",
+      "name": "开机",
+      "font_class": "kaiji",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "20997689",
+      "name": "插件管理",
+      "font_class": "menu_cjgl",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "23061043",
+      "name": "尺寸",
+      "font_class": "chicun",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    }
+  ]
+}

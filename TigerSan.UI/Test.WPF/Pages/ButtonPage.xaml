@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Test.WPF.Pages.ButtonPage"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Test.WPF.Pages"
+             xmlns:controls="clr-namespace:TigerSan.UI.Controls;assembly=TigerSan.UI"
+             mc:Ignorable="d" 
+             d:DesignWidth="400"
+             d:DesignHeight="300">
+    <StackPanel HorizontalAlignment="Left">
+        <Button Content="X"
+                Margin="{StaticResource Button.MarginBottom}"
+                Style="{StaticResource ScreenSaverButtonStyle}"/>
+        <controls:PixelDot Margin="{StaticResource Button.MarginBottom}"/>
+        <Button Content="选择图片"
+                HorizontalAlignment="Left"
+                Margin="{StaticResource Button.MarginBottom}"
+                Style="{StaticResource FileSelectorButtonStyle}"/>
+        <controls:ToolBarButton
+            x:Name="btnBye"
+            Height="60"
+            Width="Auto"
+            FontSize="25"
+            Text="Bye"
+            Command="{Binding btnBye_ClickCommand}"
+            Margin="{StaticResource Button.MarginBottom}"/>
+        <controls:Switch Margin="{StaticResource Button.MarginBottom}"/>
+        <controls:Switch
+            Value="{Binding SwitchValue}"
+            ValueChangedCommand="{Binding Switch_ValueChangedCommand}"
+            Margin="{StaticResource Button.MarginBottom}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <prism:InvokeCommandAction Command="{Binding Switch_ValueChangedEvent}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </controls:Switch>
+    </StackPanel>
+</UserControl>

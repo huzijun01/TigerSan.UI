@@ -1,0 +1,131 @@
+﻿<UserControl
+    x:Class="TigerSan.UI.Controls.ImageButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TigerSan.UI.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="400"
+    d:DesignWidth="500">
+    <Grid
+        x:Name="panel"
+        Width="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Width}"
+        Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Height}"
+        Margin="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Margin}"
+        ClipToBounds="True">
+        <!-- 背景： -->
+        <Border x:Name="background" Background="Black" Opacity="0.2" />
+
+        <!-- 图片： -->
+        <Image
+            x:Name="image"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            RenderTransformOrigin="0.5,0.5"
+            Source="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ImageSource}" Stretch="UniformToFill">
+            <Image.RenderTransform>
+                <ScaleTransform
+                    x:Name="ImageScaleTransform"
+                    ScaleX="1"
+                    ScaleY="1" />
+            </Image.RenderTransform>
+        </Image>
+
+        <!-- 标题容器： -->
+        <Grid 
+            x:Name="titlePanel"
+            Height="40"
+            VerticalAlignment="Bottom">
+            <!-- 标题背景： -->
+            <Border
+                x:Name="titleBorder"
+                Background="Black"
+                Opacity="0.5" />
+            <!-- 标题： -->
+            <TextBlock
+                x:Name="title"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Foreground="White"
+                Opacity="0.6"
+                Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Title}"
+                TextAlignment="Center"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="WrapWithOverflow" />
+        </Grid>
+
+        <!-- 复选框： -->
+        <CheckBox
+            x:Name="checkBox"
+            Margin="8"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            IsChecked="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsChecked}"
+            Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CheckBoxVisibility}" />
+
+        <!-- 边框： -->
+        <Border
+            x:Name="border"
+            BorderBrush="#4081f2"
+            BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderThickness}" />
+
+        <!-- 触发器： -->
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard x:Name="MouseEnterStoryboard">
+                    <Storyboard>
+                        <DoubleAnimation 
+                            Storyboard.TargetName="ImageScaleTransform"
+                            Storyboard.TargetProperty="ScaleX"
+                            To="1.2"
+                            Duration="0:0:0.15" />
+                        <DoubleAnimation
+                            Storyboard.TargetName="ImageScaleTransform"
+                            Storyboard.TargetProperty="ScaleY"
+                            To="1.2"
+                            Duration="0:0:0.15" />
+                        <DoubleAnimation
+                            Storyboard.TargetName="titleBorder"
+                            Storyboard.TargetProperty="Opacity"
+                            To="0.2"
+                            Duration="0:0:0.15" />
+                        <DoubleAnimation
+                            Storyboard.TargetName="title"
+                            Storyboard.TargetProperty="Opacity"
+                            To="0.9"
+                            Duration="0:0:0.15" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard x:Name="MouseLeaveStoryboard">
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="ImageScaleTransform"
+                            Storyboard.TargetProperty="ScaleX"
+                            To="1"
+                            Duration="0:0:0.15" />
+                        <DoubleAnimation
+                            Storyboard.TargetName="ImageScaleTransform"
+                            Storyboard.TargetProperty="ScaleY"
+                            To="1"
+                            Duration="0:0:0.15" />
+                        <DoubleAnimation
+                            Storyboard.TargetName="titleBorder"
+                            Storyboard.TargetProperty="Opacity"
+                            To="0.5"
+                            Duration="0:0:0.15" />
+                        <DoubleAnimation
+                            Storyboard.TargetName="title"
+                            Storyboard.TargetProperty="Opacity"
+                            To="0.6"
+                            Duration="0:0:0.15" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+    </Grid>
+</UserControl>

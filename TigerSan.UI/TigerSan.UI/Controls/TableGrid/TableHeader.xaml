@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.TableHeader"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:local="clr-namespace:TigerSan.UI.Controls"
+             xmlns:converters="clr-namespace:TigerSan.UI.Converters"
+             mc:Ignorable="d"
+             d:DesignWidth="150"
+             d:DesignHeight="50">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="TableGridStyle.xaml" />
+    </UserControl.Resources>
+
+    <Grid
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+        d:DataContext="{StaticResource TableHeaderDesignData}">
+
+        <Grid.Resources>
+            <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+            <converters:SortMode2VisibilityConverter x:Key="SortMode2VisibilityConverter"/>
+        </Grid.Resources>
+
+        <!--  背景：  -->
+        <Border
+            x:Name="background"
+            Background="{Binding Background}"
+            Opacity="{DynamicResource ItemBackground.Opacity}"/>
+
+        <!-- 遮罩： -->
+        <Border
+            x:Name="mask"
+            Opacity="{DynamicResource ItemMask.Opacity}"
+            Background="{Binding MaskBackground}"/>
+
+        <!--  内容：  -->
+        <Grid x:Name="content" Style="{StaticResource TablePanelStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--  表头文本块：  -->
+            <TextBlock x:Name="header"
+                       Grid.Column="0"
+                       Text="{Binding Title}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+
+            <!--  筛选标签：  -->
+            <Label x:Name="filter"
+                   Grid.Column="1"
+                   Content="▣"
+                   Visibility="{Binding IsFiltered, Converter={StaticResource Bool2VisibilityConverter}}"
+                   Style="{StaticResource HeaderLabelStyle}"/>
+
+            <!--  排序标签：  -->
+            <Label x:Name="sort"
+                   Grid.Column="2"
+                   Content="{Binding SortText}"
+                   Visibility="{Binding SortMode, Converter={StaticResource SortMode2VisibilityConverter}}"
+                   Style="{StaticResource HeaderLabelStyle}"/>
+        </Grid>
+
+        <!--  列宽手柄：  -->
+        <Border x:Name="handel" Style="{StaticResource ColumnWidthHandleStyle}"/>
+    </Grid>
+</UserControl>

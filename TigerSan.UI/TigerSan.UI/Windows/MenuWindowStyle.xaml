@@ -1,0 +1,94 @@
+﻿<ResourceDictionary xmlns:windows="clr-namespace:TigerSan.UI.Windows"
+                    xmlns:controls="clr-namespace:TigerSan.UI.Controls"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Windows/CustomWindowStyle.xaml"/>
+        <ResourceDictionary>
+            <!-- 设计数据： -->
+            <controls:SelectDesignData x:Key="SelectDesignData"/>
+            <windows:MenuWindowDesignData x:Key="MenuWindowDesignData"/>
+
+            <!-- 字体大小： -->
+            <system:Double x:Key="MenuItem.FontSize">14</system:Double>
+
+            <!-- 菜单窗口： -->
+            <Style x:Key="MenuWindowStyle" TargetType="{x:Type Window}">
+                <Setter Property="Topmost" Value="True" />
+                <Setter Property="MinWidth" Value="50" />
+                <Setter Property="MinHeight" Value="100" />
+                <Setter Property="MaxWidth" Value="300" />
+                <Setter Property="MaxHeight" Value="500" />
+                <Setter Property="WindowStyle" Value="None"/>
+                <Setter Property="ResizeMode" Value="NoResize"/>
+                <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource MenuItem.FontSize}" />
+                <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
+                <Setter Property="Background" Value="{StaticResource Colors.BaseFill}"/>
+                <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource NoResizeWindowChrome}"/>
+            </Style>
+
+            <!--  选择器：  -->
+            <Style x:Key="SelectBorderStyle" TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="2"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Background" Value="{DynamicResource Colors.BaseFill}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Colors.BaseBorder}"/>
+            </Style>
+
+            <!--  选择器内容：  -->
+            <Style x:Key="SelectContentTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="FontSize" Value="{StaticResource MenuItem.FontSize}" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="{DynamicResource Colors.RegularText}" />
+            </Style>
+
+            <!--  选择器占位文本：  -->
+            <Style
+                x:Key="SelectPlaceholderTextBlockStyle"
+                TargetType="{x:Type TextBlock}"
+                BasedOn="{StaticResource SelectContentTextBlockStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource Colors.PlaceholderText}" />
+            </Style>
+
+            <!-- 菜单项目按钮： -->
+            <Style x:Key="MenuItemButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="MinHeight" Value="30"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="20,0,32,0"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Foreground" Value="{StaticResource Colors.RegularText}"/>
+                <Setter Property="FontSize" Value="{StaticResource MenuItem.FontSize}"/>
+                <Setter Property="FontFamily" Value="{StaticResource Global.FontFamily}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border
+                                Padding="{TemplateBinding Padding}" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource Colors.MenuItem.Hover}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

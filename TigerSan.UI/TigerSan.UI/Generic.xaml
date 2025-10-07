@@ -1,0 +1,44 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:TigerSan.UI.Converters">
+    <ResourceDictionary.MergedDictionaries>
+        <!--  控件：  -->
+        <ResourceDictionary Source="Controls/TableGrid/TableGridStyle.xaml" />
+        <ResourceDictionary Source="Controls/PixelDotStyle.xaml" />
+        <!--  样式：  -->
+        <ResourceDictionary Source="Styles/Global.xaml" />
+        <ResourceDictionary Source="Styles/BorderStyle.xaml" />
+        <ResourceDictionary Source="Styles/ButtonStyle.xaml" />
+        <ResourceDictionary Source="Styles/CheckBoxStyle.xaml" />
+        <ResourceDictionary Source="Styles/ContextMenuStyle.xaml" />
+        <ResourceDictionary Source="Styles/ItemContainerStyle.xaml" />
+        <ResourceDictionary Source="Styles/MenuItemStyle.xaml" />
+        <ResourceDictionary Source="Styles/RadioButtonStyle.xaml" />
+        <ResourceDictionary Source="Styles/ScrollViewerStyle.xaml" />
+        <ResourceDictionary Source="Styles/SquareButtonStyle.xaml" />
+        <ResourceDictionary Source="Styles/TabItemStyle.xaml" />
+        <ResourceDictionary Source="Styles/TextBlockStyle.xaml" />
+        <ResourceDictionary Source="Styles/TextBoxStyle.xaml" />
+        <!--  窗口：  -->
+        <ResourceDictionary Source="Windows/CustomWindowStyle.xaml" />
+        <ResourceDictionary Source="Windows/DialogWindowStyle.xaml" />
+        <ResourceDictionary Source="Windows/MenuWindowStyle.xaml" />
+        <ResourceDictionary Source="Windows/PopWindowStyle.xaml" />
+        <!--  转换器：  -->
+        <ResourceDictionary>
+            <converters:Bool2ResizeModeConverter x:Key="Bool2ResizeModeConverter"/>
+            <converters:Bool2StringConverter x:Key="Bool2StringConverter"/>
+            <converters:DateTime2StringConverter x:Key="DateTime2StringConverter"/>
+            <converters:Double2StringConverter x:Key="Double2StringConverter"/>
+            <converters:Int2StringConverter x:Key="Int2StringConverter"/>
+            <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+            <converters:SortMode2VisibilityConverter x:Key="SortMode2VisibilityConverter"/>
+        </ResourceDictionary>
+        <!--  图片：  -->
+        <ResourceDictionary>
+            <BitmapImage x:Key="logo_32" UriSource="Images/logo_32.png" />
+            <BitmapImage x:Key="Bye" UriSource="Images/bye.png" />
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

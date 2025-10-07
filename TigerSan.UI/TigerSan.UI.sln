@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerSan.UI", "TigerSan.UI\TigerSan.UI.csproj", "{C0FA805F-4D64-4361-834C-26E3F4DFEDA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.WPF", "Test.WPF\Test.WPF.csproj", "{54DF23D4-A86B-4834-B6D5-A00B55509389}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0FA805F-4D64-4361-834C-26E3F4DFEDA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FA805F-4D64-4361-834C-26E3F4DFEDA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FA805F-4D64-4361-834C-26E3F4DFEDA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FA805F-4D64-4361-834C-26E3F4DFEDA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DF23D4-A86B-4834-B6D5-A00B55509389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DF23D4-A86B-4834-B6D5-A00B55509389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DF23D4-A86B-4834-B6D5-A00B55509389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DF23D4-A86B-4834-B6D5-A00B55509389}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA1FE5DA-603D-498D-91AC-0E711F1B011A}
+	EndGlobalSection
+EndGlobal

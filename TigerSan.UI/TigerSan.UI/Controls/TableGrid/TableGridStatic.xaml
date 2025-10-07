@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.TableGridStatic"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:TigerSan.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignWidth="400"
+             d:DesignHeight="200">
+    <UserControl.Resources>
+        <ResourceDictionary Source="TableGridStyle.xaml" />
+    </UserControl.Resources>
+
+    <!--  【水平滚动视图】：  -->
+    <ScrollViewer
+        x:Name="PART_HorizontalScrollViewer"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Disabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--  【浮动网格】：  -->
+            <Grid
+                x:Name="PART_FloatGrid"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="0"/>
+                    <ColumnDefinition Width="Auto" MinWidth="120"/>
+                    <ColumnDefinition Width="Auto" MinWidth="120"/>
+                    <ColumnDefinition Width="Auto" MinWidth="120"/>
+                </Grid.ColumnDefinitions>
+
+                <!--  [全选框]：  -->
+                <CheckBox Grid.Row="0" Grid.Column="0" Style="{StaticResource TableCheckBoxStyle}"/>
+
+                <!--  [水平分割线]：  -->
+                <Line Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" StrokeThickness ="2" Style="{StaticResource HorizontalDividingLineStyle}"/>
+
+                <!--  [表头]：  -->
+                <controls:TableHeader Grid.Row="0" Grid.Column="1"/>
+                <controls:TableHeader Grid.Row="0" Grid.Column="2"/>
+                <controls:TableHeader Grid.Row="0" Grid.Column="3"/>
+            </Grid>
+
+            <!--  【剪裁网格】：  -->
+            <Grid
+                x:Name="PART_CutGrid"
+                Grid.Row="1"
+                ClipToBounds="True">
+                <!--  【垂直滚动视图】：  -->
+                <ScrollViewer
+                    x:Name="PART_VerticalScrollViewer"
+                    Margin="0,-38,0,0"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <!--  【项目网格】：  -->
+                    <Grid
+                        x:Name="PART_ItemGrid"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="0"/>
+                            <ColumnDefinition Width="Auto" MinWidth="120"/>
+                            <ColumnDefinition Width="Auto" MinWidth="120"/>
+                            <ColumnDefinition Width="Auto" MinWidth="120"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--  [行背景]：  -->
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource RowBackgroundBorderStyle}" Background="{StaticResource Colors.Brand}"/>
+
+                        <!--  [水平分割线]：  -->
+                        <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource HorizontalDividingLineStyle}"/>
+                        <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource HorizontalDividingLineStyle}"/>
+                        <Line Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource HorizontalDividingLineStyle}"/>
+                        <Line Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource HorizontalDividingLineStyle}"/>
+                        <Line Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource HorizontalDividingLineStyle}"/>
+
+                        <!--  [表头]：  -->
+                        <controls:TableHeader Grid.Row="0" Grid.Column="1" Visibility="Hidden"/>
+                        <controls:TableHeader Grid.Row="0" Grid.Column="2" Visibility="Hidden"/>
+                        <controls:TableHeader Grid.Row="0" Grid.Column="3" Visibility="Hidden"/>
+
+                        <!--  [复选框]：  -->
+                        <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource TableCheckBoxStyle}" IsChecked="True"/>
+                        <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource TableCheckBoxStyle}"/>
+                        <CheckBox Grid.Row="3" Grid.Column="0" Style="{StaticResource TableCheckBoxStyle}"/>
+                        <CheckBox Grid.Row="4" Grid.Column="0" Style="{StaticResource TableCheckBoxStyle}"/>
+                        <CheckBox Grid.Row="5" Grid.Column="0" Style="{StaticResource TableCheckBoxStyle}"/>
+
+                        <!--  [项目]：  -->
+                        <!--  第1行：  -->
+                        <controls:TableItem Grid.Row="1" Grid.Column="1"/>
+                        <controls:TableItem Grid.Row="1" Grid.Column="2"/>
+                        <controls:TableItem Grid.Row="1" Grid.Column="3"/>
+                        <!--  第2行：  -->
+                        <controls:TableItem Grid.Row="2" Grid.Column="1"/>
+                        <controls:TableItem Grid.Row="2" Grid.Column="2"/>
+                        <controls:TableItem Grid.Row="2" Grid.Column="3"/>
+                        <!--  第3行：  -->
+                        <controls:TableItem Grid.Row="3" Grid.Column="1"/>
+                        <controls:TableItem Grid.Row="3" Grid.Column="2"/>
+                        <controls:TableItem Grid.Row="3" Grid.Column="3"/>
+                        <!--  第4行：  -->
+                        <controls:TableItem Grid.Row="4" Grid.Column="1"/>
+                        <controls:TableItem Grid.Row="4" Grid.Column="2"/>
+                        <controls:TableItem Grid.Row="4" Grid.Column="3"/>
+                        <!--  第5行：  -->
+                        <controls:TableItem Grid.Row="5" Grid.Column="1"/>
+                        <controls:TableItem Grid.Row="5" Grid.Column="2"/>
+                        <controls:TableItem Grid.Row="5" Grid.Column="3"/>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

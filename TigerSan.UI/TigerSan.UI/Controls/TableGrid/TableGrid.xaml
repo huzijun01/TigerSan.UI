@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.TableGrid"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:controls="clr-namespace:TigerSan.UI.Controls"
+             xmlns:converters="clr-namespace:TigerSan.UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignWidth="370"
+             d:DesignHeight="200">
+
+    <!--  【水平滚动视图】：  -->
+    <ScrollViewer
+        x:Name="PART_HorizontalScrollViewer"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Disabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--  【浮动网格】：  -->
+            <Grid
+                x:Name="PART_FloatGrid"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <!--  【剪裁网格】：  -->
+            <Grid
+                x:Name="PART_CutGrid"
+                Grid.Row="1"
+                ClipToBounds="True">
+                <!--  【垂直滚动视图】：  -->
+                <ScrollViewer
+                    x:Name="PART_VerticalScrollViewer"
+                    Margin="0,-38,0,0"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <!--  【项目网格】：  -->
+                    <Grid
+                        x:Name="PART_ItemGrid"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"/>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

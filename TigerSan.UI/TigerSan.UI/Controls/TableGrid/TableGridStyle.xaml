@@ -1,0 +1,125 @@
+﻿<ResourceDictionary
+    xmlns:local="clr-namespace:TigerSan.UI.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml" />
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/CheckBoxStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  颜色：  -->
+    <SolidColorBrush x:Key="TableItem.Static.Foreground" Color="White" />
+    <SolidColorBrush x:Key="LinkItem.Static.Foreground" Color="#9dc4ff" />
+    <SolidColorBrush x:Key="TableRow.Hover.Foreground" Color="White" />
+    <SolidColorBrush x:Key="TableRow.Selected.Foreground" Color="Blue" />
+
+    <!--  表格控件：  -->
+    <Style x:Key="TableControlStyle" TargetType="{x:Type Control}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
+        <Setter Property="Foreground" Value="{DynamicResource TableItem.Static.Foreground}"/>
+    </Style>
+
+    <!--  表头容器：  -->
+    <Style x:Key="TablePanelStyle" TargetType="{x:Type Grid}">
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+    <!--  表头标签：  -->
+    <Style x:Key="HeaderLabelStyle"
+           TargetType="{x:Type ContentControl}"
+           BasedOn="{StaticResource TableControlStyle}">
+        <Setter Property="Margin" Value="6,0,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+
+    <!--  项目文本框：  -->
+    <Style x:Key="ItemTextBoxStyle"
+           TargetType="{x:Type TextBox}"
+           BasedOn="{StaticResource TableControlStyle}">
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="CaretBrush" Value="{StaticResource TableItem.Static.Foreground}"/>
+    </Style>
+
+    <!--  表头文本块：  -->
+    <Style x:Key="HeaderTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource TableItem.Static.Foreground}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
+    </Style>
+
+    <!--  水平分割线：  -->
+    <Style x:Key="HorizontalDividingLineStyle" TargetType="{x:Type Line}">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="X2" Value="1"/>
+        <Setter Property="Stroke" Value="{StaticResource TableItem.Static.Foreground}"/>
+    </Style>
+
+    <!--  垂直分割线：  -->
+    <Style x:Key="VerticalDividingLineStyle" TargetType="{x:Type Line}">
+        <Setter Property="Y2" Value="1"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="Cursor" Value="SizeWE"/>
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Stroke" Value="{StaticResource TableItem.Static.Foreground}"/>
+    </Style>
+
+    <!--  列宽手柄：  -->
+    <Style x:Key="ColumnWidthHandleStyle"
+               TargetType="{x:Type Border}">
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="Cursor" Value="SizeWE"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Width" Value="{StaticResource ColumnWidthHandle.Width}"/>
+        <Setter Property="Background" Value="{StaticResource TableItem.Static.Foreground}"/>
+    </Style>
+
+    <!--  自动隐藏容器：  -->
+    <Style x:Key="AutoHidePanelStyle" TargetType="{x:Type Panel}">
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <!--  触发器：  -->
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 表格复选框： -->
+    <Style
+        x:Key="TableCheckBoxStyle"
+        TargetType="{x:Type CheckBox}"
+        BasedOn="{StaticResource CheckBoxStyle}">
+        <Setter Property="Margin" Value="5,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <!-- 表格复选框： -->
+    <Style x:Key="RowBackgroundBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Opacity" Value="{StaticResource RowBackground.Opacity}"/>
+    </Style>
+
+    <!-- 设计数据： -->
+    <local:TableHeaderDesignData x:Key="TableHeaderDesignData"/>
+    <local:TableItemDesignData x:Key="TableItemDesignData"/>
+</ResourceDictionary>

@@ -1,0 +1,64 @@
+﻿<windows:CustomWindow
+    x:Class="Test.WPF.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:TigerSan.UI.Controls;assembly=TigerSan.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:local="clr-namespace:Test.WPF"
+    xmlns:pages="clr-namespace:Test.WPF.Pages"
+    xmlns:panels="clr-namespace:TigerSan.UI.Panels;assembly=TigerSan.UI"
+    xmlns:windows="clr-namespace:TigerSan.UI.Windows;assembly=TigerSan.UI"
+    Title="MainView"
+    Width="500"
+    Height="350"
+    WindowStartupLocation="CenterScreen"
+    Topmost="False"
+    Style="{StaticResource CustomWindowStyle}"
+    mc:Ignorable="d">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Window_LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <TabControl>
+        <!--  表单：  -->
+        <TabItem Header="表单">
+            <pages:FormPage/>
+        </TabItem>
+
+        <!--  弹窗：  -->
+        <TabItem Header="弹窗">
+            <pages:DialogPage/>
+        </TabItem>
+
+        <!--  表格：  -->
+        <TabItem Header="表格">
+            <pages:TablePage x:Name="tablePage"/>
+        </TabItem>
+
+        <!--  按钮：  -->
+        <TabItem Header="按钮">
+            <pages:ButtonPage/>
+        </TabItem>
+
+        <!--  图片按钮：  -->
+        <TabItem Header="图片按钮">
+            <pages:ImageButtonPage/>
+        </TabItem>
+
+        <!--  文本框：  -->
+        <TabItem Header="文本框">
+            <pages:TextBoxPage/>
+        </TabItem>
+
+        <!--  加载：  -->
+        <TabItem Header="加载">
+            <pages:LoadingPage/>
+        </TabItem>
+    </TabControl>
+</windows:CustomWindow>

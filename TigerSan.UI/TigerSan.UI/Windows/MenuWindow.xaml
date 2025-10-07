@@ -1,0 +1,36 @@
+﻿<Window x:Class="TigerSan.UI.Windows.MenuWindow"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TigerSan.UI.Windows"
+        mc:Ignorable="d"
+        Title="MenuWindow"
+        MinWidth="30"
+        MinHeight="50"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource MenuWindowStyle}">
+
+    <Window.Resources>
+        <ResourceDictionary Source="/TigerSan.UI;component/Windows/MenuWindowStyle.xaml"/>
+    </Window.Resources>
+
+    <ScrollViewer
+        d:DataContext="{StaticResource MenuWindowDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+        <ItemsControl
+            x:Name="itemsControl"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding Items}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ItemsControl}">
+                    <Button
+                        Content="{Binding Text}"
+                        Visibility="{Binding Visibility}"
+                        Command="{Binding ClickedCommand}"
+                        Style="{StaticResource MenuItemButtonStyle}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</Window>
