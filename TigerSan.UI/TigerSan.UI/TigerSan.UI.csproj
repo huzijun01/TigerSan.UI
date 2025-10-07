@@ -10,12 +10,13 @@
     <Copyright>bilibili 真的虎子君</Copyright>
     <PackageProjectUrl>https://space.bilibili.com/34323512</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>WPF;C#;.NET8;</PackageTags>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>0.7.0</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Version>0.7.1</Version>
     <Authors>TigerSan</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/huzijun01/TigerSan.UI</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,11 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Files\license.txt">
+    <Resource Include="Files\LICENSE">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
     </Resource>
-    <Resource Include="Files\readme.md">
+    <Resource Include="Files\README.md">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
     </Resource>
@@ -57,11 +58,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Files\license.txt">
+    <None Update="Files\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="Files\readme.md">
+    <None Update="Files\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
