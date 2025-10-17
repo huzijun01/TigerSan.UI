@@ -50,6 +50,21 @@ namespace Test.WPF.ViewModels
             MenuItemModels.Add(new MenuItemModel() { Source = "Item 3", _clicked = MenuItemClicked });
             MenuItemModels.Add(new MenuItemModel() { Source = "Item 4", _clicked = MenuItemClicked });
             MenuItemModels.Add(new MenuItemModel() { Source = "Item 5", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 6", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 7", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 8", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 9", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 10", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 11", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 12", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 13", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 14", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 15", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 16", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 17", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 18", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 19", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 20", _clicked = MenuItemClicked });
         }
         #endregion
         #endregion 【Functions】

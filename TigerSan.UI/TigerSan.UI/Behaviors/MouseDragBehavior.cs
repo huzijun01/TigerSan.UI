@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using TigerSan.UI.Models;
-using TigerSan.UI.Helpers;
 using TigerSan.TimerHelper.WPF;
+using TigerSan.ScreenDetection;
 
 namespace TigerSan.UI.Behaviors
 {
@@ -160,7 +160,7 @@ namespace TigerSan.UI.Behaviors
         {
             var dragData = new DragData((FrameworkElement)element, e)
             {
-                Scale = SystemHelper.GetDpiScale(),
+                Scale = ScreenHelper.GetDpiScale(),
                 ControlPosition = GetControlPosition(e),
                 ScreenPosition = GetScreenPosition(e),
             };
@@ -196,7 +196,7 @@ namespace TigerSan.UI.Behaviors
             var position = e.GetPosition(_element);
 
             // 缩放：
-            var scale = SystemHelper.GetDpiScale();
+            var scale = ScreenHelper.GetDpiScale();
             position.X /= scale;
             position.Y /= scale;
 
@@ -214,7 +214,7 @@ namespace TigerSan.UI.Behaviors
             var position = _element.PointToScreen(relativePosition); ;
 
             // 缩放：
-            var scale = SystemHelper.GetDpiScale();
+            var scale = ScreenHelper.GetDpiScale();
             position.X /= scale;
             position.Y /= scale;
 

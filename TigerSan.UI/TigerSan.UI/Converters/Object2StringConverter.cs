@@ -1,5 +1,6 @@
-﻿using System.Windows.Data;
+﻿using System;
 using System.Globalization;
+using System.Windows.Data;
 
 namespace TigerSan.UI.Converters
 {
@@ -8,6 +9,16 @@ namespace TigerSan.UI.Converters
     {
         #region 源到目标
         public object? Convert(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return value.ToString() ?? string.Empty;
+        }
+
+        public string Convert(object? value)
         {
             if (value == null)
             {

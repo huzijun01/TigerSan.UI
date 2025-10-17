@@ -5,8 +5,6 @@ A WPF UI library, containing many controls, panels, windows, animations, and con
 ## Source Code & Example:
 GitHub: https://github.com/huzijun01/TigerSan.UI
 
-Cloud Disk: https://pan.quark.cn/s/c1db1a17692c
-
 ## Personal Homepage:
 bilibili: https://space.bilibili.com/34323512
 

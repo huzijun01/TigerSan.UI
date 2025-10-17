@@ -1,17 +1,13 @@
 ﻿using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
-using TigerSan.UI.Controls;
+using TigerSan.UI.Converters;
 
 namespace TigerSan.UI.Models
 {
     public class MenuItemModel : BindableBase
     {
         #region 【Fields】
-        /// <summary>
-        /// 选择器
-        /// </summary>
-        public Select? _select;
-
         /// <summary>
         /// 点击
         /// </summary>
@@ -26,18 +22,23 @@ namespace TigerSan.UI.Models
         /// 点击（异步）
         /// </summary>
         public Action? _clickedAsync;
+
+        /// <summary>
+        /// 转换器
+        /// </summary>
+        public IValueConverter? _converter { get; set; }
         #endregion 【Fields】
 
         #region 【Properties】
+        #region [引用]
         /// <summary>
         /// 文本
         /// </summary>
         public string Text
         {
-            get { return _text; }
-            private set { SetProperty(ref _text, value); }
+            get { return GetText(); }
         }
-        private string _text = string.Empty;
+        #endregion [引用]
 
         /// <summary>
         /// 源数据
@@ -45,11 +46,7 @@ namespace TigerSan.UI.Models
         public object? Source
         {
             get { return _source; }
-            set
-            {
-                SetProperty(ref _source, value);
-                UpdateText();
-            }
+            set { SetProperty(ref _source, value); }
         }
         private object? _source;
 
@@ -74,17 +71,19 @@ namespace TigerSan.UI.Models
             _clickedAsync?.BeginInvoke(null, null);
         }
         #endregion
-        #endregion
 
-        #region 【Functions】
-        #region 更新文本
-        public void UpdateText()
+        #region 获取文本
+        private string GetText()
         {
-            if (_select == null) return;
+            if (_converter == null)
+            {
+                _converter = new Object2StringConverter();
+                return ((Object2StringConverter)_converter).Convert(Source);
+            }
 
-            Text = _select.GetText(Source);
+            return _converter.Convert(Source, null, null, null) as string ?? string.Empty;
         }
         #endregion
-        #endregion 【Functions】
+        #endregion
     }
 }

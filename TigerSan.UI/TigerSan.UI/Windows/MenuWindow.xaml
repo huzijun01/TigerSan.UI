@@ -16,6 +16,9 @@
     </Window.Resources>
 
     <ScrollViewer
+        MinHeight="{Binding MinHeight}"
+        MaxHeight="{Binding MaxHeight}"
+        VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}"
         d:DataContext="{StaticResource MenuWindowDesignData}"
         DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
         <ItemsControl

@@ -3,8 +3,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
+using System.Collections.ObjectModel;
 using TigerSan.CsvLog;
 using TigerSan.UI.Models;
 using TigerSan.UI.Windows;
@@ -186,9 +186,9 @@ namespace TigerSan.UI.Controls
         /// <summary>
         /// 转换器
         /// </summary>
-        public IValueConverter? Converter
+        public IValueConverter Converter
         {
-            get { return (IValueConverter?)GetValue(ConverterProperty); }
+            get { return (IValueConverter)GetValue(ConverterProperty); }
             set { SetValue(ConverterProperty, value); }
         }
         public static readonly DependencyProperty ConverterProperty =
@@ -196,7 +196,7 @@ namespace TigerSan.UI.Controls
                 nameof(Converter),
                 typeof(IValueConverter),
                 typeof(Select),
-                new PropertyMetadata(ConverterChanged));
+                new PropertyMetadata(new Object2StringConverter(), ConverterChanged));
 
         private static void ConverterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -219,7 +219,14 @@ namespace TigerSan.UI.Controls
                 nameof(Items),
                 typeof(ObservableCollection<MenuItemModel>),
                 typeof(Select),
-                new PropertyMetadata(new ObservableCollection<MenuItemModel>()));
+                new PropertyMetadata(new ObservableCollection<MenuItemModel>(), ItemsChanged));
+
+        private static void ItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var select = (Select)d;
+            if (select._menuWindow == null) return;
+            select._menuWindow.InitItems(select.Items);
+        }
         #endregion
 
         #region 是否启用
@@ -264,6 +271,29 @@ namespace TigerSan.UI.Controls
             var sender = (Select)d;
             sender.UpdateState();
             sender.UpdateArrowAngle();
+        }
+        #endregion
+
+        #region 菜单最大高度
+        /// <summary>
+        /// 菜单最大高度
+        /// </summary>
+        public double MenuMaxHeight
+        {
+            get { return (double)GetValue(MenuMaxHeightProperty); }
+            set { SetValue(MenuMaxHeightProperty, value); }
+        }
+        public static readonly DependencyProperty MenuMaxHeightProperty =
+            DependencyProperty.Register(
+                nameof(MenuMaxHeight),
+                typeof(double),
+                typeof(Select),
+                new PropertyMetadata(400.0, MenuMaxHeightChanged));
+        private static void MenuMaxHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = (Select)d;
+            if (sender._menuWindow == null) return;
+            sender._menuWindow.MaxHeight = sender._menuWindow.MaxHeight;
         }
         #endregion
         #endregion 【DependencyProperties】
@@ -413,6 +443,20 @@ namespace TigerSan.UI.Controls
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             //InitRotationCenter();
+        }
+        #endregion
+
+        #region “菜单窗口”关闭
+        private void MenuWindow_Closed()
+        {
+            IsOpen = false;
+        }
+        #endregion
+
+        #region “菜单窗口”项目被点击
+        private void MenuWindow_ItemClicked(MenuItemModel model)
+        {
+            Value = model.Source;
         }
         #endregion
         #endregion 【Events】
@@ -596,7 +640,14 @@ namespace TigerSan.UI.Controls
         {
             RaiseOpenedEvent();
             RaiseOpenedCommand();
-            _menuWindow = new MenuWindow(this);
+            _menuWindow = new MenuWindow(this, Items)
+            {
+                Width = Width,
+                MaxHeight = MenuMaxHeight,
+                Converter = Converter,
+                _closed = MenuWindow_Closed,
+                _itemClicked = MenuWindow_ItemClicked
+            };
             _timerMenuShowDelay.Start();
         }
         #endregion
@@ -613,7 +664,7 @@ namespace TigerSan.UI.Controls
         {
             RaiseClosedEvent();
             RaiseClosedCommand();
-            _menuWindow?.Close();
+            _menuWindow?.SafeClose();
             _menuWindow = null;
         }
         #endregion
