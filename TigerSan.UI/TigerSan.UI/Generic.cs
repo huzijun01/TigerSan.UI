@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shell;
+using TigerSan.CsvLog;
 
 namespace TigerSan.UI
 {
@@ -20,67 +22,71 @@ namespace TigerSan.UI
         public static Style RowBackgroundBorderStyle { get => (Style)_element.FindResource(nameof(RowBackgroundBorderStyle)); }
         public static Style HorizontalDividingLineStyle { get => (Style)_element.FindResource(nameof(HorizontalDividingLineStyle)); }
         public static Style TransparentUserControlStyle { get => (Style)_element.FindResource(nameof(TransparentUserControlStyle)); }
+        public static Style FilePickerStyle { get => (Style)_element.FindResource(nameof(FilePickerStyle)); }
         #endregion 【Styles】
 
         #region 【Colors】
         // [主色]:
-        public static SolidColorBrush Brand { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(Brand)}"); }
+        public static SolidColorBrush Brand { get => GetSolidColorBrush("#409EFF"); }
 
         // [辅助色]:
-        public static SolidColorBrush Success { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(Success)}"); }
-        public static SolidColorBrush Warning { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(Warning)}"); }
-        public static SolidColorBrush Danger { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(Danger)}"); }
-        public static SolidColorBrush Info { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(Info)}"); }
+        public static SolidColorBrush Success { get => GetSolidColorBrush("#67C23A"); }
+        public static SolidColorBrush Warning { get => GetSolidColorBrush("#E6A23C"); }
+        public static SolidColorBrush Danger { get => GetSolidColorBrush("#F56C6C"); }
+        public static SolidColorBrush Info { get => GetSolidColorBrush("#909399"); }
 
         // [中性色]:
         // 基础:
-        public static SolidColorBrush BasicBlack { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(BasicBlack)}"); }
-        public static SolidColorBrush BasicWhite { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(BasicWhite)}"); }
-        public static SolidColorBrush Transparent { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(Transparent)}"); }
+        public static SolidColorBrush BasicBlack { get => GetSolidColorBrush("#000000"); }
+        public static SolidColorBrush BasicWhite { get => GetSolidColorBrush("#FFFFFF"); }
+        public static SolidColorBrush Transparent { get => new SolidColorBrush(Colors.Transparent); }
         // 文本:
-        public static SolidColorBrush PrimaryText { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(PrimaryText)}"); }
-        public static SolidColorBrush RegularText { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(RegularText)}"); }
-        public static SolidColorBrush SecondaryText { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(SecondaryText)}"); }
-        public static SolidColorBrush PlaceholderText { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(PlaceholderText)}"); }
-        public static SolidColorBrush DisabledText { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(DisabledText)}"); }
+        public static SolidColorBrush PrimaryText { get => GetSolidColorBrush("#E5EAF3"); }
+        public static SolidColorBrush RegularText { get => GetSolidColorBrush("#CFD3DC"); }
+        public static SolidColorBrush SecondaryText { get => GetSolidColorBrush("#A3A6AD"); }
+        public static SolidColorBrush PlaceholderText { get => GetSolidColorBrush("#8D9095"); }
+        public static SolidColorBrush DisabledText { get => GetSolidColorBrush("#6C6E72"); }
         // 边框:
-        public static SolidColorBrush BaseBorder { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(BaseBorder)}"); }
-        public static SolidColorBrush DarkBorder { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(DarkBorder)}"); }
-        public static SolidColorBrush DarkerBorder { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(DarkerBorder)}"); }
-        public static SolidColorBrush LightBorder { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(LightBorder)}"); }
-        public static SolidColorBrush LighterBorder { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(LighterBorder)}"); }
-        public static SolidColorBrush ExtraLightBorder { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(ExtraLightBorder)}"); }
+        public static SolidColorBrush BaseBorder { get => GetSolidColorBrush("#4C4D4F"); }
+        public static SolidColorBrush DarkBorder { get => GetSolidColorBrush("#58585B"); }
+        public static SolidColorBrush DarkerBorder { get => GetSolidColorBrush("#636466"); }
+        public static SolidColorBrush LightBorder { get => GetSolidColorBrush("#414243"); }
+        public static SolidColorBrush LighterBorder { get => GetSolidColorBrush("#363637"); }
+        public static SolidColorBrush ExtraLightBorder { get => GetSolidColorBrush("#2B2B2C"); }
         // 填充:
-        public static SolidColorBrush BaseFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(BaseFill)}"); }
-        public static SolidColorBrush DarkFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(DarkFill)}"); }
-        public static SolidColorBrush BlankFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(BlankFill)}"); }
-        public static SolidColorBrush DarkerFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(DarkerFill)}"); }
-        public static SolidColorBrush LightFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(LightFill)}"); }
-        public static SolidColorBrush LighterFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(LighterFill)}"); }
-        public static SolidColorBrush ExtraLightFill { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(ExtraLightFill)}"); }
+        public static SolidColorBrush BaseFill { get => GetSolidColorBrush("#303030"); }
+        public static SolidColorBrush DarkFill { get => GetSolidColorBrush("#39393A"); }
+        public static SolidColorBrush BlankFill { get => new SolidColorBrush(Colors.Transparent); }
+        public static SolidColorBrush DarkerFill { get => GetSolidColorBrush("#424243"); }
+        public static SolidColorBrush LightFill { get => GetSolidColorBrush("#262727"); }
+        public static SolidColorBrush LighterFill { get => GetSolidColorBrush("#1D1D1D"); }
+        public static SolidColorBrush ExtraLightFill { get => GetSolidColorBrush("#191919"); }
         // 背景:
-        public static SolidColorBrush PageBackground { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(PageBackground)}"); }
-        public static SolidColorBrush BaseBackground { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(BaseBackground)}"); }
-        public static SolidColorBrush OverlayBackground { get => (SolidColorBrush)_element.FindResource($"Colors.{nameof(OverlayBackground)}"); }
+        public static SolidColorBrush PageBackground { get => GetSolidColorBrush("#0A0A0A"); }
+        public static SolidColorBrush BaseBackground { get => GetSolidColorBrush("#141414"); }
+        public static SolidColorBrush OverlayBackground { get => GetSolidColorBrush("#1D1E1F"); }
         // 遮罩:
-        public static SolidColorBrush Hover { get => (SolidColorBrush)_element.FindResource($"Colors.Mask.{nameof(Hover)}"); }
-        public static SolidColorBrush Pressed { get => (SolidColorBrush)_element.FindResource($"Colors.Mask.{nameof(Pressed)}"); }
+        public static SolidColorBrush MaskHover { get => GetSolidColorBrush("#22000000"); }
+        public static SolidColorBrush MaskPressed { get => GetSolidColorBrush("#22FFFFFF"); }
         // 标题栏:
-        public static SolidColorBrush ToolBar_Static_Background { get => (SolidColorBrush)_element.FindResource(nameof(ToolBar_Static_Background)); }
-        public static SolidColorBrush ToolBar_Active_Background { get => (SolidColorBrush)_element.FindResource(nameof(ToolBar_Active_Background)); }
+        public static SolidColorBrush ToolBar_Static_Background { get => GetSolidColorBrush("#2b2b2b"); }
+        public static SolidColorBrush ToolBar_Active_Background { get => GetSolidColorBrush("#0063b1"); }
         // 像素点:
-        public static SolidColorBrush PixelDot_Selected_Background { get => (SolidColorBrush)_element.FindResource(nameof(PixelDot_Selected_Background)); }
-        public static SolidColorBrush PixelDot_Selected_BorderBrush { get => (SolidColorBrush)_element.FindResource(nameof(PixelDot_Selected_BorderBrush)); }
-        public static SolidColorBrush PixelDot_NotSelected_Background { get => (SolidColorBrush)_element.FindResource(nameof(PixelDot_NotSelected_Background)); }
-        public static SolidColorBrush PixelDot_NotSelected_BorderBrush { get => (SolidColorBrush)_element.FindResource(nameof(PixelDot_NotSelected_BorderBrush)); }
+        public static SolidColorBrush PixelDot_Selected_Background { get => GetSolidColorBrush("#9F3"); }
+        public static SolidColorBrush PixelDot_Selected_BorderBrush { get => GetSolidColorBrush("#9F3"); }
+        public static SolidColorBrush PixelDot_NotSelected_Background { get => GetSolidColorBrush("#555"); }
+        public static SolidColorBrush PixelDot_NotSelected_BorderBrush { get => GetSolidColorBrush("#777"); }
+        // 菜单项目:
+        public static SolidColorBrush MenuItem_Hover { get => GetSolidColorBrush("#404040"); }
         #endregion
 
         #region 【Constants】
+        public static Thickness ButtonPadding { get => new Thickness(15, 8, 15, 8); }
         public static Duration Duration { get => (Duration)_element.FindResource($"Global.{nameof(Duration)}"); }
         public static double DurationTotalSeconds { get => Duration.TimeSpan.TotalSeconds; }
         public static GridLength DefaultGridWidth { get => (GridLength)_element.FindResource(nameof(DefaultGridWidth)); }
         public static GridLength DefaultGridHeight { get => (GridLength)_element.FindResource(nameof(DefaultGridHeight)); }
-        #endregion 【Images】
+        #endregion 【Constants】
 
         #region 【Window】
         public static Thickness ZeroThickness { get => (Thickness)_element.FindResource(nameof(ZeroThickness)); }
@@ -91,5 +97,80 @@ namespace TigerSan.UI
         public static Style PopWindowStyle { get => (Style)_element.FindResource(nameof(PopWindowStyle)); }
         public static Style NoToolBarPopWindowStyle { get => (Style)_element.FindResource(nameof(NoToolBarPopWindowStyle)); }
         #endregion 【Window】
+
+        #region 【Functions】
+        #region 获取笔刷
+        /// <summary>
+        /// 获取笔刷
+        /// </summary>
+        public static SolidColorBrush GetSolidColorBrush(string hexColor)
+        {
+            // 验证输入格式
+            if (string.IsNullOrEmpty(hexColor) || hexColor[0] != '#')
+            {
+                LogHelper.Instance.Warning("Invalid hex color format. Expected format: #RRGGBB, #RGB, or #AARRGGBB");
+                return new SolidColorBrush();
+            }
+
+            // 统一处理为小写（方便后续处理）
+            hexColor = hexColor.ToLower();
+
+            byte r = 0, g = 0, b = 0, a = 255; // 默认透明度为255（不透明）
+
+            try
+            {
+                switch (hexColor.Length)
+                {
+                    case 7: // #RRGGBB
+                        r = Convert.ToByte(hexColor.Substring(1, 2), 16);
+                        g = Convert.ToByte(hexColor.Substring(3, 2), 16);
+                        b = Convert.ToByte(hexColor.Substring(5, 2), 16);
+                        break;
+
+                    case 4: // #RGB
+                        r = ExpandShortHex(hexColor[1]);
+                        g = ExpandShortHex(hexColor[2]);
+                        b = ExpandShortHex(hexColor[3]);
+                        break;
+
+                    case 9: // #RRGGBBAA
+                        a = Convert.ToByte(hexColor.Substring(1, 2), 16);
+                        r = Convert.ToByte(hexColor.Substring(3, 2), 16);
+                        g = Convert.ToByte(hexColor.Substring(5, 2), 16);
+                        b = Convert.ToByte(hexColor.Substring(7, 2), 16);
+                        break;
+
+                    default:
+                        LogHelper.Instance.Warning($"Unsupported hex color length: {hexColor.Length}");
+                        return new SolidColorBrush();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Instance.Error($"Color conversion error: {ex.Message}");
+                return new SolidColorBrush();
+            }
+
+            // 创建带透明度的颜色（如果需要）
+            if (a != 255)
+            {
+                return new SolidColorBrush(Color.FromArgb(a, r, g, b));
+            }
+
+            return new SolidColorBrush(Color.FromRgb(r, g, b));
+        }
+        #endregion
+
+        #region 将单字符扩展为两位十六进制
+        /// <summary>
+        /// 将单字符扩展为两位十六进制
+        /// </summary>
+        private static byte ExpandShortHex(char c)
+        {
+            var hex = $"{c}{c}";
+            return Convert.ToByte(hex, 16);
+        }
+        #endregion
+        #endregion 【Functions】
     }
 }

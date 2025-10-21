@@ -1,11 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Controls;
 using TigerSan.CsvLog;
-using TigerSan.UI.Behaviors;
 using TigerSan.UI.Models;
+using TigerSan.UI.Behaviors;
 
 namespace TigerSan.UI.Controls
 {

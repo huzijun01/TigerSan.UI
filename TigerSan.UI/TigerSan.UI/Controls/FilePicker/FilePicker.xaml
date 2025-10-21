@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.FilePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TigerSan.UI.Controls"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/TigerSan.UI;component/Controls/FilePicker/FilePickerStyle.xaml"/>
+    </UserControl.Resources>
+
+    <Border
+        x:Name="border"
+        Width="{Binding Width}"
+        Height="{Binding Height}"
+        Background="{Binding Background}"
+        BorderThickness="{Binding BorderThickness}"
+        VerticalAlignment="{Binding VerticalAlignment}"
+        HorizontalAlignment="{Binding HorizontalAlignment}"
+        d:DataContext="{StaticResource FilePickerDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <Border.BorderBrush>
+            <VisualBrush>
+                <VisualBrush.Visual>
+                    <Rectangle
+                        StrokeDashArray="4 2"
+                        Width="{Binding ActualWidth}"
+                        Height="{Binding ActualHeight}"
+                        Stroke="{Binding BorderBrush}"
+                        StrokeThickness="{Binding StrokeThickness}"
+                        DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Border.BorderBrush>
+        <Border x:Name="mask" Background="{Binding MaskBackground}">
+            <TextBlock
+                Text="{Binding Text}"
+                Padding="{Binding Padding}"
+                Foreground="{Binding Foreground}"
+                VerticalAlignment="{Binding VerticalContentAlignment}"
+                HorizontalAlignment="{Binding HorizontalContentAlignment}" />
+        </Border>
+    </Border>
+</UserControl>

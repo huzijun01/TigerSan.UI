@@ -1,27 +1,89 @@
 ﻿using System.Windows;
+using System.Windows.Data;
+using System.Windows.Controls;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 using TigerSan.CsvLog;
+using TigerSan.ScreenDetection;
+using TigerSan.ScreenDetection.Models;
 using TigerSan.UI.Models;
-using TigerSan.UI.Helpers;
-using TigerSan.UI.Controls;
+using TigerSan.UI.Animations;
+using TigerSan.UI.Converters;
 
 namespace TigerSan.UI.Windows
 {
+    #region 方向
+    /// <summary>
+    /// 方向
+    /// </summary>
+    public enum Direction
+    {
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+    #endregion
+
     public partial class MenuWindow : Window
     {
         #region 【Fields】
         /// <summary>
         /// 选择器
         /// </summary>
-        private Select _select;
+        private Control _control;
+
+        /// <summary>
+        /// 关闭委托
+        /// </summary>
+        public Action? _closed;
+
+        /// <summary>
+        /// 项目点击委托
+        /// </summary>
+        public Action<MenuItemModel>? _itemClicked;
 
         /// <summary>
         /// 是否被关闭
         /// </summary>
         private bool _isClosed = false;
+
+        /// <summary>
+        /// 打开方向
+        /// </summary>
+        private Direction _openDirection = Direction.Bottom;
+
+        /// <summary>
+        /// 控件矩形
+        /// </summary>
+        private Rectangle2D _rectControl = new Rectangle2D();
+
+        /// <summary>
+        /// 菜单矩形
+        /// </summary>
+        private Rectangle2D _rectMenu = new Rectangle2D();
         #endregion 【Fields】
 
         #region 【DependencyProperties】
+        #region [Private]
+        #region 垂直滚动条可见性
+        /// <summary>
+        /// 垂直滚动条可见性
+        /// </summary>
+        public ScrollBarVisibility VerticalScrollBarVisibility
+        {
+            get { return (ScrollBarVisibility)GetValue(VerticalScrollBarVisibilityProperty); }
+            private set { SetValue(VerticalScrollBarVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty VerticalScrollBarVisibilityProperty =
+            DependencyProperty.Register(
+                nameof(VerticalScrollBarVisibility),
+                typeof(ScrollBarVisibility),
+                typeof(MenuWindow),
+                new PropertyMetadata(ScrollBarVisibility.Auto));
+        #endregion
+        #endregion [Private]
+
         #region 项目集合
         /// <summary>
         /// 项目集合
@@ -38,16 +100,36 @@ namespace TigerSan.UI.Windows
                 typeof(MenuWindow),
                 new PropertyMetadata(new ObservableCollection<MenuItemModel>()));
         #endregion
+
+        #region 转换器
+        /// <summary>
+        /// 转换器
+        /// </summary>
+        public IValueConverter Converter
+        {
+            get { return (IValueConverter)GetValue(ConverterProperty); }
+            set { SetValue(ConverterProperty, value); }
+        }
+        public static readonly DependencyProperty ConverterProperty =
+            DependencyProperty.Register(
+                nameof(Converter),
+                typeof(IValueConverter),
+                typeof(MenuWindow),
+                new PropertyMetadata(new Object2StringConverter()));
+        #endregion
         #endregion 【DependencyProperties】
 
         #region 【Ctor】
-        public MenuWindow(Select select)
+        public MenuWindow(Control control, ObservableCollection<MenuItemModel>? items)
         {
             InitializeComponent();
-            _select = select;
+            _control = control;
+            Opacity = 0;
             Loaded += OnLoaded;
             Closed += OnClosed;
             Deactivated += OnDeactivated;
+            InitItems(items);
+            InitControlPosition();
         }
         #endregion 【Ctor】
 
@@ -55,9 +137,7 @@ namespace TigerSan.UI.Windows
         #region 加载完成
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            InitItems();
-            InitSize();
-            InitPosition();
+            InitWindow();
         }
         #endregion
 
@@ -71,128 +151,313 @@ namespace TigerSan.UI.Windows
         #region 失活后
         private void OnDeactivated(object? sender, EventArgs e)
         {
-            Close();
+            SafeClose();
         }
         #endregion
 
         #region 项目被点击
         private void OnItemClicked(MenuItemModel itemModel)
         {
-            Close();
-            if (_select == null)
-            {
-                LogHelper.Instance.IsNull(nameof(_select));
-                return;
-            }
-            _select.Value = itemModel.Source;
+            SafeClose();
+            _itemClicked?.Invoke(itemModel);
         }
         #endregion
         #endregion 【Events】
 
         #region 【Functions】
-        #region 初始尺寸
-        private void InitSize()
+        #region 初始化“窗口”
+        private void InitWindow()
         {
-            Width = _select.ActualWidth;
+            InitItems();
+            InitMenuSize();
 
-            if (itemsControl.ActualHeight < MaxHeight)
+            switch (_openDirection)
             {
-                Height = itemsControl.ActualHeight;
+                case Direction.Top:
+                    // 位置：
+                    Left = _rectMenu.Left;
+                    SetTop(_rectControl.Top, _rectMenu.Top);
+                    // 尺寸：
+                    SetHeight(0, _rectMenu.Height);
+                    break;
+                case Direction.Bottom:
+                    // 位置：
+                    Left = _rectMenu.Left;
+                    Top = _rectMenu.Top;
+                    // 尺寸：
+                    SetHeight(0, _rectMenu.Height);
+                    break;
+                case Direction.Left:
+                    // 位置：
+                    SetLeft(_rectControl.Left, _rectMenu.Left);
+                    Top = _rectMenu.Top;
+                    // 尺寸：
+                    SetWidth(0, _rectMenu.Width);
+                    break;
+                case Direction.Right:
+                    // 位置：
+                    Left = _rectMenu.Left;
+                    Top = _rectMenu.Top;
+                    // 尺寸：
+                    SetWidth(0, _rectMenu.Width);
+                    break;
+                default:
+                    break;
             }
+
+            Opacity = 1;
         }
         #endregion
 
-        #region 初始位置
-        private void InitPosition()
+        #region 初始化“控件边框”
+        private void InitControlPosition()
         {
-            //ShowTop();
-            ShowBottom();
-            //ShowLeft();
-            //ShowRight();
+            var position = ScreenHelper.GetScreenPosition(_control);
+            if (position == null)
+            {
+                LogHelper.Instance.IsNull(nameof(position));
+                return;
+            }
+
+            _rectControl = new Rectangle2D(position, _control.ActualWidth, _control.ActualHeight);
         }
         #endregion
 
-        #region 初始项目集合
-        private void InitItems()
+        #region 初始化“项目集合”
+        public void InitItems(ObservableCollection<MenuItemModel>? items = null)
         {
-            Items = _select.Items;
+            if (items != null)
+            {
+                Items = items;
+            }
+            else if (Items == null)
+            {
+                Items = new ObservableCollection<MenuItemModel>();
+            }
 
             foreach (var item in Items)
             {
-                item._select = _select;
+                item._converter = Converter;
                 item._internalClicked = OnItemClicked;
-                item.UpdateText();
             }
+        }
+        #endregion
+
+        #region 初始化“菜单尺寸”
+        private void InitMenuSize()
+        {
+            if (itemsControl.ActualHeight > MinHeight
+                && itemsControl.ActualHeight < MaxHeight)
+            {
+                Height = itemsControl.ActualHeight;
+            }
+
+            #region 获取“所在屏幕信息”
+            var screenInfos = ScreenHelper.GetScreenInfos();
+            if (screenInfos == null)
+            {
+                LogHelper.Instance.IsNull(nameof(screenInfos));
+                return;
+            }
+
+            var screenIndex = ScreenHelper.GetIndexOfScreen(_rectControl);
+
+            if (screenIndex < 0 || screenIndex >= screenInfos.Count)
+            {
+                LogHelper.Instance.IsOutOfRange(nameof(screenIndex));
+                return;
+            }
+
+            var screenInfo = screenInfos[screenIndex];
+            #endregion 获取“所在屏幕信息”
+
+            #region 选择“打开方向”
+            _rectMenu = new Rectangle2D(new Point2D(), Width, Height);
+
+            // 下：
+            _rectMenu.ToBottom(_rectControl);
+            if (screenInfo.VirtualWorkingAreaRect.IsIn(_rectMenu))
+            {
+                _openDirection = Direction.Bottom;
+                return;
+            }
+
+            // 上：
+            _rectMenu.ToTop(_rectControl);
+            if (screenInfo.VirtualWorkingAreaRect.IsIn(_rectMenu))
+            {
+                _openDirection = Direction.Top;
+                return;
+            }
+
+            // 右：
+            _rectMenu.ToRight(_rectControl);
+            if (screenInfo.VirtualWorkingAreaRect.IsIn(_rectMenu))
+            {
+                _openDirection = Direction.Right;
+                return;
+            }
+
+            // 左：
+            _rectMenu.ToLeft(_rectControl);
+            if (screenInfo.VirtualWorkingAreaRect.IsIn(_rectMenu))
+            {
+                _openDirection = Direction.Left;
+                return;
+            }
+
+            // 下：
+            _rectMenu.ToBottom(_rectControl);
+            _openDirection = Direction.Bottom;
+            #endregion 选择“打开方向”
+        }
+        #endregion
+
+        #region 设置“上”
+        /// <summary>
+        /// 设置“上”
+        /// </summary>
+        private void SetTop(double from, double to, Action? completed = null)
+        {
+            Storyboard storyboard = new Storyboard();
+
+            // 渐变动画：
+            var gradient = DoubleAnimations.Gradient(
+                this,
+                TopProperty,
+                Generic.DurationTotalSeconds,
+                from,
+                to);
+            storyboard.Children.Add(gradient);
+
+            // 开始storyboard：
+            storyboard.Begin();
+        }
+        #endregion
+
+        #region 设置“左”
+        /// <summary>
+        /// 设置“左”
+        /// </summary>
+        private void SetLeft(double from, double to, Action? completed = null)
+        {
+            Storyboard storyboard = new Storyboard();
+
+            // 渐变动画：
+            var gradient = DoubleAnimations.Gradient(
+                this,
+                LeftProperty,
+                Generic.DurationTotalSeconds,
+                from,
+                to);
+            storyboard.Children.Add(gradient);
+
+            // 开始storyboard：
+            storyboard.Begin();
+        }
+        #endregion
+
+        #region 设置“宽度”
+        /// <summary>
+        /// 设置“宽度”
+        /// </summary>
+        private void SetWidth(double from, double to, Action? completed = null)
+        {
+            Storyboard storyboard = new Storyboard();
+
+            // 渐变动画：
+            var gradient = DoubleAnimations.Gradient(
+                this,
+                WidthProperty,
+                Generic.DurationTotalSeconds,
+                from,
+                to);
+            storyboard.Children.Add(gradient);
+
+            VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+
+            // 完成后：
+            storyboard.Completed += (s, args) =>
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                completed?.Invoke();
+            };
+
+            // 开始storyboard：
+            storyboard.Begin();
+        }
+        #endregion
+
+        #region 设置“高度”
+        /// <summary>
+        /// 设置“高度”
+        /// </summary>
+        private void SetHeight(double from, double to, Action? completed = null)
+        {
+            Storyboard storyboard = new Storyboard();
+
+            // 渐变动画：
+            var gradient = DoubleAnimations.Gradient(
+                this,
+                HeightProperty,
+                Generic.DurationTotalSeconds,
+                from,
+                to);
+            storyboard.Children.Add(gradient);
+
+            VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+
+            // 完成后：
+            storyboard.Completed += (s, args) =>
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                completed?.Invoke();
+            };
+
+            // 开始storyboard：
+            storyboard.Begin();
         }
         #endregion
 
         #region 安全关闭
-        public new void Close()
+        public void SafeClose()
         {
             if (_isClosed) return;
-            _isClosed = true;
+
+            switch (_openDirection)
+            {
+                case Direction.Top:
+                    // 位置：
+                    SetTop(_rectMenu.Top, _rectControl.Top);
+                    // 尺寸：
+                    SetHeight(Height, 0, Close);
+                    break;
+                case Direction.Bottom:
+                    // 尺寸：
+                    SetHeight(Height, 0, Close);
+                    break;
+                case Direction.Left:
+                    // 位置：
+                    SetLeft(_rectMenu.Left, _rectControl.Left);
+                    // 尺寸：
+                    SetWidth(Width, 0, Close);
+                    break;
+                case Direction.Right:
+                    // 尺寸：
+                    SetWidth(Width, 0, Close);
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
+        #region 关闭
+        private new void Close()
+        {
             base.Close();
-            _select.IsOpen = false;
-        }
-        #endregion
-
-        #region 上方显示
-        private void ShowTop()
-        {
-            var position = SystemHelper.GetScreenPosition(_select);
-            if (position == null)
-            {
-                LogHelper.Instance.IsNull(nameof(position));
-                return;
-            }
-
-            Left = position.Value.X;
-            Top = position.Value.Y - ActualHeight;
-        }
-        #endregion
-
-        #region 下方显示
-        private void ShowBottom()
-        {
-            var position = SystemHelper.GetScreenPosition(_select);
-            if (position == null)
-            {
-                LogHelper.Instance.IsNull(nameof(position));
-                return;
-            }
-
-            Left = position.Value.X;
-            Top = position.Value.Y + _select.ActualHeight;
-        }
-        #endregion
-
-        #region 左侧显示
-        private void ShowLeft()
-        {
-            var position = SystemHelper.GetScreenPosition(_select);
-            if (position == null)
-            {
-                LogHelper.Instance.IsNull(nameof(position));
-                return;
-            }
-
-            Left = position.Value.X - ActualWidth;
-            Top = position.Value.Y + _select.ActualHeight / 2 - ActualHeight / 2;
-        }
-        #endregion
-
-        #region 右侧显示
-        private void ShowRight()
-        {
-            var position = SystemHelper.GetScreenPosition(_select);
-            if (position == null)
-            {
-                LogHelper.Instance.IsNull(nameof(position));
-                return;
-            }
-
-            Left = position.Value.X + _select.ActualWidth;
-            Top = position.Value.Y + _select.ActualHeight / 2 - ActualHeight / 2;
+            _isClosed = true;
+            _closed?.Invoke();
         }
         #endregion
         #endregion 【Functions】
@@ -201,7 +466,6 @@ namespace TigerSan.UI.Windows
     #region 设计数据
     public class MenuItemDesignModel : MenuItemModel
     {
-        public new string Text { get; set; } = string.Empty;
     }
 
     public class MenuWindowDesignData
@@ -210,9 +474,9 @@ namespace TigerSan.UI.Windows
 
         public MenuWindowDesignData()
         {
-            Items.Add(new MenuItemDesignModel() { Text = "Item 1" });
-            Items.Add(new MenuItemDesignModel() { Text = "Item 2" });
-            Items.Add(new MenuItemDesignModel() { Text = "Item 3" });
+            Items.Add(new MenuItemDesignModel() { Source = "Item 1" });
+            Items.Add(new MenuItemDesignModel() { Source = "Item 2" });
+            Items.Add(new MenuItemDesignModel() { Source = "Item 3" });
         }
     }
     #endregion

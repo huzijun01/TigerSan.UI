@@ -5,8 +5,6 @@ A WPF UI library, containing many controls, panels, windows, animations, and con
 ## Source Code & Example:
 GitHub: https://github.com/huzijun01/TigerSan.UI
 
-Cloud Disk: https://pan.quark.cn/s/c1db1a17692c
-
 ## Personal Homepage:
 bilibili: https://space.bilibili.com/34323512
 
@@ -39,6 +37,10 @@ Before use, you need to reference "Generic.xaml" in "App.xaml".
 ### MouseDragBehavior:
 
 ## Controls:
+### FilePicker:
+
+### ImageButton:
+
 ### TableGrid:
 #### Major Function:
 Data editing. Row selection.
@@ -48,8 +50,6 @@ Change the background of the header and the item.
 After modification, the item mask will automatically turn yellow.
 
 When the data is incorrect, the item mask will automatically turn red.
-
-### ImageButton:
 
 ### PixelDot:
 

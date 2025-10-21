@@ -11,10 +11,22 @@
     d:DesignHeight="300">
 
     <StackPanel Margin="5">
+        <!-- 选择器： -->
         <controls:Select
             Width="200"
             Placeholder="请选择"
             Items="{Binding MenuItemModels}"
-            ValueChangedCommand="{Binding Select_ValueChangedCommand}"/>
+            ValueChangedCommand="{Binding Select_ValueChangedCommand}"
+            Margin="{StaticResource Button.MarginBottom}"/>
+
+        <!-- 文件选择器： -->
+        <controls:FilePicker
+            Text="拖入或点击"
+            Multiselect="True"
+            RestoreDirectory="False"
+            FilterModel="{Binding FilterModel}"
+            DropCommand="{Binding FilePicker_DropCommand}"
+            SelectedCommand="{Binding FilePicker_SelectedCommand}"
+            Margin="{StaticResource Button.MarginBottom}"/>
     </StackPanel>
 </UserControl>

@@ -158,8 +158,8 @@ namespace TigerSan.UI.Controls
 
         protected virtual void RaiseLostFocusEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(LostFocusEvent, this);
-            RaiseEvent(newEventArgs);
+            var args = new RoutedEventArgs(LostFocusEvent, this);
+            RaiseEvent(args);
         }
         #endregion
         #endregion 【CustomEvents】

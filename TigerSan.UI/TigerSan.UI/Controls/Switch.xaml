@@ -23,8 +23,8 @@
     <Grid
         Width="{Binding Width}"
         Height="{Binding Height}"
-        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
-        d:DataContext="{StaticResource SwitchDesignData}">
+        d:DataContext="{StaticResource SwitchDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
 
         <!-- 背景： -->
         <Border

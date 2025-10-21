@@ -175,8 +175,8 @@ namespace TigerSan.UI.Controls
 
         protected virtual void RaiseCheckedEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(CheckedEvent, this);
-            RaiseEvent(newEventArgs);
+            var args = new RoutedEventArgs(CheckedEvent, this);
+            RaiseEvent(args);
             BorderThickness = _borderThicknessIsChecked;
         }
         #endregion
@@ -197,8 +197,8 @@ namespace TigerSan.UI.Controls
 
         protected virtual void RaiseUncheckedEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(UncheckedEvent, this);
-            RaiseEvent(newEventArgs);
+            var args = new RoutedEventArgs(UncheckedEvent, this);
+            RaiseEvent(args);
             BorderThickness = _borderThicknessMouseEnter;
         }
         #endregion

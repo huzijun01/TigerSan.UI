@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Controls;
-using System.Runtime.InteropServices;
-using TigerSan.CsvLog;
+﻿using System.Runtime.InteropServices;
 
 namespace TigerSan.UI.Helpers
 {
@@ -31,18 +27,6 @@ namespace TigerSan.UI.Helpers
         #endregion 【Fields】
 
         #region 【Functions】
-        #region 获取屏幕缩放比例
-        /// <summary>
-        /// 获取屏幕缩放比例
-        /// </summary>
-        public static double GetDpiScale()
-        {
-            var visual = new Grid();
-            var dpiInfo = VisualTreeHelper.GetDpi(visual);
-            return dpiInfo.DpiScaleX;
-        }
-        #endregion
-
         #region 窗口消息处理（禁止修改尺寸）
         /// <summary>
         /// 窗口消息处理（禁止修改尺寸）
@@ -59,53 +43,6 @@ namespace TigerSan.UI.Helpers
                 handled = true;
             }
             return IntPtr.Zero;
-        }
-        #endregion
-
-        #region 获取控件相对于屏幕的位置
-        public static Point? GetScreenPosition(Control control)
-        {
-            var strError = "The screen position of the control cannot be obtained!";
-
-            if (control == null)
-            {
-                LogHelper.Instance.IsNull(nameof(control));
-                return null;
-            }
-
-            if (!control.IsLoaded)
-            {
-                return null;
-            }
-
-            // 获取屏幕坐标：
-            try
-            {
-                var window = Window.GetWindow(control);
-                if (window != null)
-                {
-                    // 正确获取窗口在屏幕中的位置：
-                    var windowLeft = window.Left;
-                    var windowTop = window.Top;
-
-                    // 获取控件在窗口中的位置：
-                    var elementInWindow = control.TransformToVisual(window)
-                                         .Transform(new Point(0, 0));
-
-                    // 计算屏幕绝对坐标：
-                    return new Point(
-                        windowLeft + elementInWindow.X,
-                        windowTop + elementInWindow.Y
-                    );
-                }
-                LogHelper.Instance.Warning(strError);
-                return null;
-            }
-            catch
-            {
-                LogHelper.Instance.Warning(strError);
-                return null;
-            }
         }
         #endregion
         #endregion 【Functions】

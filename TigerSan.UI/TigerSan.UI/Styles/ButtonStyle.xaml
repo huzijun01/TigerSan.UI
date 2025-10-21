@@ -87,60 +87,6 @@
         </Setter>
     </Style>
 
-    <!--  文件选择器按钮：  -->
-    <Style x:Key="FileSelectorButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Content" Value="选择文件" />
-        <Setter Property="Padding" Value="{StaticResource Button.Padding}" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="Foreground" Value="{StaticResource Colors.Brand}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Colors.Brand}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
-        <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                        Background="{TemplateBinding Background}">
-                        <Border.BorderBrush>
-                            <VisualBrush>
-                                <VisualBrush.Visual>
-                                    <Rectangle
-                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
-                                        Stroke="{TemplateBinding BorderBrush}"
-                                        StrokeDashArray="4 2" />
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Border.BorderBrush>
-                        <Border x:Name="backMask" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </Border>
-                    <!-- 触发器: -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource Colors.BasicWhite}" />
-                            <Setter Property="Background" Value="{StaticResource Colors.Brand}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="backMask" Property="Background" Value="{StaticResource Colors.Mask.Pressed}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- 标签按钮： -->
     <Style x:Key="LableButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand" />

@@ -4,6 +4,7 @@
     xmlns:converters="clr-namespace:TigerSan.UI.Converters">
     <ResourceDictionary.MergedDictionaries>
         <!--  控件：  -->
+        <ResourceDictionary Source="Controls/FilePicker/FilePickerStyle.xaml"/>
         <ResourceDictionary Source="Controls/TableGrid/TableGridStyle.xaml" />
         <ResourceDictionary Source="Controls/PixelDotStyle.xaml" />
         <ResourceDictionary Source="Controls/SwitchStyle.xaml" />

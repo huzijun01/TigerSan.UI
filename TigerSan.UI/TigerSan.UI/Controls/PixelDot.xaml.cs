@@ -118,8 +118,8 @@ namespace TigerSan.UI.Controls
 
         protected virtual void RaiseCheckedEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(CheckedEvent, this);
-            RaiseEvent(newEventArgs);
+            var args = new RoutedEventArgs(CheckedEvent, this);
+            RaiseEvent(args);
         }
         #endregion
 
@@ -140,8 +140,8 @@ namespace TigerSan.UI.Controls
 
         protected virtual void RaiseUncheckedEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(UncheckedEvent, this);
-            RaiseEvent(newEventArgs);
+            var args = new RoutedEventArgs(UncheckedEvent, this);
+            RaiseEvent(args);
         }
         #endregion
         #endregion 【CustomEvents】

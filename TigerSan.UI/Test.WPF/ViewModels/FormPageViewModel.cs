@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using TigerSan.UI.Models;
 using TigerSan.UI.Helpers;
+using TigerSan.UI.Controls;
 
 namespace Test.WPF.ViewModels
 {
@@ -9,9 +10,14 @@ namespace Test.WPF.ViewModels
     {
         #region 【Properties】
         /// <summary>
-        /// 菜单项目模型集合
+        /// “菜单项目模型”集合
         /// </summary>
         public ObservableCollection<MenuItemModel> MenuItemModels { get; set; } = new ObservableCollection<MenuItemModel>();
+
+        /// <summary>
+        /// 过滤器模型
+        /// </summary>
+        public FilterModel FilterModel { get; set; } = new FilterModel("图片", ["jpg", "png", "gif"]);
         #endregion 【Properties】
 
         #region 【Ctor】
@@ -38,6 +44,22 @@ namespace Test.WPF.ViewModels
             MsgBox.ShowInformation($"The \"{nameof(value)}\" is \"{value}\"!");
         }
         #endregion
+
+        #region “文件选择器”拖入
+        public ICommand FilePicker_DropCommand { get => new DelegateCommand<string[]>(FilePicker_Drop); }
+        private void FilePicker_Drop(string[] paths)
+        {
+            MsgBox.ShowInformation(string.Join(Environment.NewLine, paths));
+        }
+        #endregion
+
+        #region “文件选择器”选择后
+        public ICommand FilePicker_SelectedCommand { get => new DelegateCommand<string[]>(FilePicker_Selected); }
+        private void FilePicker_Selected(string[] paths)
+        {
+            MsgBox.ShowInformation(string.Join(Environment.NewLine, paths));
+        }
+        #endregion
         #endregion 【Commands】
 
         #region 【Functions】
@@ -50,6 +72,21 @@ namespace Test.WPF.ViewModels
             MenuItemModels.Add(new MenuItemModel() { Source = "Item 3", _clicked = MenuItemClicked });
             MenuItemModels.Add(new MenuItemModel() { Source = "Item 4", _clicked = MenuItemClicked });
             MenuItemModels.Add(new MenuItemModel() { Source = "Item 5", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 6", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 7", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 8", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 9", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 10", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 11", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 12", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 13", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 14", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 15", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 16", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 17", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 18", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 19", _clicked = MenuItemClicked });
+            MenuItemModels.Add(new MenuItemModel() { Source = "Item 20", _clicked = MenuItemClicked });
         }
         #endregion
         #endregion 【Functions】
