@@ -197,8 +197,7 @@ namespace TigerSan.UI.Controls
                 LogHelper.Instance.IsNull(nameof(ItemModel));
                 return;
             }
-            ItemModel._isHover = true;
-            ItemModel.UpdateItemState();
+            ItemModel.IsHover = true;
         }
         #endregion
 
@@ -210,8 +209,7 @@ namespace TigerSan.UI.Controls
                 LogHelper.Instance.IsNull(nameof(ItemModel));
                 return;
             }
-            ItemModel._isHover = false;
-            ItemModel.UpdateItemState();
+            ItemModel.IsHover = false;
         }
         #endregion
 

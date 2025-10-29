@@ -285,14 +285,13 @@ namespace TigerSan.UI.Controls
             var tableItem = new TableItem(itemModel);
             GridHelper.SetRowColumn(tableItem, itemModel.RowIndex, itemModel.ColIndex);
 
-            #region 绑定“Source”
+            #region 绑定“Target”
             // 创建双向绑定对象：
-            var bindingSource = new Binding(nameof(itemModel.Source))
+            var bindingSource = new Binding(nameof(itemModel.Target))
             {
                 Source = itemModel,
                 Mode = BindingMode.TwoWay, // 启用双向绑定
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-                Converter = itemModel._headerModel.Converter,
             };
 
             // 应用绑定到目标控件：

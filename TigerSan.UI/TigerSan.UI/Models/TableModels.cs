@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Controls;
+using System.Reflection;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using TigerSan.CsvLog;
@@ -340,32 +340,14 @@ namespace TigerSan.UI.Models
         /// 表头模型
         /// </summary>
         public HeaderModel _headerModel;
-
-        /// <summary>
-        /// 是否鼠标悬浮
-        /// </summary>
-        public bool _isHover = false;
         #endregion【Fields】
 
         #region 【Properties】
         #region [引用]
         /// <summary>
-        /// 目标数据
-        /// </summary>
-        public string Target
-        {
-            get { return GetTarget(); }
-        }
-
-        /// <summary>
         /// 是否验证无误
         /// </summary>
         public bool IsVerifyOk { get => GetIsVerifyOk(); }
-
-        /// <summary>
-        /// 是否被修改了
-        /// </summary>
-        public bool IsModified { get => GetIsModified(); }
 
         /// <summary>
         /// 行数据
@@ -384,20 +366,24 @@ namespace TigerSan.UI.Models
         /// </summary>
         public object? OldSource
         {
-            get { return _oldSource; }
-            private set { SetProperty(ref _oldSource, value); }
+            get { return _OldSource; }
+            private set
+            {
+                SetProperty(ref _OldSource, value);
+                IsModified = GetIsModified();
+            }
         }
-        private object? _oldSource;
+        private object? _OldSource;
 
         /// <summary>
         /// 是否只读
         /// </summary>
         public bool IsReadOnly
         {
-            get { return _isReadOnly; }
-            private set { SetProperty(ref _isReadOnly, value); }
+            get { return _IsReadOnly; }
+            private set { SetProperty(ref _IsReadOnly, value); }
         }
-        private bool _isReadOnly;
+        private bool _IsReadOnly;
 
         /// <summary>
         /// 文本对齐方式
@@ -414,10 +400,24 @@ namespace TigerSan.UI.Models
         /// </summary>
         public ItemState ItemState
         {
-            get { return _itemState; }
-            private set { SetProperty(ref _itemState, value); }
+            get { return _ItemState; }
+            private set { SetProperty(ref _ItemState, value); }
         }
-        private ItemState _itemState = ItemState.Normal;
+        private ItemState _ItemState = ItemState.Normal;
+
+        /// <summary>
+        /// 是否被修改了
+        /// </summary>
+        public bool IsModified
+        {
+            get { return _IsModified; }
+            private set
+            {
+                SetProperty(ref _IsModified, value);
+                UpdateItemState();
+            }
+        }
+        private bool _IsModified = false;
         #endregion [OneWay]
 
         /// <summary>
@@ -425,10 +425,42 @@ namespace TigerSan.UI.Models
         /// </summary>
         public object? Source
         {
-            get { return _source; }
-            set { SetSource(value); }
+            get { return _Source; }
+            set
+            {
+                SetSource(value);
+                Target = GetTarget();
+            }
         }
-        private object? _source;
+        private object? _Source;
+
+        /// <summary>
+        /// 目标数据
+        /// </summary>
+        public string Target
+        {
+            get { return _Target; }
+            set
+            {
+                SetProperty(ref _Target, value);
+                Target2Source();
+            }
+        }
+        private string _Target = string.Empty;
+
+        /// <summary>
+        /// 是否鼠标悬浮
+        /// </summary>
+        public bool IsHover
+        {
+            get { return _IsHover; }
+            set
+            {
+                SetProperty(ref _IsHover, value);
+                UpdateItemState();
+            }
+        }
+        private bool _IsHover = false;
         #endregion 【Properties】
 
         #region 【Ctor】
@@ -436,8 +468,8 @@ namespace TigerSan.UI.Models
         {
             _rowModel = rowModel;
             _headerModel = header;
-            _source = GetSource();
-            _oldSource = GetOldSource();
+            Source = GetSource();
+            OldSource = GetOldSource();
             IsReadOnly = header.IsReadOnly;
             TextAlignment = header.TextAlignment;
             UpdateItemState();
@@ -446,7 +478,7 @@ namespace TigerSan.UI.Models
 
         #region 【Functions】
         #region [Private]
-        #region 获取源数据
+        #region 获取“源数据”
         private object? GetSource()
         {
             // 获取RowData的类型：
@@ -472,31 +504,73 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 设置源数据
+        #region 设置“源数据”
         private void SetSource(object? value)
         {
             if (value == null)
             {
-                SetProperty(ref _source, _source);
+                SetProperty(ref _Source, _Source);
                 return;
             }
             else if (value is string)
             {
                 var str = ((string)value).Trim();
                 SetRowData(str);
-                SetProperty(ref _source, str);
+                SetProperty(ref _Source, str);
             }
             else
             {
                 SetRowData(value);
-                SetProperty(ref _source, value);
+                SetProperty(ref _Source, value);
             }
 
-            UpdateItemState();
+            IsModified = GetIsModified();
         }
         #endregion
 
-        #region 获取目标数据
+        #region 将“目标数据”设置到“源数据”
+        private void Target2Source()
+        {
+            try
+            {
+                // 转为“源数据”：
+                object source;
+
+                if (_headerModel.Converter != null)
+                {
+                    source = _headerModel.Converter.ConvertBack(Target, null, null, null);
+                }
+                else
+                {
+                    source = Target.Trim();
+                }
+
+                // 若转换失败，则回退：
+                if (source == null)
+                {
+                    Target = GetTarget();
+                    return;
+                }
+
+                // 修改“源数据”：
+                SetSource(source);
+
+                // 保证“目标数据”格式：
+                var target = GetTarget();
+                if (Target != target)
+                {
+                    Target = target;
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Instance.Error(e.Message);
+                Target = GetTarget();
+            }
+        }
+        #endregion
+
+        #region 获取“目标数据”
         private string GetTarget()
         {
             try
@@ -521,7 +595,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 设置行数据
+        #region 设置“行数据”
         private void SetRowData(object? source)
         {
             // 获取RowData的类型：
@@ -547,7 +621,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取修改前的源数据
+        #region 获取“修改前”的“源数据”
         private object? GetOldSource()
         {
             if (OldRowData == null) return null;
@@ -602,6 +676,28 @@ namespace TigerSan.UI.Models
             return !TypeHelper.IsEqual(Source, OldSource);
         }
         #endregion
+
+        #region 更新项目状态
+        private void UpdateItemState()
+        {
+            if (!IsVerifyOk)
+            {
+                ItemState = ItemState.Error;
+            }
+            else if (IsModified)
+            {
+                ItemState = ItemState.Modified;
+            }
+            else if (IsHover)
+            {
+                ItemState = ItemState.Hover;
+            }
+            else
+            {
+                ItemState = ItemState.Normal;
+            }
+        }
+        #endregion
         #endregion [Private]
 
         #region 获取行号
@@ -621,28 +717,6 @@ namespace TigerSan.UI.Models
         public override int GetColIndex()
         {
             return _headerModel.ColIndex;
-        }
-        #endregion
-
-        #region 更新项目状态
-        public void UpdateItemState()
-        {
-            if (!IsVerifyOk)
-            {
-                ItemState = ItemState.Error;
-            }
-            else if (IsModified)
-            {
-                ItemState = ItemState.Modified;
-            }
-            else if (_isHover)
-            {
-                ItemState = ItemState.Hover;
-            }
-            else
-            {
-                ItemState = ItemState.Normal;
-            }
         }
         #endregion
         #endregion 【Functions】
