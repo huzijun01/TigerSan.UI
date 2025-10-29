@@ -12,5 +12,10 @@ namespace Test.WPF.Pages
             DataContext = new FormPageViewModel();
         }
         #endregion 【Ctor】
+
+        private void FilePicker_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

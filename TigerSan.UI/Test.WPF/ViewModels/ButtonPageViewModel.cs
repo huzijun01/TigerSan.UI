@@ -25,7 +25,6 @@ namespace Test.WPF.ViewModels
         #endregion 【Ctor】
 
         #region 【Commands】
-        #region [按钮]
         #region 点击“确定”按钮
         public ICommand btnOK_ClickCommand { get => new DelegateCommand(btnOK_Click); }
         private void btnOK_Click()
@@ -57,7 +56,6 @@ namespace Test.WPF.ViewModels
             MsgBox.ShowInformation($"Event: {nameof(SwitchValue)} = {SwitchValue.ToString()}");
         }
         #endregion
-        #endregion [按钮]
         #endregion 【Commands】
     }
 }

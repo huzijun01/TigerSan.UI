@@ -169,8 +169,6 @@ Colors, Constant.
 
 `ScreenSaverButtonStyle`:
 
-`FileSelectorButtonStyle`:
-
 `LableButtonStyle`:
 
 ### CheckBoxStyle:

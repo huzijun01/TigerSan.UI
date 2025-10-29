@@ -1,31 +1,36 @@
 @echo off
 setlocal enabledelayedexpansion
 
-rem 检查当前目录下是否存在名为 “.vs” 的文件夹
-if exist ".vs" (
-  echo Deleting .vs
-  rmdir /s /q ".vs"
-)
+:: 定义数组
+set "dirs[0]=.vs"
+set "dirs[1]=obj"
+set "dirs[2]=bin"
+set "dirs[3]=x64"
+set "dirs[4]=x86"
+set "dirs[5]=0 Output"
+set count=5
 
-rem 检查当前目录下是否存在名为 “0 Output” 的文件夹
-if exist "0 Output" (
-  echo Deleting .vs
-  rmdir /s /q "0 Output"
-)
-
-rem 遍历当前目录及其子目录
-for /d /r %%i in (*) do (
-  rem 检查目录名是否为 “obj” 或 “bin”
-  if /i "%%~nxi"=="obj" (
-    echo Deleting %%i
-    rmdir /s /q "%%i"
+:: 当前目录
+for /l %%d in (0,1,%count%) do (
+  set "current_dir=!dirs[%%d]!"
+  if exist "!current_dir!" (
+    echo Deleting root "!current_dir!"
+    rmdir /s /q "!current_dir!"
   )
-  if /i "%%~nxi"=="bin" (
-    echo Deleting %%i
-    rmdir /s /q "%%i"
+)
+
+:: 子目录
+for /d %%i in (*) do (
+  :: 遍历数组索引
+  for /l %%d in (0,1,%count%) do (
+    set "current_dir=!dirs[%%d]!"
+    set "target_path=%%i\!current_dir!"
+    if exist "!target_path!" (
+      echo Deleting "!target_path!"
+      rmdir /s /q "!target_path!"
+    )
   )
 )
 
 endlocal
-
 pause

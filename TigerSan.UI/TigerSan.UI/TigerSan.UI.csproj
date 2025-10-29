@@ -13,7 +13,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>WPF;C#;.NET8;</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.7.5</Version>
+    <Version>0.7.6</Version>
     <Authors>TigerSan</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/huzijun01/TigerSan.UI</RepositoryUrl>
@@ -30,11 +30,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="DLL\System.Windows.Forms.dll" />
     <None Remove="Images\bye.png" />
     <None Remove="Logos\logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>DLL\System.Windows.Forms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="DLL\System.Windows.Forms.dll" />
     <Resource Include="Files\LICENSE">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>

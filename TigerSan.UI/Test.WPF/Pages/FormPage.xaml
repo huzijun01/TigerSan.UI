@@ -24,9 +24,10 @@
             Text="拖入或点击"
             Multiselect="True"
             RestoreDirectory="False"
+            IsSelectFolder="True"
             FilterModel="{Binding FilterModel}"
             DropCommand="{Binding FilePicker_DropCommand}"
             SelectedCommand="{Binding FilePicker_SelectedCommand}"
-            Margin="{StaticResource Button.MarginBottom}"/>
+            Margin="{StaticResource Button.MarginBottom}" Loaded="FilePicker_Loaded"/>
     </StackPanel>
 </UserControl>

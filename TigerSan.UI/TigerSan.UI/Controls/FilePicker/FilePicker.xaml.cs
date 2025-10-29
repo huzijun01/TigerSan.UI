@@ -205,6 +205,23 @@ namespace TigerSan.UI.Controls
                 new PropertyMetadata(_defaultText));
         #endregion
 
+        #region 是否选择文件夹
+        /// <summary>
+        /// 是否选择文件夹
+        /// </summary>
+        public bool IsSelectFolder
+        {
+            get { return (bool)GetValue(IsSelectFolderProperty); }
+            set { SetValue(IsSelectFolderProperty, value); }
+        }
+        public static readonly DependencyProperty IsSelectFolderProperty =
+            DependencyProperty.Register(
+                nameof(IsSelectFolder),
+                typeof(bool),
+                typeof(FilePicker),
+                new PropertyMetadata(false));
+        #endregion
+
         #region “过滤器模型”集合
         /// <summary>
         /// “过滤器模型”集合
@@ -348,8 +365,6 @@ namespace TigerSan.UI.Controls
 
         protected void RaiseDropCommand(string[] paths)
         {
-            // 类型过滤：
-            paths = paths.Where(p => IsAllowedExtension(p)).ToArray();
             DropCommand?.Execute(paths);
         }
         #endregion
@@ -396,7 +411,14 @@ namespace TigerSan.UI.Controls
         {
             //IsPressed = true;
             //UpdateState();
-            OpenFileDialog();
+            if (IsSelectFolder)
+            {
+                OpenFolderBrowserDialog();
+            }
+            else
+            {
+                OpenFileDialog();
+            }
         }
         #endregion
 
@@ -416,6 +438,25 @@ namespace TigerSan.UI.Controls
             {
                 LogHelper.Instance.IsNull(nameof(paths));
                 return;
+            }
+
+            if (IsSelectFolder)
+            {
+                if (paths.Length < 1) return;
+                var path = paths[0];
+
+                // 文件路径转所在目录：
+                if (File.Exists(path))
+                {
+                    path = Path.GetDirectoryName(path) ?? string.Empty;
+                }
+
+                paths = [path];
+            }
+            else
+            {
+                // 类型过滤：
+                paths = paths.Where(p => IsAllowedExtension(p)).ToArray();
             }
 
             RaiseDropCommand(paths);
@@ -468,6 +509,25 @@ namespace TigerSan.UI.Controls
             // 触发事件：
             RaiseSelectedEvent(dialog.FileNames);
             RaiseSelectedCommand(dialog.FileNames);
+        }
+        #endregion
+
+        #region 打开“文件夹对话框”
+        public void OpenFolderBrowserDialog()
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog
+            {
+                Description = "请选择文件夹",
+                ShowNewFolderButton = true // 允许创建新文件夹
+            };
+
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+
+            string[] paths = dialog.SelectedPath == null ? [] : [dialog.SelectedPath];
+
+            // 触发事件：
+            RaiseSelectedEvent(paths);
+            RaiseSelectedCommand(paths);
         }
         #endregion
 
