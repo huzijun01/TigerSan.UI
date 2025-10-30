@@ -29,6 +29,11 @@
                         Command="{Binding btnRefresh_ClickCommand}"
                         Margin="{StaticResource Button.MarginRight}"
                         Background="{StaticResource Colors.Success}"/>
+                <Button x:Name="btnUpdateOldRowDatas"
+                        Content="UpdateOld"
+                        Command="{Binding btnUpdateOldRowDatas_ClickCommand}"
+                        Margin="{StaticResource Button.MarginRight}"
+                        Background="{StaticResource Colors.Warning}"/>
                 <Button x:Name="btnAdd"
                         Content="Add"
                         Command="{Binding btnAdd_ClickCommand}"

@@ -52,6 +52,14 @@ namespace Test.WPF.ViewModels
         }
         #endregion
 
+        #region 点击“UpdateOldRowDatas”按钮
+        public ICommand btnUpdateOldRowDatas_ClickCommand { get => new DelegateCommand(btnUpdateOldRowDatas_Click); }
+        private void btnUpdateOldRowDatas_Click()
+        {
+            EmployeeTable.UpdateOldRowDatas();
+        }
+        #endregion
+
         #region 点击“Add”按钮
         public ICommand btnAdd_ClickCommand { get => new DelegateCommand(btnAdd_Click); }
         private void btnAdd_Click()

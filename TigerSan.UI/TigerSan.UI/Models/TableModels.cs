@@ -352,29 +352,15 @@ namespace TigerSan.UI.Models
         /// <summary>
         /// 行数据
         /// </summary>
-        public object RowData { get => _rowModel._rowData; }
+        public object RowData { get => _rowModel.RowData; }
 
         /// <summary>
-        /// 修改前的行数据
+        /// 旧行数据
         /// </summary>
-        public object? OldRowData { get => _rowModel._oldRowData; }
+        public object? OldRowData { get => _rowModel.OldRowData; }
         #endregion [引用]
 
         #region [OneWay]
-        /// <summary>
-        /// 修改前的源数据
-        /// </summary>
-        public object? OldSource
-        {
-            get { return _OldSource; }
-            private set
-            {
-                SetProperty(ref _OldSource, value);
-                IsModified = GetIsModified();
-            }
-        }
-        private object? _OldSource;
-
         /// <summary>
         /// 是否只读
         /// </summary>
@@ -411,14 +397,25 @@ namespace TigerSan.UI.Models
         public bool IsModified
         {
             get { return _IsModified; }
-            private set
-            {
-                SetProperty(ref _IsModified, value);
-                UpdateItemState();
-            }
+            private set { SetProperty(ref _IsModified, value); }
         }
         private bool _IsModified = false;
         #endregion [OneWay]
+
+        #region [更新状态]
+        /// <summary>
+        /// 旧源数据
+        /// </summary>
+        public object? OldSource
+        {
+            get { return _OldSource; }
+            private set
+            {
+                SetProperty(ref _OldSource, value);
+                UpdateItemState();
+            }
+        }
+        private object? _OldSource;
 
         /// <summary>
         /// 源数据
@@ -429,24 +426,11 @@ namespace TigerSan.UI.Models
             set
             {
                 SetSource(value);
+                UpdateItemState();
                 Target = GetTarget();
             }
         }
         private object? _Source;
-
-        /// <summary>
-        /// 目标数据
-        /// </summary>
-        public string Target
-        {
-            get { return _Target; }
-            set
-            {
-                SetProperty(ref _Target, value);
-                Target2Source();
-            }
-        }
-        private string _Target = string.Empty;
 
         /// <summary>
         /// 是否鼠标悬浮
@@ -461,6 +445,22 @@ namespace TigerSan.UI.Models
             }
         }
         private bool _IsHover = false;
+
+        /// <summary>
+        /// 目标数据
+        /// </summary>
+        public string Target
+        {
+            get { return _Target; }
+            set
+            {
+                SetProperty(ref _Target, value);
+                Target2Source();
+                UpdateItemState();
+            }
+        }
+        private string _Target = string.Empty;
+        #endregion [更新状态]
         #endregion 【Properties】
 
         #region 【Ctor】
@@ -468,42 +468,16 @@ namespace TigerSan.UI.Models
         {
             _rowModel = rowModel;
             _headerModel = header;
-            Source = GetSource();
-            OldSource = GetOldSource();
             IsReadOnly = header.IsReadOnly;
             TextAlignment = header.TextAlignment;
+            LoadSource(true);
             UpdateItemState();
+            UpdateOldSource();
         }
         #endregion 【Ctor】
 
         #region 【Functions】
         #region [Private]
-        #region 获取“源数据”
-        private object? GetSource()
-        {
-            // 获取RowData的类型：
-            Type type = RowData.GetType();
-
-            // 获取指定名称的属性：
-            var property = type.GetProperty(_headerModel.PropName);
-            if (property == null)
-            {
-                LogHelper.Instance.Warning($"There is no property named {_headerModel.PropName} in {nameof(RowData)}!");
-                return null;
-            }
-
-            // 获取属性值：
-            var value = property.GetValue(RowData);
-            if (value == null)
-            {
-                LogHelper.Instance.Warning($"The value of the property named {_headerModel.PropName} in {nameof(RowData)} is null!");
-                return null;
-            }
-
-            return value;
-        }
-        #endregion
-
         #region 设置“源数据”
         private void SetSource(object? value)
         {
@@ -523,12 +497,10 @@ namespace TigerSan.UI.Models
                 SetRowData(value);
                 SetProperty(ref _Source, value);
             }
-
-            IsModified = GetIsModified();
         }
         #endregion
 
-        #region 将“目标数据”设置到“源数据”
+        #region 将“目标数据”赋值给“源数据”
         private void Target2Source()
         {
             try
@@ -621,35 +593,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取“修改前”的“源数据”
-        private object? GetOldSource()
-        {
-            if (OldRowData == null) return null;
-
-            // 获取OldRowData的类型：
-            Type type = OldRowData.GetType();
-
-            // 获取指定名称的属性：
-            var property = type.GetProperty(_headerModel.PropName);
-            if (property == null)
-            {
-                LogHelper.Instance.Warning($"There is no property named {_headerModel.PropName} in {nameof(OldRowData)}!");
-                return null;
-            }
-
-            // 获取属性值：
-            var value = property.GetValue(OldRowData);
-            if (value == null)
-            {
-                LogHelper.Instance.Warning($"The value of the property named {_headerModel.PropName} in {nameof(OldRowData)} is null!");
-                return null;
-            }
-
-            return value;
-        }
-        #endregion
-
-        #region 获取是否验证无误
+        #region 获取“是否验证无误”
         private bool GetIsVerifyOk()
         {
             var verify = _headerModel.Verification;
@@ -659,27 +603,116 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取是否被修改了
-        private bool GetIsModified()
+        #region 更新“是否被修改”
+        private void UpdateIsModified()
         {
             if (Source == null)
             {
-                return false;
+                IsModified = false;
+                return;
             }
 
             var type = Source.GetType();
             if (type == null)
             {
-                return false;
+                IsModified = false;
+                return;
             }
 
-            return !TypeHelper.IsEqual(Source, OldSource);
+            IsModified = !TypeHelper.IsEqual(Source, OldSource);
+        }
+        #endregion
+        #endregion [Private]
+
+        #region 获取“行号”
+        public override int GetRowIndex()
+        {
+            var index = _headerModel._tableModel.RowDatas.IndexOf(_rowModel.RowData);
+            if (index < 0)
+            {
+                LogHelper.Instance.IsNotContain(nameof(_headerModel._tableModel.RowDatas), nameof(_rowModel.RowData));
+                return 0;
+            }
+            return index + 1;
         }
         #endregion
 
-        #region 更新项目状态
-        private void UpdateItemState()
+        #region 获取“列号”
+        public override int GetColIndex()
         {
+            return _headerModel.ColIndex;
+        }
+        #endregion
+
+        #region 加载“源数据”
+        public void LoadSource(bool updateUI)
+        {
+            // 获取RowData的类型：
+            Type type = RowData.GetType();
+
+            // 获取指定名称的属性：
+            var property = type.GetProperty(_headerModel.PropName);
+            if (property == null)
+            {
+                LogHelper.Instance.Warning($"There is no property named {_headerModel.PropName} in {nameof(RowData)}!");
+                _Source = null;
+            }
+            else
+            {
+                // 获取属性值：
+                var value = property.GetValue(RowData);
+                if (value == null)
+                {
+                    LogHelper.Instance.Warning($"The value of the property named {_headerModel.PropName} in {nameof(RowData)} is null!");
+                }
+                _Source = value;
+            }
+
+            if (updateUI)
+            {
+                Source = _Source;
+            }
+        }
+        #endregion
+
+        #region 更新“旧源数据”
+        public void UpdateOldSource()
+        {
+            if (OldRowData == null)
+            {
+                OldSource = null;
+                return;
+            }
+
+            // 获取OldRowData的类型：
+            Type type = OldRowData.GetType();
+
+            // 获取指定名称的属性：
+            var property = type.GetProperty(_headerModel.PropName);
+            if (property == null)
+            {
+                LogHelper.Instance.Warning($"There is no property named {_headerModel.PropName} in {nameof(OldRowData)}!");
+                OldSource = null;
+                return;
+            }
+
+            // 获取属性值：
+            var value = property.GetValue(OldRowData);
+            if (value == null)
+            {
+                LogHelper.Instance.Warning($"The value of the property named {_headerModel.PropName} in {nameof(OldRowData)} is null!");
+            }
+
+            OldSource = value;
+        }
+        #endregion
+
+        #region 更新“项目状态”
+        public void UpdateItemState()
+        {
+            LoadSource(false);
+            UpdateIsModified();
+
             if (!IsVerifyOk)
             {
                 ItemState = ItemState.Error;
@@ -698,27 +731,6 @@ namespace TigerSan.UI.Models
             }
         }
         #endregion
-        #endregion [Private]
-
-        #region 获取行号
-        public override int GetRowIndex()
-        {
-            var index = _headerModel._tableModel.RowDatas.IndexOf(_rowModel._rowData);
-            if (index < 0)
-            {
-                LogHelper.Instance.IsNotContain(nameof(_headerModel._tableModel.RowDatas), nameof(_rowModel._rowData));
-                return 0;
-            }
-            return index + 1;
-        }
-        #endregion
-
-        #region 获取列号
-        public override int GetColIndex()
-        {
-            return _headerModel.ColIndex;
-        }
-        #endregion
         #endregion 【Functions】
     }
     #endregion
@@ -734,16 +746,6 @@ namespace TigerSan.UI.Models
         /// 行数据
         /// </summary>
         public TableModel _tableModel;
-
-        /// <summary>
-        /// 行数据
-        /// </summary>
-        public object _rowData;
-
-        /// <summary>
-        /// 修改前的行数据
-        /// </summary>
-        public object? _oldRowData { get; set; }
         #endregion【Fields】
 
         #region 【Properties】
@@ -766,6 +768,39 @@ namespace TigerSan.UI.Models
         private Brush _background = Generic.Transparent;
         #endregion [OneWay]
 
+        #region [更新状态]
+        /// <summary>
+        /// 行数据
+        /// </summary>
+        public object RowData
+        {
+            get { return _RowData; }
+            set
+            {
+                _RowData = value;
+                UpdateSources();
+                UpdateItemStates();
+            }
+        }
+        private object _RowData;
+
+        /// <summary>
+        /// 旧行数据
+        /// </summary>
+        public object? OldRowData
+        {
+            get { return _OldRowData; }
+            set
+            {
+                _OldRowData = value;
+                UpdateOldSources();
+                UpdateItemStates();
+            }
+        }
+        private object? _OldRowData;
+        #endregion [更新状态]
+
+        #region [Others]
         /// <summary>
         /// 是否选中
         /// </summary>
@@ -784,6 +819,7 @@ namespace TigerSan.UI.Models
         /// 项目模型集合
         /// </summary>
         public Dictionary<HeaderModel, ItemModel> ItemModels { get; private set; } = new Dictionary<HeaderModel, ItemModel>();
+        #endregion [Others]
         #endregion 【Properties】
 
         #region 【Ctor】
@@ -792,8 +828,8 @@ namespace TigerSan.UI.Models
             object rowData,
             object? oldRowData)
         {
-            _rowData = rowData;
-            _oldRowData = oldRowData;
+            _RowData = rowData;
+            _OldRowData = oldRowData;
             _tableModel = tableModel;
         }
         #endregion 【Ctor】
@@ -802,13 +838,43 @@ namespace TigerSan.UI.Models
         #region 获取行号
         private int GetRowIndex()
         {
-            var index = _tableModel.RowDatas.IndexOf(_rowData);
+            var index = _tableModel.RowDatas.IndexOf(RowData);
             if (index < 0)
             {
-                LogHelper.Instance.IsNotContain(nameof(_tableModel.RowDatas), nameof(_rowData));
+                LogHelper.Instance.IsNotContain(nameof(_tableModel.RowDatas), nameof(RowData));
                 return 0;
             }
             return index + 1;
+        }
+        #endregion
+
+        #region 更新“源数据”集合
+        private void UpdateSources()
+        {
+            foreach (var itemModel in ItemModels)
+            {
+                itemModel.Value.LoadSource(true);
+            }
+        }
+        #endregion
+
+        #region 更新“旧源数据”集合
+        private void UpdateOldSources()
+        {
+            foreach (var itemModel in ItemModels)
+            {
+                itemModel.Value.UpdateOldSource();
+            }
+        }
+        #endregion
+
+        #region 更新“项目状态”集合
+        private void UpdateItemStates()
+        {
+            foreach (var itemModel in ItemModels)
+            {
+                itemModel.Value.UpdateItemState();
+            }
         }
         #endregion
         #endregion 【Functions】
@@ -843,7 +909,7 @@ namespace TigerSan.UI.Models
         private NotifyCollectionChangedEventArgs _args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
         /// <summary>
-        /// 修改前的行数据集合
+        /// 旧行数据集合
         /// </summary>
         public List<object> _oldRowDatas = new List<object>();
 
@@ -1046,7 +1112,7 @@ namespace TigerSan.UI.Models
             var rowCount = RowDatas.Count;
             var colCount = HeaderModels.Count;
 
-            // 更新“修改前的行数据”：
+            // 更新“旧行数据”：
             var rowDatas = TypeHelper.DeepCopyList(RowDatas);
             if (rowDatas == null)
             {
@@ -1088,23 +1154,6 @@ namespace TigerSan.UI.Models
         #endregion
         #endregion [Private]
 
-        #region 数据是否正确
-        public bool IsVerifyOK()
-        {
-            foreach (var rowModel in RowModels)
-            {
-                foreach (var itemModel in rowModel.Value.ItemModels)
-                {
-                    if (!itemModel.Value.IsVerifyOk)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        #endregion
-
         #region 刷新表格
         public void Refresh()
         {
@@ -1116,22 +1165,14 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取表头模型
-        /// <summary>
-        /// 获取表头模型
-        /// </summary>
-        /// <param name="propName">属性名</param>
-        /// <returns></returns>
+        #region 获取“表头模型”
         public HeaderModel? GetHeaderModel(string propName)
         {
             return HeaderModels.FirstOrDefault(header => string.Equals(header.PropName, propName));
         }
         #endregion
 
-        #region 获取项目模型
-        /// <summary>
-        /// 获取项目模型
-        /// </summary>
+        #region 获取“项目模型”
         public ItemModel? GetItemModel(object rowData, string propName)
         {
             var header = HeaderModels.FirstOrDefault(h => string.Equals(h.PropName, propName));
@@ -1159,10 +1200,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取项目模型
-        /// <summary>
-        /// 获取项目模型
-        /// </summary>
+        #region 获取“项目模型”
         public ItemModel? GetItemModel(int iRow, string propName)
         {
             if (iRow < 0 || iRow >= RowModels.Count() || iRow >= RowDatas.Count())
@@ -1177,10 +1215,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取行模型
-        /// <summary>
-        /// 获取行模型
-        /// </summary>
+        #region 获取“行模型”
         public RowModel? GetRowModel(object rowData)
         {
             var rowModel = RowModels[rowData];
@@ -1194,10 +1229,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取行模型
-        /// <summary>
-        /// 获取行模型
-        /// </summary>
+        #region 获取“行模型”
         public RowModel? GetRowModel(int iRow)
         {
             if (iRow < 0 || iRow >= RowModels.Count() || iRow >= RowDatas.Count())
@@ -1212,7 +1244,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取表格特性
+        #region 获取“表格特性”
         public TableAttribute GetTableAttribute()
         {
             // 获取属性名：
@@ -1226,7 +1258,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取被选中的行数据集合
+        #region 获取“被选中的行数据”集合
         private List<object> GetSelectedRowDatas()
         {
             var selectedRowDatas = new List<object>();
@@ -1235,7 +1267,7 @@ namespace TigerSan.UI.Models
             {
                 if (row.Value.IsChecked)
                 {
-                    selectedRowDatas.Add(row.Value._rowData);
+                    selectedRowDatas.Add(row.Value.RowData);
                 }
             }
 
@@ -1243,10 +1275,10 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 更新修改前的行数据集合
+        #region 更新“旧行数据”集合
         public void UpdateOldRowDatas()
         {
-            // 更新“修改前的行数据”：
+            // 更新“旧行数据”：
             var rowDatas = TypeHelper.DeepCopyList(RowDatas);
             if (rowDatas == null)
             {
@@ -1255,7 +1287,7 @@ namespace TigerSan.UI.Models
             }
             _oldRowDatas = rowDatas;
 
-            // 更新“项目模型”的“修改前的行数据”：
+            // 更新“项目模型”的“旧行数据”：
             var rowCount = RowDatas.Count;
             var colCount = HeaderModels.Count;
 
@@ -1274,9 +1306,26 @@ namespace TigerSan.UI.Models
                         continue;
                     }
 
-                    rowModel._oldRowData = oldRowData;
+                    rowModel.OldRowData = oldRowData;
                 }
             }
+        }
+        #endregion
+
+        #region 判断数据是否正确
+        public bool IsVerifyOK()
+        {
+            foreach (var rowModel in RowModels)
+            {
+                foreach (var itemModel in rowModel.Value.ItemModels)
+                {
+                    if (!itemModel.Value.IsVerifyOk)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         #endregion
         #endregion 【Functions】
