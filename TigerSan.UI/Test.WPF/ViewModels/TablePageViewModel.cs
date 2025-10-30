@@ -5,6 +5,7 @@ using TigerSan.UI.Models;
 using TigerSan.UI.Converters;
 using Test.WPF.Models;
 using TigerSan.CsvLog;
+using TigerSan.UI.Helpers;
 
 namespace Test.WPF.ViewModels
 {
@@ -35,7 +36,14 @@ namespace Test.WPF.ViewModels
         #endregion 【Ctor】
 
         #region 【Evnets】
-        #region 选中行改变
+        #region “项目源数据”改变
+        private void OnItemSourceChanged(ItemModel itemModel)
+        {
+            MsgBox.ShowInformation($"Source = {itemModel.Target}");
+        }
+        #endregion
+
+        #region “选中行集合”改变
         private void OnSelectedRowDatasChanged()
         {
             SelectedRowCount = EmployeeTable.SelectedRowCount;
@@ -81,8 +89,12 @@ namespace Test.WPF.ViewModels
         {
             // 是否显示复选框：
             EmployeeTable.IsShowCheckBox = true;
+
+            // 委托：
             EmployeeTable._onSelectedRowDatasChanged -= OnSelectedRowDatasChanged;
             EmployeeTable._onSelectedRowDatasChanged += OnSelectedRowDatasChanged;
+            EmployeeTable._onItemSourceChanged -= OnItemSourceChanged;
+            EmployeeTable._onItemSourceChanged += OnItemSourceChanged;
 
             // 设置表头：
             var headerId = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Id));

@@ -131,7 +131,7 @@ namespace TigerSan.UI.Controls
                 LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
                 return;
             }
-            TableModel._rowDatasCollectionChanged = RowDatas_CollectionChanged;
+            TableModel._onRowDatasCollectionChanged = RowDatas_CollectionChanged;
             Refresh();
         }
         #endregion

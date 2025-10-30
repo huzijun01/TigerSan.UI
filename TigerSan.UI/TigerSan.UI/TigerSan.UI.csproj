@@ -13,7 +13,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>WPF;C#;.NET8;</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.7.8</Version>
+    <Version>0.7.9</Version>
     <Authors>TigerSan</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/huzijun01/TigerSan.UI</RepositoryUrl>
