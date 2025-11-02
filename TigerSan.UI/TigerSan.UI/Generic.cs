@@ -98,6 +98,8 @@ namespace TigerSan.UI
         #endregion
 
         #region 【Constants】
+        public static double ColumnWidthHandleWidth = 12;
+        public static double ColumnWidthHandlePressedWidth = 25;
         public static Thickness ButtonPadding { get => new Thickness(15, 8, 15, 8); }
         public static Duration Duration { get => (Duration)_element.FindResource($"Global.{nameof(Duration)}"); }
         public static double DurationTotalSeconds { get => Duration.TimeSpan.TotalSeconds; }

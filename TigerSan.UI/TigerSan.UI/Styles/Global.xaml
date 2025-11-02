@@ -81,6 +81,7 @@
     <system:Double x:Key="ItemBackground.Opacity">0.25</system:Double>
     <system:Double x:Key="RowBackground.Opacity">0.25</system:Double>
     <system:Double x:Key="ColumnWidthHandle.Width">12</system:Double>
+    <system:Double x:Key="ColumnWidthHandle.Pressed.Width">25</system:Double>
     <!-- 窗口: -->
     <Thickness x:Key="ZeroThickness">0</Thickness>
     <Thickness x:Key="WindowPadding">4</Thickness>

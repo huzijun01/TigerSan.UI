@@ -21,9 +21,9 @@ namespace TigerSan.UI.Behaviors
         private bool _isPressed = false;
 
         /// <summary>
-        /// 屏幕坐标
+        /// 拖拽数据
         /// </summary>
-        private Point? _oldScreenPosition;
+        private DragData _dragData;
 
         /// <summary>
         /// 点击计数器
@@ -57,6 +57,16 @@ namespace TigerSan.UI.Behaviors
         public event DragEvent? _onMouseUp;
 
         /// <summary>
+        /// 鼠标按下事件
+        /// </summary>
+        public event DragEvent? _onMouseEnter;
+
+        /// <summary>
+        /// 鼠标抬起事件
+        /// </summary>
+        public event DragEvent? _onMouseLeave;
+
+        /// <summary>
         /// 鼠标双击事件
         /// </summary>
         public event DragEvent? _onDoubleClicked;
@@ -73,24 +83,28 @@ namespace TigerSan.UI.Behaviors
         public MouseDragBehavior(
             FrameworkElement element,
             object? sender,
-            DragEvent? onDrag = null,
-            DragEvent? onMouseDown = null,
-            DragEvent? onMouseUp = null,
-            DragEvent? onDoubleClicked = null)
+            DragEvents? dragEvents = null)
         {
             // Fields:
             _element = element;
             _sender = sender ?? element;
-            _onDrag = onDrag;
-            _onMouseDown = onMouseDown;
-            _onMouseUp = onMouseUp;
-            _onDoubleClicked = onDoubleClicked;
+            if (dragEvents != null)
+            {
+                _onDrag = dragEvents._onDrag;
+                _onMouseDown = dragEvents._onMouseDown;
+                _onMouseUp = dragEvents._onMouseUp;
+                _onMouseEnter = dragEvents._onMouseEnter;
+                _onMouseLeave = dragEvents._onMouseLeave;
+                _onDoubleClicked = dragEvents._onDoubleClicked;
+            }
             // Events:
             _element.MouseDown += Element_MouseDown;
             _element.MouseUp += Element_MouseUp;
             _element.MouseEnter += Element_MouseEnter;
             _element.MouseLeave += Element_MouseLeave;
             _element.MouseMove += Element_MouseMove;
+            // DragData:
+            _dragData = new DragData(element);
         }
         #endregion 【Ctor】
 
@@ -99,6 +113,8 @@ namespace TigerSan.UI.Behaviors
         private void Element_MouseEnter(object sender, MouseEventArgs e)
         {
             _isHover = true;
+
+            _onMouseEnter?.Invoke(_sender, GetDragData(sender, e));
         }
         #endregion
 
@@ -107,6 +123,8 @@ namespace TigerSan.UI.Behaviors
         {
             _isHover = false;
             _isPressed = false;
+
+            _onMouseLeave?.Invoke(_sender, GetDragData(sender, e));
         }
         #endregion
 
@@ -115,7 +133,7 @@ namespace TigerSan.UI.Behaviors
         {
             _isPressed = true;
 
-            _oldScreenPosition = GetScreenPosition(e);
+            _dragData._oldScreenPosition = GetScreenPosition(e);
 
             _onMouseDown?.Invoke(_sender, GetDragData(sender, e));
 
@@ -158,34 +176,9 @@ namespace TigerSan.UI.Behaviors
         #region 获取拖拽数据
         private DragData GetDragData(object element, MouseEventArgs e)
         {
-            var dragData = new DragData((FrameworkElement)element, e)
-            {
-                Scale = ScreenHelper.GetDpiScale(),
-                ControlPosition = GetControlPosition(e),
-                ScreenPosition = GetScreenPosition(e),
-            };
-
-            #region 中心距离
-            dragData.CentralDistance = new Point()
-            {
-                X = dragData.ControlPosition.X * dragData.Scale - dragData.Element.Width / 2,
-                Y = dragData.ControlPosition.Y * dragData.Scale - dragData.Element.Height / 2,
-            };
-            #endregion 中心距离
-
-            #region 移动距离
-            if (_oldScreenPosition == null) return dragData;
-
-            Point movePosition = new Point();
-            movePosition.X = dragData.ScreenPosition.X - _oldScreenPosition.Value.X;
-            movePosition.Y = dragData.ScreenPosition.Y - _oldScreenPosition.Value.Y;
-
-            _oldScreenPosition = dragData.ScreenPosition;
-
-            dragData.MovePosition = movePosition;
-            #endregion 移动距离
-
-            return dragData;
+            _dragData.ControlPosition = GetControlPosition(e);
+            _dragData.ScreenPosition = GetScreenPosition(e);
+            return _dragData;
         }
         #endregion
 

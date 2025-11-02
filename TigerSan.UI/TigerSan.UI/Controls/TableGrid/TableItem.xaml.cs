@@ -137,7 +137,9 @@ namespace TigerSan.UI.Controls
                 nameof(Text),
                 typeof(string),
                 typeof(TableItem),
-                new PropertyMetadata("null"));
+                new FrameworkPropertyMetadata(
+                    "null",
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
         #endregion 【DependencyProperties】
 
@@ -230,7 +232,7 @@ namespace TigerSan.UI.Controls
             var bindingBackground = new Binding(nameof(ItemModel.Background))
             {
                 Source = ItemModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
+                Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
             };
 
@@ -249,11 +251,13 @@ namespace TigerSan.UI.Controls
             background.MouseLeave -= Background_MouseLeave;
             content.MouseEnter -= Background_MouseEnter;
             content.MouseLeave -= Background_MouseLeave;
+            content.LostFocus -= content_LostFocus;
             // 加：
             background.MouseEnter += Background_MouseEnter;
             background.MouseLeave += Background_MouseLeave;
             content.MouseEnter += Background_MouseEnter;
             content.MouseLeave += Background_MouseLeave;
+            content.LostFocus += content_LostFocus;
             #endregion
         }
         #endregion

@@ -76,12 +76,12 @@
                             <Setter Property="Padding" Value="8"/>
                             <Setter Property="TextWrapping" Value="NoWrap"/>
                             <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TableItem.Static.Foreground}"/>
                             <!--  其它：  -->
+                            <Setter Property="CaretBrush" Value="White"/>
                             <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="CaretBrush" Value="{StaticResource TableItem.Static.Foreground}"/>
                         </Style>
 
                         <!--  项目文本块：  -->
@@ -90,9 +90,9 @@
                             <Setter Property="Padding" Value="8"/>
                             <Setter Property="TextWrapping" Value="NoWrap"/>
                             <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TableItem.Static.Foreground}"/>
                             <!--  其它：  -->
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
@@ -108,10 +108,11 @@
                         <!-- 文本框： -->
                         <TextBox
                             x:Name="textBox"
-                            Text="{TemplateBinding Text}"
-                            IsReadOnly="{TemplateBinding IsReadOnly}"
-                            TextAlignment="{TemplateBinding TextAlignment}"
-                            Style="{StaticResource ItemTextBoxStyle}"/>
+                            IsReadOnly="{Binding IsReadOnly}"
+                            TextAlignment="{Binding TextAlignment}"
+                            Style="{StaticResource ItemTextBoxStyle}"
+                            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="False">

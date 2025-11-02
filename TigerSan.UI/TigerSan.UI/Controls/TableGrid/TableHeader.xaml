@@ -67,6 +67,9 @@
         </Grid>
 
         <!--  列宽手柄：  -->
-        <Border x:Name="handel" Style="{StaticResource ColumnWidthHandleStyle}"/>
+        <Border
+            x:Name="handel"
+            Width="{Binding HandelWidth}"
+            Style="{StaticResource ColumnWidthHandleStyle}"/>
     </Grid>
 </UserControl>

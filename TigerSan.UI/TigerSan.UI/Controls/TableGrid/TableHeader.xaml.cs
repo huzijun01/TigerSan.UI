@@ -164,6 +164,23 @@ namespace TigerSan.UI.Controls
             tableHeader.background.Cursor = tableHeader.header.Cursor = (bool)e.NewValue ? Cursors.Hand : Cursors.Arrow;
         }
         #endregion
+
+        #region 手柄宽度
+        /// <summary>
+        /// 手柄宽度
+        /// </summary>
+        public double HandelWidth
+        {
+            get { return (double)GetValue(HandelWidthProperty); }
+            protected set { SetValue(HandelWidthProperty, value); }
+        }
+        public static readonly DependencyProperty HandelWidthProperty =
+            DependencyProperty.Register(
+                nameof(HandelWidth),
+                typeof(double),
+                typeof(TableHeader),
+                new PropertyMetadata(Generic.ColumnWidthHandleWidth));
+        #endregion
         #endregion [Private]
 
         #region 表头模型
@@ -266,14 +283,14 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 点击排序标签
+        #region 点击“排序标签”
         private void Sort_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ChangeSortMode();
         }
         #endregion
 
-        #region 列宽手柄鼠标按下
+        #region 按下“列宽手柄”
         private static void handel_MouseDown(object sender, DragData dragData)
         {
             var header = (TableHeader)sender;
@@ -285,11 +302,41 @@ namespace TigerSan.UI.Controls
                 return;
             }
 
-            headerModel.Width = header.ActualWidth + dragData.CentralDistance.X;
+            header.HandelWidth = Generic.ColumnWidthHandlePressedWidth;
+            var offset = Generic.ColumnWidthHandlePressedWidth - Generic.ColumnWidthHandleWidth;
+
+            headerModel.Width = header.ActualWidth + dragData.CentralDistance.X + offset;
         }
         #endregion
 
-        #region 列宽手柄鼠标拖拽
+        #region 抬起“列宽手柄”
+        private static void handel_MouseUp(object sender, DragData dragData)
+        {
+            var header = (TableHeader)sender;
+
+            var headerModel = header.HeaderModel;
+            if (headerModel == null)
+            {
+                LogHelper.Instance.Warning($"The {nameof(headerModel)} is null!");
+                return;
+            }
+
+            header.HandelWidth = Generic.ColumnWidthHandleWidth;
+            var offset = Generic.ColumnWidthHandlePressedWidth - Generic.ColumnWidthHandleWidth;
+
+            headerModel.Width = header.ActualWidth + dragData.CentralDistance.X - offset;
+        }
+        #endregion
+
+        #region 离开“列宽手柄”
+        private static void handel_MouseLeave(object sender, DragData dragData)
+        {
+            var header = (TableHeader)sender;
+            header.HandelWidth = Generic.ColumnWidthHandleWidth;
+        }
+        #endregion
+
+        #region 拖拽“列宽手柄”
         private static void handel_MouseDrag(object sender, DragData dragData)
         {
             var header = (TableHeader)sender;
@@ -305,7 +352,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 列宽手柄鼠标双击
+        #region 双击“列宽手柄”
         private static void handel_DoubleClicked(object sender, DragData dragData)
         {
             var header = (TableHeader)sender;
@@ -345,14 +392,6 @@ namespace TigerSan.UI.Controls
 
             #region 列宽手柄
             handel.MouseEnter -= Handel_MouseEnter;
-
-            _handelMouseDrag = new MouseDragBehavior(
-                handel,
-                this,
-                handel_MouseDrag,
-                handel_MouseDown,
-                null,
-                handel_DoubleClicked);
             #endregion
 
             #region 排序标签
@@ -383,10 +422,14 @@ namespace TigerSan.UI.Controls
             _handelMouseDrag = new MouseDragBehavior(
                 handel,
                 this,
-                handel_MouseDrag,
-                handel_MouseDown,
-                null,
-                handel_DoubleClicked);
+                new DragEvents()
+                {
+                    _onDrag = handel_MouseDrag,
+                    _onMouseDown = handel_MouseDown,
+                    _onMouseUp = handel_MouseUp,
+                    _onMouseLeave = handel_MouseLeave,
+                    _onDoubleClicked = handel_DoubleClicked
+                });
             #endregion
 
             #region 排序标签
