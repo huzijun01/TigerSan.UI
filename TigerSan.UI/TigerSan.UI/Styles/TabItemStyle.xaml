@@ -9,7 +9,6 @@
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
     </Style>
 
@@ -20,7 +19,6 @@
         <Setter Property="Foreground" Value="{DynamicResource Colors.SecondaryText}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
         <Setter Property="Template">
             <Setter.Value>

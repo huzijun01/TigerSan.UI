@@ -60,10 +60,17 @@ namespace TigerSan.UI.Controls
             TableGrid table = (TableGrid)d;
             if (table == null)
             {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
+                LogHelper.Instance.Warning($"The {nameof(table)} is null!");
                 return;
             }
             table.Init();
+
+            if (table.TableModel == null)
+            {
+                LogHelper.Instance.Warning($"The {nameof(table.TableModel)} is null!");
+                return;
+            }
+            table.TableModel.SetTableGrid(table);
         }
         #endregion
         #endregion 【DependencyProperties】
@@ -76,14 +83,14 @@ namespace TigerSan.UI.Controls
         #endregion 【Ctor】
 
         #region 【Events】
-        #region 行数据集合改变
+        #region “行数据集合”改变
         private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             Refresh();
         }
         #endregion
 
-        #region 项目复选框选中
+        #region “表头复选框”选中
         private void HeaderCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             _isDoNotChangeIsSelectAll = true;
@@ -92,7 +99,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 项目复选框未选中
+        #region “表头复选框”未选中
         private void HeaderCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             _isDoNotChangeIsSelectAll = true;
@@ -101,7 +108,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 项目复选框选中
+        #region “项目复选框”选中
         private void ItemCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             _isDoNotChangeItemCheckedState = true;
@@ -110,7 +117,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 项目复选框未选中
+        #region “项目复选框”未选中
         private void ItemCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             _isDoNotChangeItemCheckedState = true;
@@ -152,7 +159,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 初始化网格
+        #region 初始化“网格”
         private void InitGrid()
         {
             if (TableModel == null)
@@ -520,6 +527,19 @@ namespace TigerSan.UI.Controls
 
             // 初始化“项目行UI元素集合”：
             InitItemRowUIElement();
+        }
+        #endregion
+
+        #region 初始化“列宽”
+        /// <summary>
+        /// 初始化“列宽”
+        /// </summary>
+        public void InitColumnsWidth()
+        {
+            foreach (var header in _headerRowUIElement.TableHeaders)
+            {
+                header.Key.SetWidth(header.Value.ActualWidth);
+            }
         }
         #endregion
         #endregion 【Functions】

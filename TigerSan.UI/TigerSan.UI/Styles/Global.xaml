@@ -48,6 +48,8 @@
     <!-- 遮罩: -->
     <SolidColorBrush x:Key="Colors.Mask.Hover" Color="#22000000"/>
     <SolidColorBrush x:Key="Colors.Mask.Pressed" Color="#22FFFFFF"/>
+    <SolidColorBrush x:Key="Colors.Mask.Disabled" Color="#55000000"/>
+    <SolidColorBrush x:Key="Colors.Foreground.Disabled" Color="#55FFFFFF"/>
     <!--  工具栏：  -->
     <SolidColorBrush x:Key="ToolBar_Static_Background" Color="#2b2b2b" />
     <SolidColorBrush x:Key="ToolBar_Active_Background" Color="#0063b1" />

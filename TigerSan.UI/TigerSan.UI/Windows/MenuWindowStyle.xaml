@@ -27,8 +27,8 @@
                 <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
                 <Setter Property="FontSize" Value="{DynamicResource MenuItem.FontSize}" />
                 <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
-                <Setter Property="Background" Value="{StaticResource Colors.DarkFill}"/>
-                <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource NoResizeWindowChrome}"/>
+                <Setter Property="Background" Value="{DynamicResource Colors.DarkFill}"/>
+                <Setter Property="WindowChrome.WindowChrome" Value="{DynamicResource NoResizeWindowChrome}"/>
             </Style>
 
             <!--  选择器：  -->

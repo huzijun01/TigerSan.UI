@@ -16,6 +16,11 @@ namespace TigerSan.UI.Models
     {
         #region 【Fields】
         /// <summary>
+        /// 表格控件
+        /// </summary>
+        private TableGrid? _tableGrid;
+
+        /// <summary>
         /// 列定义集合
         /// </summary>
         public List<ColumnDefinition> _colDefs = new List<ColumnDefinition>();
@@ -200,7 +205,7 @@ namespace TigerSan.UI.Models
 
                 var col = new ColumnDefinition()
                 {
-                    Width = Generic.DefaultGridWidth,
+                    Width = attr.WidthLength,
                     MinWidth = attr.MinWidth,
                     MaxWidth = attr.MaxWidth
                 };
@@ -208,7 +213,7 @@ namespace TigerSan.UI.Models
 
                 var floatCol = new ColumnDefinition()
                 {
-                    Width = Generic.DefaultGridWidth,
+                    Width = attr.WidthLength,
                     MinWidth = attr.MinWidth,
                     MaxWidth = attr.MaxWidth
                 };
@@ -450,6 +455,29 @@ namespace TigerSan.UI.Models
                     rowModel.OldRowData = oldRowData;
                 }
             }
+        }
+        #endregion
+
+        #region 设置“表格控件”
+        public void SetTableGrid(TableGrid tableGrid)
+        {
+            _tableGrid = tableGrid;
+        }
+        #endregion
+
+        #region 初始化“列宽”
+        /// <summary>
+        /// 初始化“列宽”
+        /// </summary>
+        public void InitColumnsWidth()
+        {
+            if (_tableGrid == null)
+            {
+                LogHelper.Instance.IsEmpty(nameof(_tableGrid));
+                return;
+            }
+
+            _tableGrid.InitColumnsWidth();
         }
         #endregion
 

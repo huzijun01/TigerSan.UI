@@ -15,26 +15,24 @@
     <Grid
         DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
         d:DataContext="{StaticResource TableItemDesignData}">
-
         <!-- 背景： -->
         <Border
             x:Name="background"
             Opacity="{DynamicResource ItemBackground.Opacity}"
-            Background="{Binding Background}"/>
+            Background="{Binding Background}" Grid.ColumnSpan="2"/>
 
         <!-- 遮罩： -->
         <Border
             x:Name="mask"
             Opacity="{DynamicResource ItemMask.Opacity}"
-            Background="{Binding MaskBackground}"/>
+            Background="{Binding MaskBackground}" Grid.ColumnSpan="2"/>
 
-        <!-- 内容： -->
+        <!-- 文本框： -->
         <TextBox
             x:Name="content"
-            LostFocus="content_LostFocus"
             Text="{Binding Text}"
             IsReadOnly="{Binding IsReadOnly}"
             TextAlignment="{Binding TextAlignment}"
-            Style="{StaticResource ItemTextBoxStyle}"/>
+            Style="{StaticResource EllipsisTextBoxStyle}"/>
     </Grid>
 </UserControl>

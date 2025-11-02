@@ -1,14 +1,10 @@
-﻿using System.IO;
-using System.Windows;
-using System.Reflection;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Interop;
 using TigerSan.CsvLog;
 using TigerSan.UI.Helpers;
-using TigerSan.IconOperation;
-using TigerSan.PathOperation;
 using TigerSan.TimerHelper.WPF;
 
 namespace TigerSan.UI.Windows
@@ -16,18 +12,6 @@ namespace TigerSan.UI.Windows
     public class CustomWindow : Window
     {
         #region 【Fields】
-        #region [Static]
-        /// <summary>
-        /// 当前EXE的完整路径
-        /// </summary>
-        private static string _exeFullPath = PathHelper.ReplaceExtension(Assembly.GetExecutingAssembly().Location, ".exe");
-        #endregion [Static]
-
-        /// <summary>
-        /// “点击次数”计数器
-        /// </summary>
-        private ClickCounter _clickCounter = new ClickCounter(200);
-
         /// <summary>
         /// 临时工具栏前景色
         /// </summary>
@@ -37,6 +21,11 @@ namespace TigerSan.UI.Windows
         /// 临时工具栏背景色
         /// </summary>
         private Brush? _toolBarBackground;
+
+        /// <summary>
+        /// “点击次数”计数器
+        /// </summary>
+        private ClickCounter _clickCounter = new ClickCounter(200);
         #endregion 【Fields】
 
         #region 【DependencyProperties】
@@ -153,7 +142,13 @@ namespace TigerSan.UI.Windows
         public CustomWindow()
         {
             // 初始化图标:
-            InitIcon();
+            Icon = WindowHelper.GetIcon();
+            #region 标题
+            if (string.IsNullOrEmpty(Title))
+            {
+                Title = Generic._defaultTitle;
+            }
+            #endregion 标题
             // 添加事件：
             Loaded += OnLoaded;
             Activated += OnActivated;
@@ -303,35 +298,6 @@ namespace TigerSan.UI.Windows
                     break;
             }
             #endregion 按钮
-        }
-        #endregion
-
-        #region 初始化窗口图标
-        public void InitIcon()
-        {
-            // 获取主程序路径：
-            var entry = Assembly.GetEntryAssembly();
-            if (entry == null)
-            {
-                LogHelper.Instance.Error("获取入口程序集失败");
-                _exeFullPath = Assembly.GetExecutingAssembly().Location;
-                _exeFullPath = _exeFullPath.Replace(".Assets", "");
-            }
-            else
-            {
-                _exeFullPath = entry.Location;
-            }
-            _exeFullPath = PathHelper.ReplaceExtension(_exeFullPath, ".exe");
-
-            // 设置图标：
-            if (File.Exists(_exeFullPath))
-            {
-                Icon = IconHelper.GetImageSource(_exeFullPath);
-            }
-            else
-            {
-                Icon = Generic.logo_32;
-            }
         }
         #endregion
 

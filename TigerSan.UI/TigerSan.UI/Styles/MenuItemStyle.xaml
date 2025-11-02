@@ -6,7 +6,6 @@
     <!--  右键菜单选项：  -->
     <Style x:Key="MenuItemStyle" TargetType="{x:Type MenuItem}">
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Iconfont}" />
         <Setter Property="Template">
             <Setter.Value>

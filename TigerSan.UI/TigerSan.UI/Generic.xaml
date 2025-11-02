@@ -41,6 +41,7 @@
         <!--  图片：  -->
         <ResourceDictionary>
             <BitmapImage x:Key="logo_32" UriSource="Images/logo_32.png" />
+            <BitmapImage x:Key="Hello" UriSource="Images/hello.png" />
             <BitmapImage x:Key="Bye" UriSource="Images/bye.png" />
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

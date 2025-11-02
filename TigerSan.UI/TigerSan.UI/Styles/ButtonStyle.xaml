@@ -13,7 +13,6 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
         <Setter Property="Background" Value="{DynamicResource Colors.Brand}" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -37,6 +36,10 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Pressed}" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource Colors.Foreground.Disabled}" />
+                            <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Disabled}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -51,7 +54,6 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource Button.Padding}" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
         <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
         <Setter Property="Background" Value="{DynamicResource Colors.BasicWhite}" />
@@ -91,7 +93,6 @@
     <Style x:Key="LableButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Padding" Value="{DynamicResource Button.Padding}" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
         <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
         <Setter Property="Background" Value="{DynamicResource Colors.BasicWhite}" />

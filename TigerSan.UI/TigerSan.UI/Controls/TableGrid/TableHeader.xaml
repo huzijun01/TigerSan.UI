@@ -43,24 +43,27 @@
             </Grid.ColumnDefinitions>
 
             <!--  表头文本块：  -->
-            <TextBlock x:Name="header"
-                       Grid.Column="0"
-                       Text="{Binding Title}"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock
+                x:Name="header"
+                Grid.Column="0"
+                Text="{Binding Title}"
+                Style="{StaticResource HeaderTextBlockStyle}"/>
 
             <!--  筛选标签：  -->
-            <Label x:Name="filter"
-                   Grid.Column="1"
-                   Content="▣"
-                   Visibility="{Binding IsFiltered, Converter={StaticResource Bool2VisibilityConverter}}"
-                   Style="{StaticResource HeaderLabelStyle}"/>
+            <Label
+                x:Name="filter"
+                Grid.Column="1"
+                Content="▣"
+                Visibility="{Binding IsFiltered, Converter={StaticResource Bool2VisibilityConverter}}"
+                Style="{StaticResource HeaderLabelStyle}"/>
 
             <!--  排序标签：  -->
-            <Label x:Name="sort"
-                   Grid.Column="2"
-                   Content="{Binding SortText}"
-                   Visibility="{Binding SortMode, Converter={StaticResource SortMode2VisibilityConverter}}"
-                   Style="{StaticResource HeaderLabelStyle}"/>
+            <Label
+                x:Name="sort"
+                Grid.Column="2"
+                Content="{Binding SortText}"
+                Visibility="{Binding SortMode, Converter={StaticResource SortMode2VisibilityConverter}}"
+                Style="{StaticResource HeaderLabelStyle}"/>
         </Grid>
 
         <!--  列宽手柄：  -->

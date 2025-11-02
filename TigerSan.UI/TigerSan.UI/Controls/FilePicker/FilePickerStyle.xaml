@@ -22,7 +22,6 @@
                 <Setter Property="Foreground" Value="{StaticResource Colors.Brand}" />
                 <Setter Property="BorderBrush" Value="{StaticResource Colors.Brand}" />
                 <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
-                <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
             </Style>
 
             <!-- 文件选择器（全局）： -->

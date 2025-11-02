@@ -79,6 +79,15 @@ When the data is incorrect, the item mask will automatically turn red.
 ### SortMode2VisibilityConverter:
 
 ## Helpers:
+### AboutHelper:
+`_instance`:
+
+Can be used as global data.
+
+`ShowAboutView`:
+
+`ShowUpdateView`:
+
 ### GridHelper:
 `SetColumnSpan`:
 
@@ -99,14 +108,17 @@ When the data is incorrect, the item mask will automatically turn red.
 
 `ShowError`:
 
-### TypeHelper:
-`GetProp`:
+### NetworkHelper:
+`IsNetworkAvailable`:
 
-`GetPropNames`:
+`GetAsync`:
 
-`DeepCopyList`:
+`IsOK`:
 
-`DeepCopyObject`:
+### StartupOnce:
+`StartupCheck`:
+
+If the program has already started, it will exit.
 
 ### SystemHelper:
 `WINDOWPOS`:
@@ -118,6 +130,25 @@ When the data is incorrect, the item mask will automatically turn red.
 `WndProc_NoResize`:
 
 `GetScreenPosition`:
+
+### TypeHelper:
+`GetProp`:
+
+`GetPropNames`:
+
+`DeepCopyList`:
+
+`DeepCopyObject`:
+
+### UpdateHelper:
+`_timerUpdate`:
+
+`CheckUpdateAsync`:
+
+`Compare`:
+
+### WindowHelper:
+`GetIcon`:
 
 ## Models:
 ### DragData:
@@ -149,6 +180,38 @@ When the data is incorrect, the item mask will automatically turn red.
 `ItemRowUIElement`:
 
 ### Verifications:
+
+### VersionModels:
+#### UpdateInfo:
+`version`:
+
+`download_url`:
+
+`msg`:
+
+#### ComparisonResults:
+`Error`:
+
+`Less`:
+
+`Equal`:
+
+`Greater`:
+
+#### VersionModel:
+`None`:
+
+`majorVersion`:
+
+`minorVersion`:
+
+`patchNumber`:
+
+`Init`:
+
+`SetNone`:
+
+`Compare`:
 
 ## Panels:
 ### HorizontalAveragePanel:
@@ -227,7 +290,14 @@ Colors, Constant.
 ### TransparentUserControlStyle:
 `TransparentUserControlStyle`:
 
+## ViewModels:
+### AboutViewModel:
+
+### UpdateViewModel:
+
 ## Windows:
+### AboutWindow:
+
 ### ByeWindow:
 
 ### CustomWindow:
@@ -244,3 +314,5 @@ Colors, Constant.
 
 ### PopWindow:
 `PopWindowStyle`:
+
+### UpdateWindow:

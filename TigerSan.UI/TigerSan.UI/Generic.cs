@@ -1,20 +1,37 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Shell;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using TigerSan.CsvLog;
+using TigerSan.ImageOperation;
 
 namespace TigerSan.UI
 {
     public static class Generic
     {
         #region 【Fields】
+        /// <summary>
+        /// 元素实例
+        /// （用于读取资源字典）
+        /// </summary>
         private static FrameworkElement _element = new FrameworkElement();
+
+        /// <summary>
+        /// 应用启动路径
+        /// </summary>
+        public static readonly string? _appStartupPath = Path.GetDirectoryName(Environment.ProcessPath);
+
+        /// <summary>
+        /// 默认标题
+        /// </summary>
+        public static readonly string _defaultTitle = Path.GetFileNameWithoutExtension(Environment.ProcessPath) ?? "TigerSan.UI";
         #endregion 【Fields】
 
         #region 【Images】
-        public static ImageSource Bye { get => (ImageSource)_element.FindResource(nameof(Bye)); }
-        public static ImageSource logo_32 { get => (ImageSource)_element.FindResource(nameof(logo_32)); }
+        public static ImageSource logo_32 { get => GetBitmapSource(Resources.logo_32); }
+        public static ImageSource Hello { get => GetBitmapSource(Resources.hello); }
+        public static ImageSource Bye { get => GetBitmapSource(Resources.bye); }
         #endregion 【Images】
 
         #region 【Styles】
@@ -99,10 +116,14 @@ namespace TigerSan.UI
         #endregion 【Window】
 
         #region 【Functions】
-        #region 获取笔刷
-        /// <summary>
-        /// 获取笔刷
-        /// </summary>
+        #region 获取“图片”
+        public static BitmapSource GetBitmapSource(System.Drawing.Bitmap bitmap)
+        {
+            return ImageHelper.Bitmap2BitmapImage(bitmap) ?? new BitmapImage();
+        }
+        #endregion
+
+        #region 获取“笔刷”
         public static SolidColorBrush GetSolidColorBrush(string hexColor)
         {
             // 验证输入格式
@@ -161,9 +182,9 @@ namespace TigerSan.UI
         }
         #endregion
 
-        #region 将单字符扩展为两位十六进制
+        #region 将“单字符”扩展为“两位十六进制”
         /// <summary>
-        /// 将单字符扩展为两位十六进制
+        /// 将“单字符”扩展为“两位十六进制”
         /// </summary>
         private static byte ExpandShortHex(char c)
         {

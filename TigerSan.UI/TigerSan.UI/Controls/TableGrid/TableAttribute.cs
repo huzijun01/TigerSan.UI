@@ -39,6 +39,8 @@ namespace TigerSan.UI.Controls
         public double Width { get; set; } = _notSet;
         public double MinWidth { get; set; } = 50;
         public double MaxWidth { get; set; } = double.MaxValue;
+        public bool IsWidthAvailable { get => Width >= MinWidth && Width <= MaxWidth; }
+        public GridLength WidthLength { get => IsWidthAvailable ? new GridLength(Width) : Generic.DefaultGridWidth; }
         #endregion [尺寸]
 
         /// <summary>

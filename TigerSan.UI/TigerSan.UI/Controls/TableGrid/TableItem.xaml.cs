@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.ComponentModel;
+using System.Windows.Controls;
 using TigerSan.CsvLog;
 using TigerSan.UI.Models;
 
@@ -261,12 +261,126 @@ namespace TigerSan.UI.Controls
     }
 
     #region 设计数据
-    public class TableItemDesignData : TableItem
+    public class TableItemDesignData : UserControl
     {
+        #region 【DependencyProperties】
+        #region [OneWay]
+        #region 是否只读
+        /// <summary>
+        /// 是否只读
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            private set { SetValue(IsReadOnlyProperty, value); }
+        }
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register(
+                nameof(IsReadOnly),
+                typeof(bool),
+                typeof(TableItem),
+                new PropertyMetadata(false));
+        #endregion
+
+        #region 项目状态
+        /// <summary>
+        /// 项目状态
+        /// </summary>
+        public ItemState ItemState
+        {
+            get { return (ItemState)GetValue(ItemStateProperty); }
+            private set { SetValue(ItemStateProperty, value); }
+        }
+        public static readonly DependencyProperty ItemStateProperty =
+            DependencyProperty.Register(
+                nameof(ItemState),
+                typeof(ItemState),
+                typeof(TableItem),
+                new PropertyMetadata(ItemState.Normal, ItemStateChanged));
+
+        private static void ItemStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var state = (ItemState)e.NewValue;
+            var item = (TableItem)d;
+        }
+        #endregion
+
+        #region 遮罩背景
+        /// <summary>
+        /// 遮罩背景
+        /// </summary>
+        public Brush MaskBackground
+        {
+            get { return (Brush)GetValue(MaskBackgroundProperty); }
+            private set { SetValue(MaskBackgroundProperty, value); }
+        }
+        public static readonly DependencyProperty MaskBackgroundProperty =
+            DependencyProperty.Register(
+                nameof(MaskBackground),
+                typeof(Brush),
+                typeof(TableItem),
+                new PropertyMetadata(new SolidColorBrush()));
+        #endregion
+
+        #region 文本对齐方式
+        /// <summary>
+        /// 文本对齐方式
+        /// </summary>
+        public TextAlignment TextAlignment
+        {
+            get { return (TextAlignment)GetValue(TextAlignmentProperty); }
+            private set { SetValue(TextAlignmentProperty, value); }
+        }
+        public static readonly DependencyProperty TextAlignmentProperty =
+            DependencyProperty.Register(
+                nameof(TextAlignment),
+                typeof(TextAlignment),
+                typeof(TableItem),
+                new PropertyMetadata(TextAlignment.Left));
+        #endregion
+        #endregion [OneWay]
+
+        #region 项目模型
+        /// <summary>
+        /// 项目模型
+        /// </summary>
+        public ItemModel? ItemModel
+        {
+            get { return (ItemModel)GetValue(ItemModelProperty); }
+            set { SetValue(ItemModelProperty, value); }
+        }
+        public static readonly DependencyProperty ItemModelProperty =
+            DependencyProperty.Register(
+                nameof(ItemModel),
+                typeof(ItemModel),
+                typeof(TableItem),
+                new PropertyMetadata());
+        #endregion
+
+        #region 文本
+        /// <summary>
+        /// 文本
+        /// </summary>
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(
+                nameof(Text),
+                typeof(string),
+                typeof(TableItem),
+                new PropertyMetadata("null"));
+        #endregion
+        #endregion 【DependencyProperties】
+
+        #region 【Ctor】
         public TableItemDesignData()
         {
             Text = "Item";
         }
+        #endregion 【Ctor】
     }
     #endregion
 }

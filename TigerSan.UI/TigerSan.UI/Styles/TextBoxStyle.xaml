@@ -9,7 +9,6 @@
     <Style x:Key="NoBorderTextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="Foreground" Value="{DynamicResource Colors.RegularText}" />
         <Setter Property="CaretBrush" Value="{DynamicResource Colors.RegularText}" />
     </Style>
@@ -17,50 +16,38 @@
     <!-- 自定义文本框模板： -->
     <ControlTemplate x:Key="CustomTextBoxTemplate" TargetType="{x:Type TextBoxBase}">
         <Border
-                x:Name="border"
-                CornerRadius="2"
-                SnapsToDevicePixels="True"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}">
-            <ScrollViewer
-                    x:Name="PART_ScrollViewer"
-                    Focusable="False"
-                    VerticalScrollBarVisibility="Auto"
-                    HorizontalScrollBarVisibility="Hidden">
-                <ScrollViewer
-                        x:Name="PART_ContentHost"
-                        Focusable="False"
-                        VerticalScrollBarVisibility="Hidden"
-                        HorizontalScrollBarVisibility="Hidden"/>
-            </ScrollViewer>
+            x:Name="border"
+            CornerRadius="2"
+            SnapsToDevicePixels="True"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ScrollViewer 
+                x:Name="PART_ContentHost" 
+                Focusable="False"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Auto"/>
         </Border>
 
         <!-- 触发器： -->
         <ControlTemplate.Triggers>
-            <Trigger Property="AcceptsReturn" Value="True">
-                <Setter
-                        TargetName="PART_ScrollViewer"
-                        Property="HorizontalScrollBarVisibility"
-                        Value="Auto"/>
-            </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter
-                        TargetName="border"
-                        Property="Opacity"
-                        Value="0.56"/>
+                    TargetName="border"
+                    Property="Opacity"
+                    Value="0.56"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter
-                        TargetName="border"
-                        Property="BorderBrush"
-                        Value="{StaticResource Colors.DisabledText}"/>
+                    TargetName="border"
+                    Property="BorderBrush"
+                    Value="{StaticResource Colors.DisabledText}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocused" Value="True">
                 <Setter
-                        TargetName="border"
-                        Property="BorderBrush"
-                        Value="{StaticResource Colors.Brand}"/>
+                    TargetName="border"
+                    Property="BorderBrush"
+                    Value="{StaticResource Colors.Brand}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -70,12 +57,74 @@
         <Setter Property="Padding" Value="10,5"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="FontFamily" Value="{StaticResource Global.FontFamily}"/>
-        <Setter Property="FontSize" Value="{StaticResource Global.Content.FontSize}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Colors.DarkBorder}"/>
         <Setter Property="CaretBrush" Value="{StaticResource Colors.BasicWhite}"/>
         <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
         <Setter Property="Background" Value="{StaticResource Colors.DarkFill}"/>
         <Setter Property="Template" Value="{StaticResource CustomTextBoxTemplate}"/>
+    </Style>
+
+    <!--  省略号文本框：  -->
+    <Style x:Key="EllipsisTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <ControlTemplate.Resources>
+                        <!--  项目文本框：  -->
+                        <Style x:Key="ItemTextBoxStyle" TargetType="{x:Type TextBox}">
+                            <!--  基础：  -->
+                            <Setter Property="Padding" Value="8"/>
+                            <Setter Property="TextWrapping" Value="NoWrap"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
+                            <Setter Property="Foreground" Value="{DynamicResource TableItem.Static.Foreground}"/>
+                            <!--  其它：  -->
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="CaretBrush" Value="{StaticResource TableItem.Static.Foreground}"/>
+                        </Style>
+
+                        <!--  项目文本块：  -->
+                        <Style x:Key="ItemTextBlockStyle" TargetType="{x:Type TextBlock}">
+                            <!--  基础：  -->
+                            <Setter Property="Padding" Value="8"/>
+                            <Setter Property="TextWrapping" Value="NoWrap"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
+                            <Setter Property="Foreground" Value="{DynamicResource TableItem.Static.Foreground}"/>
+                            <!--  其它：  -->
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </ControlTemplate.Resources>
+
+                    <Grid>
+                        <!-- 文本块： -->
+                        <TextBlock
+                            x:Name="textBlock"
+                            Text="{TemplateBinding Text}"
+                            TextAlignment="{TemplateBinding TextAlignment}"
+                            Style="{StaticResource ItemTextBlockStyle}"/>
+                        <!-- 文本框： -->
+                        <TextBox
+                            x:Name="textBox"
+                            Text="{TemplateBinding Text}"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"
+                            TextAlignment="{TemplateBinding TextAlignment}"
+                            Style="{StaticResource ItemTextBoxStyle}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsReadOnly" Value="False">
+                            <Setter TargetName="textBlock" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter TargetName="textBlock" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="textBox" Property="Foreground" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- 默认文本框样式： -->

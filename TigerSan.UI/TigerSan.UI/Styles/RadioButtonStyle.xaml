@@ -85,7 +85,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
         <Setter Property="Template" Value="{DynamicResource RadioButtonTemplate}" />
     </Style>

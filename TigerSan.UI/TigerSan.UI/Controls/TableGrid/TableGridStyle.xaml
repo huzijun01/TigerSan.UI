@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml" />
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TextBoxStyle.xaml" />
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/CheckBoxStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -19,7 +20,6 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="Foreground" Value="{DynamicResource TableItem.Static.Foreground}"/>
     </Style>
 
@@ -39,28 +39,16 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
 
-    <!--  项目文本框：  -->
-    <Style x:Key="ItemTextBoxStyle"
-           TargetType="{x:Type TextBox}"
-           BasedOn="{StaticResource TableControlStyle}">
-        <Setter Property="Padding" Value="8"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="CaretBrush" Value="{StaticResource TableItem.Static.Foreground}"/>
-    </Style>
-
     <!--  表头文本块：  -->
     <Style x:Key="HeaderTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="{StaticResource TableItem.Static.Foreground}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{DynamicResource Global.Content.FontSize}" />
         <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
+        <Setter Property="Foreground" Value="{StaticResource TableItem.Static.Foreground}"/>
     </Style>
 
     <!--  水平分割线：  -->

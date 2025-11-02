@@ -8,10 +8,10 @@ namespace TigerSan.UI.Helpers
     #region 消息类型
     public enum MsgType
     {
+        Error,
         Information,
         Success,
         Warning,
-        Error
     }
     #endregion
 
