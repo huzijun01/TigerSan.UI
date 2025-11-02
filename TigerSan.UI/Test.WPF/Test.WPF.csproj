@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TigerSan.UI\TigerSan.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Pages\ImageButtonPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
