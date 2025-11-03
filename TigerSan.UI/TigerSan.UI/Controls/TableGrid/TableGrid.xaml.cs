@@ -4,8 +4,8 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Collections.Specialized;
 using TigerSan.CsvLog;
-using TigerSan.UI.Models;
 using TigerSan.UI.Helpers;
+using TigerSan.UI.Models;
 
 namespace TigerSan.UI.Controls
 {
@@ -58,19 +58,8 @@ namespace TigerSan.UI.Controls
         private static void TableModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TableGrid table = (TableGrid)d;
-            if (table == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(table)} is null!");
-                return;
-            }
-            table.Init();
 
-            if (table.TableModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(table.TableModel)} is null!");
-                return;
-            }
-            table.TableModel.SetTableGrid(table);
+            table.InitTableModelAndUIElement();
         }
         #endregion
         #endregion 【DependencyProperties】
@@ -79,6 +68,7 @@ namespace TigerSan.UI.Controls
         public TableGrid()
         {
             InitializeComponent();
+            Style = Generic.TransparentUserControlStyle;
         }
         #endregion 【Ctor】
 
@@ -86,7 +76,7 @@ namespace TigerSan.UI.Controls
         #region “行数据集合”改变
         private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            Refresh();
+            InitUIElements();
         }
         #endregion
 
@@ -129,22 +119,25 @@ namespace TigerSan.UI.Controls
 
         #region 【Functions】
         #region [Private]
-        #region 初始化
-        private void Init()
+        #region 初始化“表格模型”和“UI元素”
+        private void InitTableModelAndUIElement()
         {
-            Style = Generic.TransparentUserControlStyle;
             if (TableModel == null)
             {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
+                LogHelper.Instance.IsNull(nameof(TableModel));
                 return;
             }
+
+            TableModel.InitTableModel(this);
+
+            InitUIElements();
+
             TableModel._onRowDatasCollectionChanged = RowDatas_CollectionChanged;
-            Refresh();
         }
         #endregion
 
-        #region 清空
-        private void Clear()
+        #region 清空“UI元素”
+        private void ClearUIElements()
         {
             // 网格：
             PART_ItemGrid.Children.Clear();
@@ -507,8 +500,8 @@ namespace TigerSan.UI.Controls
         #endregion
         #endregion
 
-        #region 刷新
-        public void Refresh()
+        #region 初始化“UI元素”
+        public void InitUIElements()
         {
             if (TableModel == null)
             {
@@ -517,7 +510,7 @@ namespace TigerSan.UI.Controls
             }
 
             // 清空：
-            Clear();
+            ClearUIElements();
 
             // 初始化网格：
             InitGrid();

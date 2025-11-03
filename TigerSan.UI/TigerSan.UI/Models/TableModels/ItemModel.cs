@@ -1,7 +1,7 @@
 ﻿using System.Windows;
+using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Reflection;
 using TigerSan.CsvLog;
 using TigerSan.UI.Helpers;
 using TigerSan.UI.Controls;
@@ -265,6 +265,7 @@ namespace TigerSan.UI.Models
 
             var col = _tableModel._colDefs[index];
             var floatCol = _tableModel._floatColDefs[index];
+
             col.Width = floatCol.Width = WidthGridLength;
         }
         #endregion

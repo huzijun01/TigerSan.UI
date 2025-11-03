@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Reflection;
+using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using TigerSan.CsvLog;
@@ -167,12 +167,22 @@ namespace TigerSan.UI.Models
         {
             DataType = dataType;
             if (string.IsNullOrEmpty(Name)) Name = DataType.Name;
-
-            InitGrid();
-            InitHeaderModels();
-            InitItemModels();
+            Refresh(true);
         }
         #endregion 【Ctor】
+
+        #region 【Events】
+        #region 行数据集合改变
+        private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (!_isAutoRefresh) return;
+
+            Refresh();
+
+            _onRowDatasCollectionChanged?.Invoke(sender, e);
+        }
+        #endregion
+        #endregion 【Events】
 
         #region 【Functions】
         #region [Private]
@@ -282,32 +292,57 @@ namespace TigerSan.UI.Models
             }
         }
         #endregion
-
-        #region 行数据集合改变
-        private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            InitGrid();
-            InitItemModels();
-
-            if (!_isAutoRefresh) return;
-
-            _onRowDatasCollectionChanged?.Invoke(sender, e);
-        }
-        #endregion
         #endregion [Private]
 
-        #region 刷新表格
-        public void Refresh()
+        #region 刷新
+        /// <summary>
+        /// 刷新
+        /// （初始化“模型”和“UI元素”）
+        /// </summary>
+        public void Refresh(bool isInitGridAndHeader = false)
         {
+            InitTableModel(null, isInitGridAndHeader);
+            InitUIElements();
+        }
+        #endregion
+
+        #region 初始化“表格模型”
+        public void InitTableModel(
+            TableGrid? tableGrid = null,
+            bool isInitGridAndHeader = false)
+        {
+            if (tableGrid != null)
+            {
+                _tableGrid = tableGrid;
+            }
+
             IsTriggerItemSourceChanged = false;
 
-            InitGrid();
+            if (isInitGridAndHeader)
+            {
+                InitGrid();
+                InitHeaderModels();
+            }
             InitItemModels();
+
             IsSelectAll = false;
+
             _onSelectedRowDatasChanged?.Invoke();
             _onRowDatasCollectionChanged?.Invoke(null, _args);
 
             IsTriggerItemSourceChanged = true;
+        }
+        #endregion
+
+        #region 初始化“UI元素”
+        public void InitUIElements()
+        {
+            if (_tableGrid == null)
+            {
+                LogHelper.Instance.IsNull(nameof(_tableGrid));
+                return;
+            }
+            _tableGrid.InitUIElements();
         }
         #endregion
 
@@ -455,13 +490,6 @@ namespace TigerSan.UI.Models
                     rowModel.OldRowData = oldRowData;
                 }
             }
-        }
-        #endregion
-
-        #region 设置“表格控件”
-        public void SetTableGrid(TableGrid tableGrid)
-        {
-            _tableGrid = tableGrid;
         }
         #endregion
 

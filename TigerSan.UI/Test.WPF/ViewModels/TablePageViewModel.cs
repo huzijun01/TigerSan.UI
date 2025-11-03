@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using TigerSan.UI;
 using TigerSan.UI.Models;
 using TigerSan.UI.Converters;
-using Test.WPF.Models;
 using TigerSan.CsvLog;
 using TigerSan.UI.Helpers;
+using Test.WPF.Models;
 
 namespace Test.WPF.ViewModels
 {
