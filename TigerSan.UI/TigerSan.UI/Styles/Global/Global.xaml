@@ -2,7 +2,6 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-
     <!-- 【颜色】: -->
     <!-- [主色]: -->
     <SolidColorBrush x:Key="Colors.Brand" Color="#409EFF" />
@@ -43,7 +42,7 @@
     <SolidColorBrush x:Key="Colors.PageBackground" Color="#0A0A0A" />
     <SolidColorBrush x:Key="Colors.BaseBackground" Color="#141414" />
     <SolidColorBrush x:Key="Colors.OverlayBackground" Color="#1D1E1F" />
-    
+
     <!-- [控件]: -->
     <!-- 遮罩: -->
     <SolidColorBrush x:Key="Colors.Mask.Hover" Color="#22000000"/>
@@ -68,7 +67,7 @@
     <system:Double x:Key="Global.Title.FontSize">18</system:Double>
     <system:Double x:Key="Global.Content.FontSize">16</system:Double>
     <FontFamily x:Key="Global.FontFamily">Microsoft YaHei</FontFamily>
-    <FontFamily x:Key="Iconfont">pack://application:,,,/TigerSan.UI;component/Fonts/#iconfont</FontFamily>
+    <FontFamily x:Key="Iconfont" >/TigerSan.UI;component/Fonts/#iconfont</FontFamily>
     <!-- 按钮: -->
     <Thickness x:Key="Button.Padding">15,8</Thickness>
     <Thickness x:Key="Button.MarginRight">0,0,12,0</Thickness>
@@ -85,4 +84,11 @@
     <!-- 窗口: -->
     <Thickness x:Key="ZeroThickness">0</Thickness>
     <Thickness x:Key="WindowPadding">4</Thickness>
+    <!-- 右键菜单项目: -->
+    <system:Double x:Key="MenuItem.FontSize">16</system:Double>
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- 透明用户控件： -->
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/TransparentUserControlStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

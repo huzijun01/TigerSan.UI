@@ -1,10 +1,12 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using TigerSan.CsvLog;
 using TigerSan.UI.Helpers;
-using TigerSan.UI.Controls;
+using TigerSan.UI.Models;
 
 namespace TigerSan.UI.Models
 {
@@ -75,6 +77,16 @@ namespace TigerSan.UI.Models
         /// 表格模型
         /// </summary>
         public TableModel _tableModel;
+
+        /// <summary>
+        /// 菜单宽度
+        /// </summary>
+        public double? _menuWidth { get; set; }
+
+        /// <summary>
+        /// “菜单数据”集合
+        /// </summary>
+        public List<object>? _menuDatas { get; set; }
         #endregion【Fields】
 
         #region 【Properties】
@@ -126,10 +138,10 @@ namespace TigerSan.UI.Models
         /// </summary>
         public double? Width
         {
-            get { return _width; }
+            get { return _Width; }
             set { SetWidth(value); }
         }
-        private double? _width;
+        private double? _Width;
 
         /// <summary>
         /// 转换器
@@ -236,7 +248,7 @@ namespace TigerSan.UI.Models
             // 修改宽度：
             if (width == null || width == TableHeaderAttribute._notSet)
             {
-                _width = null;
+                _Width = null;
             }
             else if (width == Width)
             {
@@ -244,15 +256,15 @@ namespace TigerSan.UI.Models
             }
             else if (MinWidth != null && width < MinWidth)
             {
-                _width = MinWidth;
+                _Width = MinWidth;
             }
             else if (MaxWidth != null && width > MaxWidth)
             {
-                _width = MaxWidth;
+                _Width = MaxWidth;
             }
             else
             {
-                _width = width;
+                _Width = width;
             }
 
             // 修改网格列宽：
@@ -294,6 +306,11 @@ namespace TigerSan.UI.Models
         /// 表头模型
         /// </summary>
         public HeaderModel _headerModel;
+
+        /// <summary>
+        /// “目标数据”改变委托（控件内使用）
+        /// </summary>
+        public Action? _onTargetChanged;
         #endregion【Fields】
 
         #region 【Properties】
@@ -381,10 +398,25 @@ namespace TigerSan.UI.Models
             {
                 SetSource(value);
                 UpdateItemState();
-                Target = GetTarget();
+                RaiseTargetChanged();
             }
         }
         private object? _Source;
+
+        /// <summary>
+        /// 目标数据
+        /// </summary>
+        public string Target
+        {
+            get { return _Target; }
+            set
+            {
+                SetTarget(value);
+                UpdateItemState();
+                RaiseTargetChanged();
+            }
+        }
+        private string _Target = string.Empty;
 
         /// <summary>
         /// 是否鼠标悬浮
@@ -399,21 +431,6 @@ namespace TigerSan.UI.Models
             }
         }
         private bool _IsHover = false;
-
-        /// <summary>
-        /// 目标数据
-        /// </summary>
-        public string Target
-        {
-            get { return _Target; }
-            set
-            {
-                SetProperty(ref _Target, value);
-                Target2Source();
-                UpdateItemState();
-            }
-        }
-        private string _Target = string.Empty;
         #endregion [更新状态]
         #endregion 【Properties】
 
@@ -439,16 +456,9 @@ namespace TigerSan.UI.Models
         #region 设置“源数据”
         private void SetSource(object? value)
         {
-            if (_isTriggerItemSourceChanged
-                && _headerModel._tableModel.IsTriggerItemSourceChanged)
-            {
-                _headerModel._tableModel._onItemSourceChanged?.Invoke(this);
-            }
-
             if (value == null)
             {
                 SetProperty(ref _Source, _Source);
-                return;
             }
             else if (value is string)
             {
@@ -461,12 +471,26 @@ namespace TigerSan.UI.Models
                 SetRowData(value);
                 SetProperty(ref _Source, value);
             }
+
+            _Target = GetTarget();
+            SetProperty(ref _Target, _Target);
+            RaiseTargetChanged();
+
+            if (_isTriggerItemSourceChanged
+                && _headerModel._tableModel.IsTriggerItemSourceChanged)
+            {
+                _headerModel._tableModel._onItemSourceChanged?.Invoke(this);
+            }
         }
         #endregion
 
-        #region 将“目标数据”赋值给“源数据”
-        private void Target2Source()
+        #region 设置“目标数据”
+        private void SetTarget(string value)
         {
+            if (string.Equals(_Target, value)) return;
+
+            SetProperty(ref _Target, value);
+
             try
             {
                 // 转为“源数据”：
@@ -584,6 +608,13 @@ namespace TigerSan.UI.Models
             }
 
             IsModified = !TypeHelper.IsEqual(Source, OldSource);
+        }
+        #endregion
+
+        #region 触发“目标数据”改变
+        protected void RaiseTargetChanged()
+        {
+            _onTargetChanged?.Invoke();
         }
         #endregion
         #endregion [Private]

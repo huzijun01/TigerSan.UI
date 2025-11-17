@@ -9,13 +9,17 @@
              d:DesignHeight="400">
 
     <UserControl.Resources>
-        <Thickness x:Key="MarginTop">0,10,0,0</Thickness>
+        <ResourceDictionary Source="/TigerSan.UI;component/Generic.xaml"/>
     </UserControl.Resources>
 
     <Border
         Margin="15"
         Style="{StaticResource CardBorderStyle}"
         DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}">
+        <Border.Resources>
+            <Thickness x:Key="MarginTop">0,10,0,0</Thickness>
+        </Border.Resources>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

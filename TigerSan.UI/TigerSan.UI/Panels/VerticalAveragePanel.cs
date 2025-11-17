@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TigerSan.UI.Controls;
 
 namespace TigerSan.UI.Panels
 {
@@ -16,7 +15,11 @@ namespace TigerSan.UI.Panels
             set { SetValue(GapYProperty, value); }
         }
         public static readonly DependencyProperty GapYProperty =
-            DependencyProperty.Register("GapY", typeof(double), typeof(PixelDot), new PropertyMetadata(0.0));
+            DependencyProperty.Register(
+                nameof(GapY),
+                typeof(double),
+                typeof(VerticalAveragePanel),
+                new PropertyMetadata(0.0));
         #endregion 【Properties】
 
         #region 测量

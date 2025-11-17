@@ -4,8 +4,8 @@ using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Interop;
 using TigerSan.CsvLog;
-using TigerSan.UI.Helpers;
 using TigerSan.TimerHelper.WPF;
+using TigerSan.UI.Helpers;
 
 namespace TigerSan.UI.Windows
 {

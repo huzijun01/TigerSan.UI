@@ -4,9 +4,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
         <ResourceDictionary Source="/TigerSan.UI;component/Windows/CustomWindowStyle.xaml"/>
-        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TransparentUserControlStyle.xaml"/>
         <ResourceDictionary>
             <!-- 设计数据： -->
             <controls:SelectDesignData x:Key="SelectDesignData"/>
@@ -18,8 +17,8 @@
             <!-- 菜单窗口： -->
             <Style x:Key="MenuWindowStyle" TargetType="{x:Type Window}">
                 <Setter Property="Topmost" Value="True" />
-                <Setter Property="MinWidth" Value="50" />
-                <Setter Property="MinHeight" Value="100" />
+                <Setter Property="MinWidth" Value="10" />
+                <Setter Property="MinHeight" Value="10" />
                 <Setter Property="MaxWidth" Value="300" />
                 <Setter Property="MaxHeight" Value="500" />
                 <Setter Property="WindowStyle" Value="None"/>

@@ -22,43 +22,58 @@ namespace TigerSan.UI.Models
         /// 点击（异步）
         /// </summary>
         public Action? _clickedAsync;
-
-        /// <summary>
-        /// 转换器
-        /// </summary>
-        public IValueConverter? _converter { get; set; }
         #endregion 【Fields】
 
         #region 【Properties】
-        #region [引用]
+        #region [OneWay]
         /// <summary>
         /// 文本
         /// </summary>
         public string Text
         {
-            get { return GetText(); }
+            get { return _Text; }
+            private set { SetProperty(ref _Text, value); }
         }
-        #endregion [引用]
+        private string _Text = string.Empty;
+        #endregion [OneWay]
 
         /// <summary>
         /// 源数据
         /// </summary>
         public object? Source
         {
-            get { return _source; }
-            set { SetProperty(ref _source, value); }
+            get { return _Source; }
+            set
+            {
+                SetProperty(ref _Source, value);
+                UpdateText();
+            }
         }
-        private object? _source;
+        private object? _Source;
+
+        /// <summary>
+        /// 转换器（初始化“项目集合”时，自动添加）
+        /// </summary>
+        public IValueConverter? Converter
+        {
+            get { return _Converter; }
+            set
+            {
+                SetProperty(ref _Converter, value);
+                UpdateText();
+            }
+        }
+        private IValueConverter? _Converter;
 
         /// <summary>
         /// 可见性
         /// </summary>
         public Visibility Visibility
         {
-            get { return _visibility; }
-            set { SetProperty(ref _visibility, value); }
+            get { return _Visibility; }
+            set { SetProperty(ref _Visibility, value); }
         }
-        private Visibility _visibility = Visibility.Visible;
+        private Visibility _Visibility = Visibility.Visible;
         #endregion 【Properties】
 
         #region 【Commands】
@@ -72,18 +87,18 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取文本
-        private string GetText()
+        #region 更新“文本”
+        private void UpdateText()
         {
-            if (_converter == null)
+            if (Converter == null)
             {
-                _converter = new Object2StringConverter();
-                return ((Object2StringConverter)_converter).Convert(Source);
+                Converter = new Object2StringConverter();
+                Text = ((Object2StringConverter)Converter).Convert(Source);
             }
 
-            return _converter.Convert(Source, null, null, null) as string ?? string.Empty;
+            Text = Converter.Convert(Source, null, null, null) as string ?? string.Empty;
         }
         #endregion
-        #endregion
+        #endregion 【Commands】
     }
 }

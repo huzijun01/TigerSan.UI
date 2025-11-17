@@ -242,24 +242,6 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 数据绑定
-        private void DataBinding()
-        {
-            #region 绑定“Background”
-            // 创建双向绑定对象：
-            var bindingBackground = new Binding(nameof(ItemModel.Background))
-            {
-                Source = HeaderModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(BackgroundProperty, bindingBackground);
-            #endregion 绑定“Background”
-        }
-        #endregion
-
         #region 鼠标进入背景
         private void Background_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -373,6 +355,24 @@ namespace TigerSan.UI.Controls
         #endregion 【Commands】
 
         #region 【Functions】
+        #region 数据绑定
+        private void DataBinding()
+        {
+            #region 绑定“Background”
+            // 创建双向绑定对象：
+            var bindingBackground = new Binding(nameof(ItemModel.Background))
+            {
+                Source = HeaderModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(BackgroundProperty, bindingBackground);
+            #endregion 绑定“Background”
+        }
+        #endregion
+
         #region 添加事件
         private void AddEvent()
         {

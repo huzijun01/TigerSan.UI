@@ -5,12 +5,12 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Collections.ObjectModel;
-using TigerSan.CsvLog;
-using TigerSan.UI.Models;
-using TigerSan.UI.Windows;
 using TigerSan.UI.Animations;
 using TigerSan.UI.Converters;
+using TigerSan.UI.Models;
+using TigerSan.CsvLog;
 using TigerSan.TimerHelper.WPF;
+using TigerSan.UI.Windows;
 
 namespace TigerSan.UI.Controls
 {

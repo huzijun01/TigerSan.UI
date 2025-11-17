@@ -13,7 +13,7 @@
     xmlns:windows="clr-namespace:TigerSan.UI.Windows;assembly=TigerSan.UI"
     Title="MainView"
     Width="500"
-    Height="350"
+    Height="400"
     WindowStartupLocation="CenterScreen"
     Topmost="False"
     Style="{StaticResource CustomWindowStyle}"

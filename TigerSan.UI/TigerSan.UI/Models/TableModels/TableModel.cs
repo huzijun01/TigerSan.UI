@@ -46,6 +46,11 @@ namespace TigerSan.UI.Models
         public List<object> _oldRowDatas = new List<object>();
 
         /// <summary>
+        /// “加载完成”委托
+        /// </summary>
+        public Action? _onLoaded;
+
+        /// <summary>
         /// “选中行数据集合改变”委托
         /// </summary>
         public Action? _onSelectedRowDatasChanged;
@@ -59,7 +64,7 @@ namespace TigerSan.UI.Models
         /// “行数据集合改变”委托
         /// </summary>
         public NotifyCollectionChangedEventHandler? _onRowDatasCollectionChanged;
-        #endregion
+        #endregion 【Fields】
 
         #region 【Properties】
         #region [引用]

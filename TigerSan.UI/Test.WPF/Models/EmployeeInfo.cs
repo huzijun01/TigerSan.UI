@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using TigerSan.UI.Models;
 using TigerSan.UI.Controls;
 
 namespace Test.WPF.Models

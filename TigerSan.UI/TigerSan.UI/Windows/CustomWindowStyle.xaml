@@ -3,7 +3,7 @@
                     xmlns:windows="clr-namespace:TigerSan.UI.Windows">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- 自定义窗口边框： -->

@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:TigerSan.UI.Windows"
         mc:Ignorable="d"
         Title="MenuWindow"
-        MinWidth="30"
-        MinHeight="50"
+        ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MenuWindowStyle}">
 
@@ -16,11 +15,9 @@
     </Window.Resources>
 
     <ScrollViewer
-        MinHeight="{Binding MinHeight}"
-        MaxHeight="{Binding MaxHeight}"
         VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}"
-        d:DataContext="{StaticResource MenuWindowDesignData}"
-        DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+        d:DataContext="{StaticResource MenuWindowDesignData}">
         <ItemsControl
             x:Name="itemsControl"
             VerticalAlignment="Top"

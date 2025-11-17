@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- 自定义文本框模板： -->
+    <ControlTemplate x:Key="CustomTextBoxTemplate" TargetType="{x:Type TextBoxBase}">
+        <Border
+            x:Name="border"
+            CornerRadius="2"
+            SnapsToDevicePixels="True"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ScrollViewer 
+                x:Name="PART_ContentHost" 
+                Focusable="False"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Auto"/>
+        </Border>
+
+        <!-- 触发器： -->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter
+                    TargetName="border"
+                    Property="Opacity"
+                    Value="0.56"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter
+                    TargetName="border"
+                    Property="BorderBrush"
+                    Value="{StaticResource Colors.DisabledText}"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter
+                    TargetName="border"
+                    Property="BorderBrush"
+                    Value="{StaticResource Colors.Brand}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- 文本框模板（支持设置垂直对齐）： -->
+    <ControlTemplate x:Key="VerticalAlignmentTextBoxTemplate" TargetType="{x:Type TextBox}">
+        <Border
+            Name="border" 
+            Background="{TemplateBinding Background}" 
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ScrollViewer
+                Name="PART_ContentHost" 
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+    </ControlTemplate>
+</ResourceDictionary>

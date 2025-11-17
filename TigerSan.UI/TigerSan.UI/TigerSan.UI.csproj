@@ -13,7 +13,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>WPF;C#;.NET8;</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.8.2</Version>
+    <Version>0.9.0</Version>
     <Authors>TigerSan</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/huzijun01/TigerSan.UI</RepositoryUrl>
@@ -24,7 +24,7 @@
     <PackageReference Include="TigerSan.CsvLog" Version="1.2.0" />
     <PackageReference Include="TigerSan.ImageOperation" Version="1.1.0" />
     <PackageReference Include="TigerSan.JsonConverter" Version="1.0.1" />
-    <PackageReference Include="TigerSan.PathOperation" Version="1.1.8" />
+    <PackageReference Include="TigerSan.PathOperation" Version="1.2.0" />
     <PackageReference Include="TigerSan.ScreenDetection" Version="1.0.4" />
     <PackageReference Include="TigerSan.TimerHelper.WPF" Version="1.0.3" />
   </ItemGroup>

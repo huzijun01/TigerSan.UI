@@ -3,45 +3,51 @@
     <SolidColorBrush x:Key="MenuItem.Selected.Background" Color="#ffc787" />
     <SolidColorBrush x:Key="ScrollViewer.Background" Color="#EBEBED" />
 
-    <!--  右键菜单选项：  -->
+    <!--  右键菜单项目：  -->
     <Style x:Key="MenuItemStyle" TargetType="{x:Type MenuItem}">
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FontFamily" Value="{DynamicResource Iconfont}" />
+        <Setter Property="FontSize" Value="{DynamicResource MenuItem.FontSize}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Grid
+                        MinHeight="24"
                         Width="{TemplateBinding Width}"
-                        Height="24"
                         Background="#FBFBFD">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="34" />
+                            <ColumnDefinition Width="Auto" MinWidth="32"  />
                             <ColumnDefinition Width="*" MinWidth="80" />
                         </Grid.ColumnDefinitions>
-                        
-                        <Border Background="#EBEBED" />
-                        
+
+                        <!-- 边框: -->
                         <Border x:Name="_border" Grid.ColumnSpan="2" />
-                        
+
+                        <!-- 图标背景: -->
+                        <Border x:Name="_iconBackground" Background="#EBEBED" />
+
+                        <!-- 图标: -->
                         <ContentPresenter
                             x:Name="Icon"
                             Width="20"
                             Height="16"
                             Margin="3"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
                             ContentSource="Icon"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        
+
+                        <!-- 文本: -->
                         <TextBlock
                             x:Name="_txt"
                             Grid.Column="1"
                             Margin="5,0,15,0"
                             VerticalAlignment="Center"
-                            FontFamily="Microsoft YaHei"
                             Foreground="#2D2D30"
+                            FontFamily="{DynamicResource Global.FontFamily}"
                             Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}" />
-                        
+
+                        <!-- 箭头: -->
                         <Path
                             x:Name="_path"
                             Grid.Column="1"
@@ -50,7 +56,8 @@
                             Data="M0,4 4,0 0,-4 z"
                             Fill="#7E8A92"
                             Visibility="Collapsed" />
-                        
+
+                        <!-- 子菜单弹窗: -->
                         <Popup
                             x:Name="SubMenuPopup"
                             AllowsTransparency="True"
@@ -69,7 +76,7 @@
                             </ScrollViewer>
                         </Popup>
                     </Grid>
-                    
+
                     <!-- 触发器: -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="True">

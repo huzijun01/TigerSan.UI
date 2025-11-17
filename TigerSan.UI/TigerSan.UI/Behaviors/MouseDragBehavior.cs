@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using TigerSan.UI.Models;
 using TigerSan.TimerHelper.WPF;
 using TigerSan.ScreenDetection;
+using TigerSan.UI.Models;
 
 namespace TigerSan.UI.Behaviors
 {

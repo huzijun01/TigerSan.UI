@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TextBoxTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- 无边框文本框样式： -->
@@ -13,50 +14,10 @@
         <Setter Property="CaretBrush" Value="{DynamicResource Colors.RegularText}" />
     </Style>
 
-    <!-- 自定义文本框模板： -->
-    <ControlTemplate x:Key="CustomTextBoxTemplate" TargetType="{x:Type TextBoxBase}">
-        <Border
-            x:Name="border"
-            CornerRadius="2"
-            SnapsToDevicePixels="True"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}">
-            <ScrollViewer 
-                x:Name="PART_ContentHost" 
-                Focusable="False"
-                VerticalScrollBarVisibility="Auto"
-                HorizontalScrollBarVisibility="Auto"/>
-        </Border>
-
-        <!-- 触发器： -->
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter
-                    TargetName="border"
-                    Property="Opacity"
-                    Value="0.56"/>
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter
-                    TargetName="border"
-                    Property="BorderBrush"
-                    Value="{StaticResource Colors.DisabledText}"/>
-            </Trigger>
-            <Trigger Property="IsKeyboardFocused" Value="True">
-                <Setter
-                    TargetName="border"
-                    Property="BorderBrush"
-                    Value="{StaticResource Colors.Brand}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
     <!-- 自定义文本框样式： -->
     <Style x:Key="CustomTextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Padding" Value="10,5"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="FontFamily" Value="{StaticResource Global.FontFamily}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Colors.DarkBorder}"/>
         <Setter Property="CaretBrush" Value="{StaticResource Colors.BasicWhite}"/>
         <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
@@ -78,7 +39,6 @@
                             <Setter Property="VerticalAlignment" Value="Center"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
                             <!--  其它：  -->
                             <Setter Property="CaretBrush" Value="White"/>
                             <Setter Property="BorderThickness" Value="0"/>
@@ -92,7 +52,6 @@
                             <Setter Property="VerticalAlignment" Value="Center"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
                             <!--  其它：  -->
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>

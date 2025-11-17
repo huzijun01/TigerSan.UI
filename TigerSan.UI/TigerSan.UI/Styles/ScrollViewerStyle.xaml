@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml" />
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <!--  滚动条按钮  -->

@@ -237,7 +237,7 @@ namespace TigerSan.UI.Windows
 
             foreach (var item in Items)
             {
-                item._converter = Converter;
+                item.Converter = Converter;
                 item._internalClicked = OnItemClicked;
             }
         }
@@ -246,11 +246,13 @@ namespace TigerSan.UI.Windows
         #region 初始化“菜单尺寸”
         private void InitMenuSize()
         {
-            if (itemsControl.ActualHeight > MinHeight
-                && itemsControl.ActualHeight < MaxHeight)
+            #region 使用“项目集合”的“实际高度”
+
+            if (itemsControl.ActualHeight > MinHeight && itemsControl.ActualHeight < MaxHeight)
             {
                 Height = itemsControl.ActualHeight;
             }
+            #endregion 使用“项目集合”的“实际高度”
 
             #region 获取“所在屏幕信息”
             var screenInfos = ScreenHelper.GetScreenInfos();
@@ -271,9 +273,9 @@ namespace TigerSan.UI.Windows
             var screenInfo = screenInfos[screenIndex];
             #endregion 获取“所在屏幕信息”
 
-            #region 选择“打开方向”
             _rectMenu = new Rectangle2D(new Point2D(), Width, Height);
 
+            #region 选择“打开方向”
             // 下：
             _rectMenu.ToBottom(_rectControl);
             if (screenInfo.VirtualWorkingAreaRect.IsIn(_rectMenu))

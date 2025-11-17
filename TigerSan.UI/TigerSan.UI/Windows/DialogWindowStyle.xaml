@@ -5,7 +5,7 @@
     xmlns:panels="clr-namespace:TigerSan.UI.Panels">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/TextBoxStyle.xaml"/>
         <ResourceDictionary Source="/TigerSan.UI;component/Windows/CustomWindowStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>

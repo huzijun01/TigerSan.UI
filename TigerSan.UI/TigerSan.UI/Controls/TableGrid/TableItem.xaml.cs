@@ -1,10 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.ComponentModel;
 using System.Windows.Controls;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 using TigerSan.CsvLog;
 using TigerSan.UI.Models;
+using TigerSan.UI.Windows;
 
 namespace TigerSan.UI.Controls
 {
@@ -13,6 +15,13 @@ namespace TigerSan.UI.Controls
     /// </summary>
     public partial class TableItem : UserControl
     {
+        #region 【Fields】
+        /// <summary>
+        /// 菜单
+        /// </summary>
+        private MenuWindow? _menu;
+        #endregion 【Fields】
+
         #region 【DependencyProperties】
         #region [OneWay]
         #region 是否只读
@@ -120,7 +129,13 @@ namespace TigerSan.UI.Controls
                 nameof(ItemModel),
                 typeof(ItemModel),
                 typeof(TableItem),
-                new PropertyMetadata());
+                new PropertyMetadata(ItemModelChanged));
+
+        private static void ItemModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var tableItem = (TableItem)d;
+            tableItem.AddEventToItemModel();
+        }
         #endregion
 
         #region 文本
@@ -144,6 +159,27 @@ namespace TigerSan.UI.Controls
         #endregion 【DependencyProperties】
 
         #region 【CustomEvents】
+        #region 获得焦点
+        public new event RoutedEventHandler GotFocus
+        {
+            add { AddHandler(GotFocusEvent, value); }
+            remove { RemoveHandler(GotFocusEvent, value); }
+        }
+        [Category("Behavior")]
+        public static readonly new RoutedEvent GotFocusEvent =
+        EventManager.RegisterRoutedEvent(
+            nameof(GotFocus),
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(ImageButton));
+
+        protected virtual void RaiseGotFocusEvent()
+        {
+            var args = new RoutedEventArgs(GotFocusEvent, this);
+            RaiseEvent(args);
+        }
+        #endregion
+
         #region 失去焦点
         public new event RoutedEventHandler LostFocus
         {
@@ -215,10 +251,32 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
+        #region 获得焦点
+        private void content_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ShowMenuWindow();
+            RaiseGotFocusEvent();
+        }
+        #endregion
+
         #region 失去焦点
         private void content_LostFocus(object sender, RoutedEventArgs e)
         {
             RaiseLostFocusEvent();
+            SetTextToTarget();
+        }
+        #endregion
+
+        #region 点击“项目”
+        private void itemClicked(MenuItemModel model)
+        {
+            if (ItemModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(ItemModel));
+                return;
+            }
+
+            ItemModel.Source = model.Source;
         }
         #endregion
         #endregion 【Events】
@@ -245,20 +303,123 @@ namespace TigerSan.UI.Controls
         #region 添加事件
         private void AddEvent()
         {
+            #region [减]
             #region 背景
-            // 减：
             background.MouseEnter -= Background_MouseEnter;
             background.MouseLeave -= Background_MouseLeave;
             content.MouseEnter -= Background_MouseEnter;
             content.MouseLeave -= Background_MouseLeave;
+            #endregion 背景
+
+            #region 内容
+            content.GotFocus -= content_GotFocus;
             content.LostFocus -= content_LostFocus;
-            // 加：
+            #endregion 内容
+            #endregion [减]
+
+            #region [加]
+            #region 背景
             background.MouseEnter += Background_MouseEnter;
             background.MouseLeave += Background_MouseLeave;
             content.MouseEnter += Background_MouseEnter;
             content.MouseLeave += Background_MouseLeave;
+            #endregion 背景
+
+            #region 内容
+            content.GotFocus += content_GotFocus;
             content.LostFocus += content_LostFocus;
-            #endregion
+            #endregion 内容
+            #endregion [加]
+        }
+        #endregion
+
+        #region 显示“菜单窗口”
+        private void ShowMenuWindow()
+        {
+            if (IsReadOnly) return;
+
+            if (_menu != null) return;
+
+            if (ItemModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(ItemModel));
+                return;
+            }
+
+            // 添加项目：
+            var menuDatas = ItemModel._headerModel._menuDatas;
+            var menuWidth = ItemModel._headerModel._menuWidth;
+            var converter = ItemModel._headerModel.Converter;
+            if (menuDatas == null || menuDatas.Count < 1) return;
+
+            ObservableCollection<MenuItemModel> itemModels = new ObservableCollection<MenuItemModel>();
+            foreach (var data in menuDatas)
+            {
+                itemModels.Add(new MenuItemModel()
+                {
+                    Source = data
+                });
+            }
+
+            // 显示菜单：
+            _menu = new MenuWindow(this, itemModels)
+            {
+                _itemClicked = itemClicked,
+                _closed = () => { _menu = null; }
+            };
+
+            if (menuWidth != null)
+            {
+                _menu.Width = menuWidth.Value;
+            }
+
+            if (converter != null)
+            {
+                _menu.Converter = converter;
+            }
+
+            _menu.Show();
+        }
+        #endregion
+
+        #region 向“项目模型”添加事件
+        private void AddEventToItemModel()
+        {
+            if (ItemModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(ItemModel));
+                return;
+            }
+
+            ItemModel._onTargetChanged = SetTargetToText;
+
+            SetTargetToText();
+        }
+        #endregion
+
+        #region 将“文本”赋值给“目标数据”
+        private void SetTextToTarget()
+        {
+            if (ItemModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(ItemModel));
+                return;
+            }
+
+            ItemModel.Target = Text;
+        }
+        #endregion
+
+        #region 将“目标数据”赋值给“文本”
+        private void SetTargetToText()
+        {
+            if (ItemModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(ItemModel));
+                return;
+            }
+
+            Text = ItemModel.Target;
         }
         #endregion
         #endregion 【Functions】
@@ -365,17 +526,7 @@ namespace TigerSan.UI.Controls
         /// <summary>
         /// 文本
         /// </summary>
-        public string Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(
-                nameof(Text),
-                typeof(string),
-                typeof(TableItem),
-                new PropertyMetadata("null"));
+        public string Text { get; set; }
         #endregion
         #endregion 【DependencyProperties】
 

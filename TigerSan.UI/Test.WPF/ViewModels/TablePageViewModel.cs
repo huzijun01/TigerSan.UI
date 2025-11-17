@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using TigerSan.UI;
 using TigerSan.UI.Models;
+using TigerSan.UI.Helpers;
 using TigerSan.UI.Converters;
 using TigerSan.CsvLog;
-using TigerSan.UI.Helpers;
 using Test.WPF.Models;
 
 namespace Test.WPF.ViewModels
@@ -113,6 +113,8 @@ namespace Test.WPF.ViewModels
             var headerGender = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Gender));
             if (headerGender == null) return;
             headerGender.Converter = new Bool2StringConverter("男", "女");
+            headerGender._menuWidth = 80;
+            headerGender._menuDatas = [true, false];
 
             var headerSalary = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Salary));
             if (headerSalary == null) return;
@@ -136,17 +138,20 @@ namespace Test.WPF.ViewModels
             EmployeeTable.RowDatas.Add(new EmployeeInfo() { Id = 7, Name = "郑九", Age = 24, Gender = true, Salary = 14000.07, JoinDate = DateTime.Now });
 
             // 设置背景：
-            var count = EmployeeTable.RowDatas.Count;
-            for (int iRow = 0; iRow < count; iRow++)
+            EmployeeTable._onLoaded = () =>
             {
-                var item = EmployeeTable.GetItemModel(iRow, nameof(EmployeeInfo.Name));
-                if (item == null)
+                var count = EmployeeTable.RowDatas.Count;
+                for (int iRow = 0; iRow < count; iRow++)
                 {
-                    LogHelper.Instance.IsNull(nameof(item));
-                    continue;
+                    var item = EmployeeTable.GetItemModel(iRow, nameof(EmployeeInfo.Name));
+                    if (item == null)
+                    {
+                        LogHelper.Instance.IsNull(nameof(item));
+                        continue;
+                    }
+                    item.Background = Generic.Brand;
                 }
-                item.Background = Generic.Brand;
-            }
+            };
         }
         #endregion
         #endregion 【Functions】

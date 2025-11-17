@@ -4,8 +4,8 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Collections.Specialized;
 using TigerSan.CsvLog;
-using TigerSan.UI.Helpers;
 using TigerSan.UI.Models;
+using TigerSan.UI.Helpers;
 
 namespace TigerSan.UI.Controls
 {
@@ -69,10 +69,25 @@ namespace TigerSan.UI.Controls
         {
             InitializeComponent();
             Style = Generic.TransparentUserControlStyle;
+            Loaded += OnLoaded;
         }
         #endregion 【Ctor】
 
         #region 【Events】
+        #region 加载完成
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var table = (TableGrid)sender;
+            if (table.TableModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(table.TableModel));
+                return;
+            }
+
+            table.TableModel._onLoaded?.Invoke();
+        }
+        #endregion
+
         #region “行数据集合”改变
         private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -189,9 +204,9 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 初始化“表头行UI元素集合”
+        #region 初始化“表头行UI元素”集合
         /// <summary>
-        /// 初始化“表头行UI元素集合”
+        /// 初始化“表头行UI元素”集合
         /// </summary>
         private void InitHeaderRowUIElement()
         {
@@ -238,9 +253,9 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 初始化“项目行UI元素集合”
+        #region 初始化“项目行UI元素”集合
         /// <summary>
-        /// 初始化“项目行UI元素集合”
+        /// 初始化“项目行UI元素”集合
         /// </summary>
         private void InitItemRowUIElement()
         {
@@ -279,68 +294,6 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 获取“项目”
-        private TableItem GetTableItem(ItemModel itemModel)
-        {
-            var tableItem = new TableItem(itemModel);
-            GridHelper.SetRowColumn(tableItem, itemModel.RowIndex, itemModel.ColIndex);
-
-            #region 绑定“Target”
-            // 创建双向绑定对象：
-            var bindingSource = new Binding(nameof(itemModel.Target))
-            {
-                Source = itemModel,
-                Mode = BindingMode.TwoWay, // 启用双向绑定
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.TextProperty, bindingSource);
-            #endregion 绑定“Source”
-
-            #region 绑定“ItemState”
-            // 创建双向绑定对象：
-            var bindingItemState = new Binding(nameof(itemModel.ItemState))
-            {
-                Source = itemModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.ItemStateProperty, bindingItemState);
-            #endregion 绑定“ItemState”
-
-            #region 绑定“IsReadOnly”
-            // 创建双向绑定对象：
-            var bindingIsReadOnly = new Binding(nameof(itemModel.IsReadOnly))
-            {
-                Source = itemModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.IsReadOnlyProperty, bindingIsReadOnly);
-            #endregion 绑定“IsReadOnly”
-
-            #region 绑定“TextAlignment”
-            // 创建双向绑定对象：
-            var bindingTextAlignment = new Binding(nameof(itemModel.TextAlignment))
-            {
-                Source = itemModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.TextAlignmentProperty, bindingTextAlignment);
-            #endregion 绑定“TextAlignment”
-
-            return tableItem;
-        }
-        #endregion
-
         #region 初始化“行背景”
         private void InitRowBackground(Border border, RowModel rowModel, int row)
         {
@@ -359,7 +312,7 @@ namespace TigerSan.UI.Controls
             var bindingBackground = new Binding(nameof(rowModel.Background))
             {
                 Source = rowModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
+                Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
             };
 
@@ -386,7 +339,7 @@ namespace TigerSan.UI.Controls
             var bindingIsChecked = new Binding(nameof(TableModel.IsSelectAll))
             {
                 Source = TableModel,
-                Mode = BindingMode.TwoWay, // 启用双向绑定
+                Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
             };
 
@@ -399,7 +352,7 @@ namespace TigerSan.UI.Controls
             var bindingVisibility = new Binding(nameof(TableModel.CheckBoxVisibility))
             {
                 Source = TableModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
+                Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
             };
 
@@ -422,7 +375,7 @@ namespace TigerSan.UI.Controls
             var binding = new Binding(nameof(RowModel.IsChecked))
             {
                 Source = rowModel,
-                Mode = BindingMode.TwoWay, // 启用双向绑定
+                Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
             };
 
@@ -435,7 +388,7 @@ namespace TigerSan.UI.Controls
             var bindingVisibility = new Binding(nameof(TableModel.CheckBoxVisibility))
             {
                 Source = TableModel,
-                Mode = BindingMode.OneWay, // 启用双向绑定
+                Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
             };
 
@@ -498,7 +451,56 @@ namespace TigerSan.UI.Controls
             TableModel._onSelectedRowDatasChanged?.Invoke();
         }
         #endregion
+
+        #region 获取“项目”
+        private TableItem GetTableItem(ItemModel itemModel)
+        {
+            var tableItem = new TableItem(itemModel);
+            GridHelper.SetRowColumn(tableItem, itemModel.RowIndex, itemModel.ColIndex);
+
+            #region 绑定“ItemState”
+            // 创建双向绑定对象：
+            var bindingItemState = new Binding(nameof(itemModel.ItemState))
+            {
+                Source = itemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            tableItem.SetBinding(TableItem.ItemStateProperty, bindingItemState);
+            #endregion 绑定“ItemState”
+
+            #region 绑定“IsReadOnly”
+            // 创建双向绑定对象：
+            var bindingIsReadOnly = new Binding(nameof(itemModel.IsReadOnly))
+            {
+                Source = itemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            tableItem.SetBinding(TableItem.IsReadOnlyProperty, bindingIsReadOnly);
+            #endregion 绑定“IsReadOnly”
+
+            #region 绑定“TextAlignment”
+            // 创建双向绑定对象：
+            var bindingTextAlignment = new Binding(nameof(itemModel.TextAlignment))
+            {
+                Source = itemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            tableItem.SetBinding(TableItem.TextAlignmentProperty, bindingTextAlignment);
+            #endregion 绑定“TextAlignment”
+
+            return tableItem;
+        }
         #endregion
+        #endregion [Private]
 
         #region 初始化“UI元素”
         public void InitUIElements()

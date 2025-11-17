@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:TigerSan.UI.Controls"
              mc:Ignorable="d" 
              d:DesignWidth="150"
-             d:DesignHeight="50"
-             Background="Transparent">
+             d:DesignHeight="50">
+    
     <UserControl.Resources>
         <ResourceDictionary Source="TableGridStyle.xaml" />
     </UserControl.Resources>
@@ -18,14 +18,14 @@
         <!-- 背景： -->
         <Border
             x:Name="background"
-            Opacity="{DynamicResource ItemBackground.Opacity}"
-            Background="{Binding Background}" Grid.ColumnSpan="2"/>
+            Background="{Binding Background}"
+            Opacity="{DynamicResource ItemBackground.Opacity}"/>
 
         <!-- 遮罩： -->
         <Border
             x:Name="mask"
-            Opacity="{DynamicResource ItemMask.Opacity}"
-            Background="{Binding MaskBackground}" Grid.ColumnSpan="2"/>
+            Background="{Binding MaskBackground}"
+            Opacity="{DynamicResource ItemMask.Opacity}"/>
 
         <!-- 文本框： -->
         <TextBox

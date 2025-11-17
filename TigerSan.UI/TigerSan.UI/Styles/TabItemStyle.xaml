@@ -2,14 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Styles/Global.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- 标签页： -->
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
     </Style>
 
     <!-- 标签项： -->
@@ -19,7 +18,6 @@
         <Setter Property="Foreground" Value="{DynamicResource Colors.SecondaryText}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="FontFamily" Value="{DynamicResource Global.FontFamily}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">

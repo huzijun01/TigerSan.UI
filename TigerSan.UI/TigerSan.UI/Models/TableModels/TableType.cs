@@ -42,16 +42,4 @@
         Item,
     }
     #endregion
-
-    #region 排序模式
-    /// <summary>
-    /// 排序模式
-    /// </summary>
-    public enum SortMode
-    {
-        Normal,
-        Increasing,
-        Decreasing,
-    }
-    #endregion
 }

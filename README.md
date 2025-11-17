@@ -9,9 +9,9 @@ GitHub: https://github.com/huzijun01/TigerSan.UI
 bilibili: https://space.bilibili.com/34323512
 
 # 3. How To Use:
-Before use, you need to reference "Generic.xaml" in "App.xaml".
+Before use, you need to reference "" in "App.xaml".
 ```xml
-<ResourceDictionary Source="pack://application:,,,/TigerSan.UI;component/Generic.xaml" />
+<ResourceDictionary Source="/TigerSan.UI;component/Generic.xaml"/>
 ```
 
 # 4. Classification:
@@ -284,6 +284,8 @@ Colors, Constant.
 `CustomTextBoxTemplate`:
 
 `CustomTextBoxStyle`:
+
+`VerticalAlignmentTextBoxTemplate`:
 
 `TextBoxStyle`: Global.
 

@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using TigerSan.UI.Models;
 
-namespace TigerSan.UI.Controls
+namespace TigerSan.UI.Models
 {
     #region 表格特性
     /// <summary>
