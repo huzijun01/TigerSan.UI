@@ -68,6 +68,10 @@
     <system:Double x:Key="Global.Content.FontSize">16</system:Double>
     <FontFamily x:Key="Global.FontFamily">Microsoft YaHei</FontFamily>
     <FontFamily x:Key="Iconfont" >/TigerSan.UI;component/Fonts/#iconfont</FontFamily>
+    <!-- 文本框: -->
+    <Thickness x:Key="TextBox.Padding">10,5</Thickness>
+    <Thickness x:Key="TextBox.BorderThickness">1</Thickness>
+    <CornerRadius x:Key="TextBox.CornerRadius">2</CornerRadius>
     <!-- 按钮: -->
     <Thickness x:Key="Button.Padding">15,8</Thickness>
     <Thickness x:Key="Button.MarginRight">0,0,12,0</Thickness>

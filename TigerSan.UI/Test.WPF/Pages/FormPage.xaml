@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local="clr-namespace:Test.WPF.Pages"
     xmlns:controls="clr-namespace:TigerSan.UI.Controls;assembly=TigerSan.UI"
-    xmlns:tempControls="clr-namespace:TigerSan.UI.Temp.Controls;assembly=TigerSan.UI.Temp"
     mc:Ignorable="d" 
     d:DesignWidth="400"
     d:DesignHeight="300">
@@ -29,8 +28,15 @@
             FilterModel="{Binding FilterModel}"
             DropCommand="{Binding FilePicker_DropCommand}"
             SelectedCommand="{Binding FilePicker_SelectedCommand}"
-            Margin="{StaticResource Button.MarginBottom}" Loaded="FilePicker_Loaded"/>
+            Margin="{StaticResource Button.MarginBottom}"/>
 
-        <tempControls:NumBox Width="200"/>
+        <!-- 数字框： -->
+        <controls:NumBox
+            Width="200"
+            Step="0.1"
+            MaxValue="1"
+            MinValue="-1"
+            DecimalPlaces="2"
+            ValueChangedCommand="{Binding NumBox_ValueChangedCommand}"/>
     </StackPanel>
 </UserControl>

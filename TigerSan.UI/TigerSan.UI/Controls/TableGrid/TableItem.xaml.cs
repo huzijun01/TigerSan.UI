@@ -206,27 +206,18 @@ namespace TigerSan.UI.Controls
         public TableItem()
         {
             InitializeComponent();
-            Loaded += TableItem_Loaded;
+            Init();
         }
 
         public TableItem(ItemModel item)
         {
             InitializeComponent();
+            Init();
             ItemModel = item;
-            Loaded += TableItem_Loaded;
         }
         #endregion 【Ctor】
 
         #region 【Events】
-        #region 初始化完成
-        private void TableItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            AddEvent();
-            DataBinding();
-            Style = Generic.TransparentUserControlStyle;
-        }
-        #endregion
-
         #region 鼠标进入背景
         private void Background_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -282,21 +273,12 @@ namespace TigerSan.UI.Controls
         #endregion 【Events】
 
         #region 【Functions】
-        #region 数据绑定
-        private void DataBinding()
+        #region 初始化
+        private void Init()
         {
-            #region 绑定“Background”
-            // 创建双向绑定对象：
-            var bindingBackground = new Binding(nameof(ItemModel.Background))
-            {
-                Source = ItemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(BackgroundProperty, bindingBackground);
-            #endregion 绑定“Background”
+            AddEvent();
+            DataBinding();
+            Style = Generic.TransparentUserControlStyle;
         }
         #endregion
 
@@ -330,6 +312,24 @@ namespace TigerSan.UI.Controls
             content.LostFocus += content_LostFocus;
             #endregion 内容
             #endregion [加]
+        }
+        #endregion
+
+        #region 数据绑定
+        private void DataBinding()
+        {
+            #region 绑定“Background”
+            // 创建双向绑定对象：
+            var bindingBackground = new Binding(nameof(ItemModel.Background))
+            {
+                Source = ItemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(BackgroundProperty, bindingBackground);
+            #endregion 绑定“Background”
         }
         #endregion
 

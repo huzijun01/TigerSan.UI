@@ -60,6 +60,14 @@ namespace Test.WPF.ViewModels
             MsgBox.ShowInformation(string.Join(Environment.NewLine, paths));
         }
         #endregion
+
+        #region “数字框”值改变
+        public ICommand NumBox_ValueChangedCommand { get => new DelegateCommand<object>(NumBox_ValueChanged); }
+        private void NumBox_ValueChanged(object value)
+        {
+            MsgBox.ShowInformation($"value = {value}");
+        }
+        #endregion
         #endregion 【Commands】
 
         #region 【Functions】

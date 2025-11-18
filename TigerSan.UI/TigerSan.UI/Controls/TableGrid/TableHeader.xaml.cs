@@ -221,27 +221,18 @@ namespace TigerSan.UI.Controls
         public TableHeader()
         {
             InitializeComponent();
-            Loaded += TableHeader_Loaded;
+            Init();
         }
 
         public TableHeader(HeaderModel headerModel)
         {
             InitializeComponent();
+            Init();
             HeaderModel = headerModel;
-            Loaded += TableHeader_Loaded;
         }
         #endregion 【Ctor】
 
         #region 【Events】
-        #region 初始化完成
-        private void TableHeader_Loaded(object sender, RoutedEventArgs e)
-        {
-            AddEvent();
-            DataBinding();
-            Style = Generic.TransparentUserControlStyle;
-        }
-        #endregion
-
         #region 鼠标进入背景
         private void Background_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -355,54 +346,18 @@ namespace TigerSan.UI.Controls
         #endregion 【Commands】
 
         #region 【Functions】
-        #region 数据绑定
-        private void DataBinding()
+        #region 初始化
+        private void Init()
         {
-            #region 绑定“Background”
-            // 创建双向绑定对象：
-            var bindingBackground = new Binding(nameof(ItemModel.Background))
-            {
-                Source = HeaderModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(BackgroundProperty, bindingBackground);
-            #endregion 绑定“Background”
+            AddEvent();
+            DataBinding();
+            Style = Generic.TransparentUserControlStyle;
         }
         #endregion
 
         #region 添加事件
         private void AddEvent()
         {
-            #region [减]
-            #region 背景
-            background.MouseEnter -= Background_MouseEnter;
-            background.MouseLeave -= Background_MouseLeave;
-            header.MouseEnter -= Background_MouseEnter;
-            header.MouseLeave -= Background_MouseLeave;
-            filter.MouseEnter -= Background_MouseEnter;
-            filter.MouseLeave -= Background_MouseLeave;
-            sort.MouseEnter -= Background_MouseEnter;
-            sort.MouseLeave -= Background_MouseLeave;
-            handel.MouseEnter -= Background_MouseEnter;
-            handel.MouseLeave -= Background_MouseLeave;
-            #endregion
-
-            #region 列宽手柄
-            handel.MouseEnter -= Handel_MouseEnter;
-            #endregion
-
-            #region 排序标签
-            background.MouseLeftButtonUp -= Sort_MouseLeftButtonUp;
-            header.MouseLeftButtonUp -= Sort_MouseLeftButtonUp;
-            filter.MouseLeftButtonUp -= Sort_MouseLeftButtonUp;
-            sort.MouseLeftButtonUp -= Sort_MouseLeftButtonUp;
-            #endregion
-            #endregion [减]
-
-            #region [加]
             #region 背景
             background.MouseEnter += Background_MouseEnter;
             background.MouseLeave += Background_MouseLeave;
@@ -414,7 +369,7 @@ namespace TigerSan.UI.Controls
             sort.MouseLeave += Background_MouseLeave;
             handel.MouseEnter += Background_MouseEnter;
             handel.MouseLeave += Background_MouseLeave;
-            #endregion
+            #endregion 背景
 
             #region 列宽手柄
             handel.MouseEnter += Handel_MouseEnter;
@@ -430,15 +385,32 @@ namespace TigerSan.UI.Controls
                     _onMouseLeave = handel_MouseLeave,
                     _onDoubleClicked = handel_DoubleClicked
                 });
-            #endregion
+            #endregion 列宽手柄
 
             #region 排序标签
             background.MouseLeftButtonUp += Sort_MouseLeftButtonUp;
             header.MouseLeftButtonUp += Sort_MouseLeftButtonUp;
             filter.MouseLeftButtonUp += Sort_MouseLeftButtonUp;
             sort.MouseLeftButtonUp += Sort_MouseLeftButtonUp;
-            #endregion
-            #endregion [加]
+            #endregion 排序标签
+        }
+        #endregion
+
+        #region 数据绑定
+        private void DataBinding()
+        {
+            #region 绑定“Background”
+            // 创建双向绑定对象：
+            var bindingBackground = new Binding(nameof(ItemModel.Background))
+            {
+                Source = HeaderModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(BackgroundProperty, bindingBackground);
+            #endregion 绑定“Background”
         }
         #endregion
 

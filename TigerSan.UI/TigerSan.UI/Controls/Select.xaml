@@ -25,9 +25,10 @@
         DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
         <!--  背景：  -->
         <Border
+            Background="{Binding Background}"
             BorderBrush="{Binding BorderBrush}"
             BorderThickness="{Binding BorderThickness}"
-            Background="{Binding Background}"
+            CornerRadius="{StaticResource TextBox.CornerRadius}"
             Style="{StaticResource SelectBorderStyle}"/>
 
         <Grid Margin="15,0">

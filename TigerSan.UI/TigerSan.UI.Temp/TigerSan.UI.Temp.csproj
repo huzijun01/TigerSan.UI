@@ -17,9 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\NumBox\NumBox.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Folder Include="Controls\" />
   </ItemGroup>
 
 </Project>

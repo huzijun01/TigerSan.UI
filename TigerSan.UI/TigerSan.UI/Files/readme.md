@@ -9,7 +9,7 @@ GitHub: https://github.com/huzijun01/TigerSan.UI
 bilibili: https://space.bilibili.com/34323512
 
 # 3. How To Use:
-Before use, you need to reference "" in "App.xaml".
+Before use, you need to reference "Generic.xaml" in "App.xaml".
 ```xml
 <ResourceDictionary Source="/TigerSan.UI;component/Generic.xaml"/>
 ```
@@ -41,9 +41,15 @@ Before use, you need to reference "" in "App.xaml".
 
 ### ImageButton:
 
+### NumBox:
+
 ### TableGrid:
 #### Major Function:
-Data editing. Row selection.
+Data editing.
+
+Row selection.
+
+Candidate value menu.
 
 Change the background of the header and the item.
 
@@ -228,6 +234,8 @@ Colors, Constant.
 `SelectBorderStyle`:
 
 ### ButtonStyle:
+`ButtonTemplate`:
+
 `ButtonStyle`: Global.
 
 `ScreenSaverButtonStyle`:

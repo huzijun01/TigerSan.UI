@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <PackageIcon></PackageIcon>
+    <ApplicationIcon>Logos\logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Logos\logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\Nachoneko.jpg" />
+    <Resource Include="Logos\logo.ico" />
   </ItemGroup>
 
   <ItemGroup>

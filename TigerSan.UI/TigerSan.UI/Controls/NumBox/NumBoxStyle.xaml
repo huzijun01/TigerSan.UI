@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:controls="clr-namespace:TigerSan.UI.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- 设计数据： -->
+    <controls:NumBoxDesignData x:Key="NumBoxDesignData"/>
+
+    <!-- 数字框: -->
+    <Style
+        x:Key="NumBoxStyle"
+        TargetType="{x:Type controls:NumBox}"
+        BasedOn="{StaticResource TransparentUserControlStyle}">
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="BorderThickness" Value="{StaticResource TextBox.BorderThickness}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Colors.DarkBorder}"/>
+        <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
+        <Setter Property="Background" Value="{StaticResource Colors.DarkFill}"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource Colors.DisabledText}"/>
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource Colors.Brand}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 数字框（全局）: -->
+    <Style TargetType="{x:Type controls:NumBox}" BasedOn="{StaticResource NumBoxStyle}"/>
+
+    <!-- 文本框: -->
+    <Style x:Key="NumBoxTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{Binding Foreground}"/>
+        <Setter Property="Padding" Value="{StaticResource TextBox.Padding}"/>
+        <Setter Property="CaretBrush" Value="{StaticResource Colors.BasicWhite}"/>
+        <Setter Property="Template" Value="{StaticResource VerticalAlignmentTextBoxTemplate}"/>
+    </Style>
+
+    <!-- 按钮: -->
+    <Style x:Key="NumBoxButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
+    </Style>
+</ResourceDictionary>

@@ -9,11 +9,11 @@
     <ControlTemplate x:Key="CustomTextBoxTemplate" TargetType="{x:Type TextBoxBase}">
         <Border
             x:Name="border"
-            CornerRadius="2"
             SnapsToDevicePixels="True"
             Background="{TemplateBinding Background}"
             BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}">
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{StaticResource TextBox.CornerRadius}">
             <ScrollViewer 
                 x:Name="PART_ContentHost" 
                 Focusable="False"

@@ -4,45 +4,48 @@
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!--  按钮模板：  -->
+    <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+        <Border
+            x:Name="back"
+            Background="{TemplateBinding Background}"
+            CornerRadius="{StaticResource Button.CornerRadius}">
+            <Border
+                Name="backMask"
+                Padding="{TemplateBinding Padding}"
+                CornerRadius="{StaticResource Button.CornerRadius}"
+                Background="Transparent">
+                <ContentPresenter
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            </Border>
+        </Border>
+
+        <!-- 触发器: -->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Hover}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Pressed}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource Colors.Foreground.Disabled}" />
+                <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Disabled}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <!--  普通按钮：  -->
     <Style TargetType="{x:Type Button}">
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Height" Value="Auto" />
-        <Setter Property="Padding" Value="{DynamicResource Button.Padding}" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="{DynamicResource Button.Padding}" />
+        <Setter Property="Template" Value="{DynamicResource ButtonTemplate}"/>
         <Setter Property="Foreground" Value="{DynamicResource Colors.BasicWhite}" />
         <Setter Property="Background" Value="{DynamicResource Colors.Brand}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="back"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="{StaticResource Button.CornerRadius}">
-                        <Border
-                            Name="backMask"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="{StaticResource Button.CornerRadius}"
-                            Background="Transparent">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </Border>
-                    <!-- 触发器: -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Hover}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Pressed}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource Colors.Foreground.Disabled}" />
-                            <Setter TargetName="backMask" Property="Background" Value="{DynamicResource Colors.Mask.Disabled}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <!--  屏保按钮：  -->

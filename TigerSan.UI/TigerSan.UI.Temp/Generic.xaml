@@ -5,7 +5,6 @@
         <!--  基础：  -->
         <ResourceDictionary Source="/TigerSan.UI;component/Generic.xaml"/>
         <!--  控件：  -->
-        <ResourceDictionary Source="Controls/NumBox/NumBoxStyle.xaml" />
         <!--  窗口：  -->
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

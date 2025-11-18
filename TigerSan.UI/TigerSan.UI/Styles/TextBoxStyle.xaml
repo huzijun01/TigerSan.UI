@@ -16,9 +16,9 @@
 
     <!-- 自定义文本框样式： -->
     <Style x:Key="CustomTextBoxStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="Padding" Value="10,5"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="{StaticResource TextBox.Padding}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Colors.DarkBorder}"/>
+        <Setter Property="BorderThickness" Value="{StaticResource TextBox.BorderThickness}"/>
         <Setter Property="CaretBrush" Value="{StaticResource Colors.BasicWhite}"/>
         <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
         <Setter Property="Background" Value="{StaticResource Colors.DarkFill}"/>
@@ -73,6 +73,8 @@
                             Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
                     </Grid>
+
+                    <!-- 触发器： -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="False">
                             <Setter TargetName="textBlock" Property="Visibility" Value="Collapsed"/>

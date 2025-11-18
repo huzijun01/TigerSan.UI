@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows.Input;
+using System.Windows.Controls;
 using Test.WPF.ViewModels;
+using TigerSan.UI.Helpers;
 
 namespace Test.WPF.Pages
 {
@@ -12,10 +14,5 @@ namespace Test.WPF.Pages
             DataContext = new FormPageViewModel();
         }
         #endregion 【Ctor】
-
-        private void FilePicker_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-        }
     }
 }

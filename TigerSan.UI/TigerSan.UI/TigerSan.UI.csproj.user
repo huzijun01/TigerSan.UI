@@ -11,7 +11,7 @@
     <Compile Update="Controls\Select.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Switch.xaml.cs">
+    <Compile Update="Controls\Switch\Switch.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\TableGrid\TableGrid.xaml.cs">
