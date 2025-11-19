@@ -2,6 +2,16 @@
 {
     #region 委托
     /// <summary>
+    /// “表头初始化”委托
+    /// </summary>
+    public delegate void HeaderInitHandler(HeaderModel headerModel);
+    
+    /// <summary>
+    /// “项目初始化”委托
+    /// </summary>
+    public delegate void ItemInitHandler(ItemModel itemModel);
+
+    /// <summary>
     /// “项目源数据改变”委托
     /// </summary>
     public delegate void ItemSourceChangedHandler(ItemModel itemModel);

@@ -1,12 +1,9 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Reflection;
 using TigerSan.CsvLog;
 using TigerSan.UI.Helpers;
-using TigerSan.UI.Models;
 
 namespace TigerSan.UI.Models
 {
@@ -189,7 +186,7 @@ namespace TigerSan.UI.Models
             int index = _tableModel.HeaderModels.IndexOf(this);
             if (index == -1)
             {
-                LogHelper.Instance.Warning($"There is no HeaderModel named \"{Title}\" in HeaderModels!");
+                LogHelper.Instance.Warning($"There is no HeaderModel in HeaderModels!");
                 return null;
             }
 

@@ -203,16 +203,7 @@ namespace TigerSan.UI.Controls
         {
             var header = (TableHeader)d;
 
-            var headerModel = header.HeaderModel;
-            if (headerModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(headerModel)} is null!");
-                return;
-            }
-
-            header.Title = headerModel.Title;
-            header.SortMode = headerModel.SortMode;
-            header.IsAllowSort = headerModel.IsAllowSort;
+            header.DataBinding();
         }
         #endregion
         #endregion 【DependencyProperties】
@@ -350,7 +341,6 @@ namespace TigerSan.UI.Controls
         private void Init()
         {
             AddEvent();
-            DataBinding();
             Style = Generic.TransparentUserControlStyle;
         }
         #endregion
@@ -399,9 +389,15 @@ namespace TigerSan.UI.Controls
         #region 数据绑定
         private void DataBinding()
         {
+            if (HeaderModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(HeaderModel));
+                return;
+            }
+
             #region 绑定“Background”
             // 创建双向绑定对象：
-            var bindingBackground = new Binding(nameof(ItemModel.Background))
+            var bindingBackground = new Binding(nameof(HeaderModel.Background))
             {
                 Source = HeaderModel,
                 Mode = BindingMode.OneWay,
@@ -411,6 +407,45 @@ namespace TigerSan.UI.Controls
             // 应用绑定到目标控件：
             SetBinding(BackgroundProperty, bindingBackground);
             #endregion 绑定“Background”
+
+            #region 绑定“Title”
+            // 创建双向绑定对象：
+            var bindingTitle = new Binding(nameof(HeaderModel.Title))
+            {
+                Source = HeaderModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(TitleProperty, bindingTitle);
+            #endregion 绑定“Title”
+
+            #region 绑定“SortMode”
+            // 创建双向绑定对象：
+            var bindingSortMode = new Binding(nameof(HeaderModel.SortMode))
+            {
+                Source = HeaderModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(SortModeProperty, bindingSortMode);
+            #endregion 绑定“SortMode”
+
+            #region 绑定“IsAllowSort”
+            // 创建双向绑定对象：
+            var bindingIsAllowSort = new Binding(nameof(HeaderModel.IsAllowSort))
+            {
+                Source = HeaderModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(IsAllowSortProperty, bindingIsAllowSort);
+            #endregion 绑定“IsAllowSort”
         }
         #endregion
 

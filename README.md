@@ -189,35 +189,10 @@ If the program has already started, it will exit.
 
 ### VersionModels:
 #### UpdateInfo:
-`version`:
-
-`download_url`:
-
-`msg`:
 
 #### ComparisonResults:
-`Error`:
-
-`Less`:
-
-`Equal`:
-
-`Greater`:
 
 #### VersionModel:
-`None`:
-
-`majorVersion`:
-
-`minorVersion`:
-
-`patchNumber`:
-
-`Init`:
-
-`SetNone`:
-
-`Compare`:
 
 ## Panels:
 ### HorizontalAveragePanel:

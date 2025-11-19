@@ -134,7 +134,9 @@ namespace TigerSan.UI.Controls
         private static void ItemModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var tableItem = (TableItem)d;
+
             tableItem.AddEventToItemModel();
+            tableItem.DataBinding();
         }
         #endregion
 
@@ -277,7 +279,7 @@ namespace TigerSan.UI.Controls
         private void Init()
         {
             AddEvent();
-            DataBinding();
+
             Style = Generic.TransparentUserControlStyle;
         }
         #endregion
@@ -318,6 +320,12 @@ namespace TigerSan.UI.Controls
         #region 数据绑定
         private void DataBinding()
         {
+            if (ItemModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(ItemModel));
+                return;
+            }
+
             #region 绑定“Background”
             // 创建双向绑定对象：
             var bindingBackground = new Binding(nameof(ItemModel.Background))
@@ -330,6 +338,45 @@ namespace TigerSan.UI.Controls
             // 应用绑定到目标控件：
             SetBinding(BackgroundProperty, bindingBackground);
             #endregion 绑定“Background”
+
+            #region 绑定“ItemState”
+            // 创建双向绑定对象：
+            var bindingItemState = new Binding(nameof(ItemModel.ItemState))
+            {
+                Source = ItemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(ItemStateProperty, bindingItemState);
+            #endregion 绑定“ItemState”
+
+            #region 绑定“IsReadOnly”
+            // 创建双向绑定对象：
+            var bindingIsReadOnly = new Binding(nameof(ItemModel.IsReadOnly))
+            {
+                Source = ItemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(IsReadOnlyProperty, bindingIsReadOnly);
+            #endregion 绑定“IsReadOnly”
+
+            #region 绑定“TextAlignment”
+            // 创建双向绑定对象：
+            var bindingTextAlignment = new Binding(nameof(ItemModel.TextAlignment))
+            {
+                Source = ItemModel,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+            };
+
+            // 应用绑定到目标控件：
+            SetBinding(TextAlignmentProperty, bindingTextAlignment);
+            #endregion 绑定“TextAlignment”
         }
         #endregion
 
@@ -352,17 +399,19 @@ namespace TigerSan.UI.Controls
             var converter = ItemModel._headerModel.Converter;
             if (menuDatas == null || menuDatas.Count < 1) return;
 
-            ObservableCollection<MenuItemModel> itemModels = new ObservableCollection<MenuItemModel>();
+            ObservableCollection<MenuItemModel> ItemModels = new ObservableCollection<MenuItemModel>();
             foreach (var data in menuDatas)
             {
-                itemModels.Add(new MenuItemModel()
+                if (Equals(ItemModel.Source, data)) continue;
+
+                ItemModels.Add(new MenuItemModel()
                 {
                     Source = data
                 });
             }
 
             // 显示菜单：
-            _menu = new MenuWindow(this, itemModels)
+            _menu = new MenuWindow(this, ItemModels)
             {
                 _itemClicked = itemClicked,
                 _closed = () => { _menu = null; }

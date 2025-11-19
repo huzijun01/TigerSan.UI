@@ -56,6 +56,16 @@ namespace TigerSan.UI.Models
         public Action? _onSelectedRowDatasChanged;
 
         /// <summary>
+        /// “表头初始化”委托
+        /// </summary>
+        public HeaderInitHandler? _onHeaderInit;
+
+        /// <summary>
+        /// “项目初始化”委托
+        /// </summary>
+        public ItemInitHandler? _onItemInit;
+
+        /// <summary>
         /// “项目源数据改变”委托
         /// </summary>
         public ItemSourceChangedHandler? _onItemSourceChanged;
@@ -172,7 +182,7 @@ namespace TigerSan.UI.Models
         {
             DataType = dataType;
             if (string.IsNullOrEmpty(Name)) Name = DataType.Name;
-            Refresh(true);
+            Refresh();
         }
         #endregion 【Ctor】
 
@@ -259,6 +269,12 @@ namespace TigerSan.UI.Models
                 HeaderModels.Add(headerModel);
                 headerModel.SetWidth(null);
             }
+
+            // 执行“初始化”委托：
+            foreach (var headerModel in HeaderModels)
+            {
+                _onHeaderInit?.Invoke(headerModel);
+            }
         }
         #endregion
 
@@ -290,6 +306,7 @@ namespace TigerSan.UI.Models
                     var headerModel = HeaderModels[iCol];
 
                     var itemModel = new ItemModel(rowModel, headerModel);
+                    _onItemInit?.Invoke(itemModel); // 执行“初始化”委托
                     rowModel.ItemModels.Add(headerModel, itemModel);
                 }
 
@@ -299,58 +316,7 @@ namespace TigerSan.UI.Models
         #endregion
         #endregion [Private]
 
-        #region 刷新
-        /// <summary>
-        /// 刷新
-        /// （初始化“模型”和“UI元素”）
-        /// </summary>
-        public void Refresh(bool isInitGridAndHeader = false)
-        {
-            InitTableModel(null, isInitGridAndHeader);
-            InitUIElements();
-        }
-        #endregion
-
-        #region 初始化“表格模型”
-        public void InitTableModel(
-            TableGrid? tableGrid = null,
-            bool isInitGridAndHeader = false)
-        {
-            if (tableGrid != null)
-            {
-                _tableGrid = tableGrid;
-            }
-
-            IsTriggerItemSourceChanged = false;
-
-            if (isInitGridAndHeader)
-            {
-                InitGrid();
-                InitHeaderModels();
-            }
-            InitItemModels();
-
-            IsSelectAll = false;
-
-            _onSelectedRowDatasChanged?.Invoke();
-            _onRowDatasCollectionChanged?.Invoke(null, _args);
-
-            IsTriggerItemSourceChanged = true;
-        }
-        #endregion
-
-        #region 初始化“UI元素”
-        public void InitUIElements()
-        {
-            if (_tableGrid == null)
-            {
-                LogHelper.Instance.IsNull(nameof(_tableGrid));
-                return;
-            }
-            _tableGrid.InitUIElements();
-        }
-        #endregion
-
+        #region [获取模型]
         #region 获取“表头模型”
         public HeaderModel? GetHeaderModel(string propName)
         {
@@ -429,35 +395,70 @@ namespace TigerSan.UI.Models
             return GetRowModel(rowData);
         }
         #endregion
+        #endregion [获取模型]
 
-        #region 获取“表格特性”
-        public TableAttribute GetTableAttribute()
+        #region [初始化]
+        #region 初始化“列宽”
+        /// <summary>
+        /// 初始化“列宽”
+        /// </summary>
+        public void InitColumnsWidth()
         {
-            // 获取属性名：
-            var attributes = DataType.GetCustomAttributes(typeof(TableAttribute), true);
-            if (attributes == null || attributes.Length < 1)
+            if (_tableGrid == null)
             {
-                return new TableAttribute() { Name = Name };
+                LogHelper.Instance.IsEmpty(nameof(_tableGrid));
+                return;
             }
 
-            return (TableAttribute)attributes[0];
+            _tableGrid.InitColumnsWidth();
         }
         #endregion
 
-        #region 获取“被选中的行数据”集合
-        private List<object> GetSelectedRowDatas()
+        #region 初始化“表格模型”
+        public void InitTableModel(TableGrid? tableGrid = null)
         {
-            var selectedRowDatas = new List<object>();
-
-            foreach (var row in RowModels)
+            if (tableGrid != null)
             {
-                if (row.Value.IsChecked)
-                {
-                    selectedRowDatas.Add(row.Value.RowData);
-                }
+                _tableGrid = tableGrid;
             }
 
-            return selectedRowDatas;
+            IsTriggerItemSourceChanged = false;
+
+            InitGrid();
+            InitHeaderModels();
+            InitItemModels();
+
+            IsSelectAll = false;
+
+            _onSelectedRowDatasChanged?.Invoke();
+            _onRowDatasCollectionChanged?.Invoke(null, _args);
+
+            IsTriggerItemSourceChanged = true;
+        }
+        #endregion
+
+        #region 初始化“UI元素”
+        public void InitUIElements()
+        {
+            if (_tableGrid == null)
+            {
+                LogHelper.Instance.IsNull(nameof(_tableGrid));
+                return;
+            }
+            _tableGrid.InitUIElements();
+        }
+        #endregion
+        #endregion [初始化]
+
+        #region 刷新
+        /// <summary>
+        /// 刷新
+        /// （初始化“模型”和“UI元素”）
+        /// </summary>
+        public void Refresh()
+        {
+            InitTableModel(null);
+            InitUIElements();
         }
         #endregion
 
@@ -498,19 +499,34 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 初始化“列宽”
-        /// <summary>
-        /// 初始化“列宽”
-        /// </summary>
-        public void InitColumnsWidth()
+        #region 获取“表格特性”
+        public TableAttribute GetTableAttribute()
         {
-            if (_tableGrid == null)
+            // 获取属性名：
+            var attributes = DataType.GetCustomAttributes(typeof(TableAttribute), true);
+            if (attributes == null || attributes.Length < 1)
             {
-                LogHelper.Instance.IsEmpty(nameof(_tableGrid));
-                return;
+                return new TableAttribute() { Name = Name };
             }
 
-            _tableGrid.InitColumnsWidth();
+            return (TableAttribute)attributes[0];
+        }
+        #endregion
+
+        #region 获取“被选中的行数据”集合
+        private List<object> GetSelectedRowDatas()
+        {
+            var selectedRowDatas = new List<object>();
+
+            foreach (var row in RowModels)
+            {
+                if (row.Value.IsChecked)
+                {
+                    selectedRowDatas.Add(row.Value.RowData);
+                }
+            }
+
+            return selectedRowDatas;
         }
         #endregion
 

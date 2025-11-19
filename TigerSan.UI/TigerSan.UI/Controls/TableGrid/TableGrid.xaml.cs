@@ -204,9 +204,9 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 初始化“表头行UI元素”集合
+        #region 初始化“表头行UI元素”
         /// <summary>
-        /// 初始化“表头行UI元素”集合
+        /// 初始化“表头行UI元素”
         /// </summary>
         private void InitHeaderRowUIElement()
         {
@@ -286,7 +286,8 @@ namespace TigerSan.UI.Controls
                 // 项目：
                 foreach (var itemModel in rowModel.Value.ItemModels)
                 {
-                    var tableItem = GetTableItem(itemModel.Value);
+                    var tableItem = new TableItem(itemModel.Value);
+                    GridHelper.SetRowColumn(tableItem, itemModel.Value.RowIndex, itemModel.Value.ColIndex);
                     itemRow.TableItems.Add(itemModel.Value, tableItem);
                     PART_ItemGrid.Children.Add(tableItem);
                 }
@@ -449,55 +450,6 @@ namespace TigerSan.UI.Controls
             }
 
             TableModel._onSelectedRowDatasChanged?.Invoke();
-        }
-        #endregion
-
-        #region 获取“项目”
-        private TableItem GetTableItem(ItemModel itemModel)
-        {
-            var tableItem = new TableItem(itemModel);
-            GridHelper.SetRowColumn(tableItem, itemModel.RowIndex, itemModel.ColIndex);
-
-            #region 绑定“ItemState”
-            // 创建双向绑定对象：
-            var bindingItemState = new Binding(nameof(itemModel.ItemState))
-            {
-                Source = itemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.ItemStateProperty, bindingItemState);
-            #endregion 绑定“ItemState”
-
-            #region 绑定“IsReadOnly”
-            // 创建双向绑定对象：
-            var bindingIsReadOnly = new Binding(nameof(itemModel.IsReadOnly))
-            {
-                Source = itemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.IsReadOnlyProperty, bindingIsReadOnly);
-            #endregion 绑定“IsReadOnly”
-
-            #region 绑定“TextAlignment”
-            // 创建双向绑定对象：
-            var bindingTextAlignment = new Binding(nameof(itemModel.TextAlignment))
-            {
-                Source = itemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            tableItem.SetBinding(TableItem.TextAlignmentProperty, bindingTextAlignment);
-            #endregion 绑定“TextAlignment”
-
-            return tableItem;
         }
         #endregion
         #endregion [Private]

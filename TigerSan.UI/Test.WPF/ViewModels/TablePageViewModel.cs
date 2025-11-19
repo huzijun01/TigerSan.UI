@@ -4,7 +4,6 @@ using TigerSan.UI;
 using TigerSan.UI.Models;
 using TigerSan.UI.Helpers;
 using TigerSan.UI.Converters;
-using TigerSan.CsvLog;
 using Test.WPF.Models;
 
 namespace Test.WPF.ViewModels
@@ -90,41 +89,55 @@ namespace Test.WPF.ViewModels
             // 是否显示复选框：
             EmployeeTable.IsShowCheckBox = true;
 
-            // 委托：
-            EmployeeTable._onSelectedRowDatasChanged -= OnSelectedRowDatasChanged;
-            EmployeeTable._onSelectedRowDatasChanged += OnSelectedRowDatasChanged;
-            EmployeeTable._onItemSourceChanged -= OnItemSourceChanged;
-            EmployeeTable._onItemSourceChanged += OnItemSourceChanged;
+            #region 设置“数据改变”委托
+            EmployeeTable._onSelectedRowDatasChanged = OnSelectedRowDatasChanged;
+            EmployeeTable._onItemSourceChanged = OnItemSourceChanged;
+            #endregion 设置“数据改变”委托
 
-            // 设置表头：
-            var headerId = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Id));
-            if (headerId == null) return;
-            headerId.Converter = new Int2StringConverter();
+            #region 设置“表头初始化”委托
+            EmployeeTable._onHeaderInit = (headerModel) =>
+            {
+                if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Id)))
+                {
+                    headerModel.Converter = new Int2StringConverter();
+                }
+                else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Name)))
+                {
+                    headerModel.Verification = Verifications.IsNotNullOrEmpty;
+                    headerModel.Background = Generic.Brand;
+                }
+                else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Age)))
+                {
+                    headerModel.Converter = new Int2StringConverter();
+                }
+                else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Gender)))
+                {
+                    headerModel.Converter = new Bool2StringConverter("男", "女");
+                    headerModel._menuWidth = 80;
+                    headerModel._menuDatas = [true, false];
+                }
+                else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Salary)))
+                {
+                    headerModel.Converter = new Double2StringConverter();
+                }
+                else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.JoinDate)))
+                {
+                    headerModel.Converter = new DateTime2StringConverter();
+                }
+            };
+            #endregion 设置“表头初始化”委托
 
-            var headerName = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Name));
-            if (headerName == null) return;
-            headerName.Verification = Verifications.IsNotNullOrEmpty;
-            headerName.Background = Generic.Brand;
+            #region 设置“项目初始化”委托
+            EmployeeTable._onItemInit = (itemModel) =>
+            {
+                if (string.Equals(itemModel._headerModel.PropName, nameof(EmployeeInfo.Name)))
+                {
+                    itemModel.Background = Generic.Brand;
+                }
+            };
+            #endregion 设置“项目初始化”委托
 
-            var headerAge = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Age));
-            if (headerAge == null) return;
-            headerAge.Converter = new Int2StringConverter();
-
-            var headerGender = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Gender));
-            if (headerGender == null) return;
-            headerGender.Converter = new Bool2StringConverter("男", "女");
-            headerGender._menuWidth = 80;
-            headerGender._menuDatas = [true, false];
-
-            var headerSalary = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.Salary));
-            if (headerSalary == null) return;
-            headerSalary.Converter = new Double2StringConverter();
-
-            var headerJoinDate = EmployeeTable.GetHeaderModel(nameof(EmployeeInfo.JoinDate));
-            if (headerJoinDate == null) return;
-            headerJoinDate.Converter = new DateTime2StringConverter();
-
-            // 添加数据：
+            #region 添加数据
             var RowDatas = new ObservableCollection<object>
             {
                 new EmployeeInfo() { Id = 1, Name = "张三", Age = 18, Gender = true, Salary = 8000.01, JoinDate = DateTime.Now },
@@ -134,24 +147,9 @@ namespace Test.WPF.ViewModels
                 new EmployeeInfo() { Id = 5, Name = "吴七", Age = 22, Gender = true, Salary = 12000.05, JoinDate = DateTime.Now },
                 new EmployeeInfo() { Id = 6, Name = "周八", Age = 23, Gender = true, Salary = 13000.06, JoinDate = DateTime.Now }
             };
-            EmployeeTable.RowDatas = RowDatas;
-            EmployeeTable.RowDatas.Add(new EmployeeInfo() { Id = 7, Name = "郑九", Age = 24, Gender = true, Salary = 14000.07, JoinDate = DateTime.Now });
-
-            // 设置背景：
-            EmployeeTable._onLoaded = () =>
-            {
-                var count = EmployeeTable.RowDatas.Count;
-                for (int iRow = 0; iRow < count; iRow++)
-                {
-                    var item = EmployeeTable.GetItemModel(iRow, nameof(EmployeeInfo.Name));
-                    if (item == null)
-                    {
-                        LogHelper.Instance.IsNull(nameof(item));
-                        continue;
-                    }
-                    item.Background = Generic.Brand;
-                }
-            };
+            EmployeeTable.RowDatas = RowDatas; // 触发一次刷新
+            EmployeeTable.RowDatas.Add(new EmployeeInfo() { Id = 7, Name = "郑九", Age = 24, Gender = true, Salary = 14000.07, JoinDate = DateTime.Now }); // 触发一次刷新
+            #endregion 添加数据
         }
         #endregion
         #endregion 【Functions】
