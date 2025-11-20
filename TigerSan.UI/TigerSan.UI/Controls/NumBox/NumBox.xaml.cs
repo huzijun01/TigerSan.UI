@@ -6,11 +6,19 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using TigerSan.CsvLog;
 using TigerSan.UI.Converters;
+using TigerSan.TimerHelper.WPF;
 
 namespace TigerSan.UI.Controls
 {
     public partial class NumBox : UserControl
     {
+        #region 【Fields】
+        /// <summary>
+        /// “延时更改”定时器
+        /// </summary>
+        private ActionTimer? _changeDelayTimer;
+        #endregion 【Fields】
+
         #region 【DependencyProperties】
         #region [OneWay]
         #region 是否获得焦点
@@ -175,6 +183,29 @@ namespace TigerSan.UI.Controls
                 typeof(NumBox),
                 new PropertyMetadata(true));
         #endregion
+
+        #region “修改延迟”秒数
+        /// <summary>
+        /// “修改延迟”秒数
+        /// </summary>
+        public double ChangeDelaySeconds
+        {
+            get { return (double)GetValue(ChangeDelaySecondsProperty); }
+            set { SetValue(ChangeDelaySecondsProperty, value); }
+        }
+        public static readonly DependencyProperty ChangeDelaySecondsProperty =
+            DependencyProperty.Register(
+                nameof(ChangeDelaySeconds),
+                typeof(double),
+                typeof(NumBox),
+                new PropertyMetadata(0.5, Changed));
+
+        private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = (NumBox)d;
+            sender.UpdateChangeDelayTimer();
+        }
+        #endregion
         #endregion 【DependencyProperties】
 
         #region 【CustomEvents】
@@ -198,6 +229,27 @@ namespace TigerSan.UI.Controls
             RaiseEvent(new RoutedEventArgs(ValueChangedEvent, this) { Source = Value });
         }
         #endregion
+
+        #region 失去焦点
+        [Category("Behavior")]
+        public new static readonly RoutedEvent LostFocusEvent =
+        EventManager.RegisterRoutedEvent(
+            nameof(LostFocus),
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(NumBox));
+
+        public new event RoutedEventHandler LostFocus
+        {
+            add { AddHandler(LostFocusEvent, value); }
+            remove { RemoveHandler(LostFocusEvent, value); }
+        }
+
+        protected virtual void RaiseLostFocusEvent()
+        {
+            RaiseEvent(new RoutedEventArgs(LostFocusEvent, this) { Source = Value });
+        }
+        #endregion
         #endregion 【CustomEvents】
 
         #region 【CustomCommands】
@@ -217,6 +269,25 @@ namespace TigerSan.UI.Controls
         protected void RaiseValueChangedCommand()
         {
             ValueChangedCommand?.Execute(Value);
+        }
+        #endregion
+
+        #region 失去焦点
+        public ICommand LostFocusCommand
+        {
+            get => (ICommand)GetValue(LostFocusCommandProperty);
+            set => SetValue(LostFocusCommandProperty, value);
+        }
+        public static readonly DependencyProperty LostFocusCommandProperty =
+            DependencyProperty.Register(
+                nameof(LostFocusCommand),
+                typeof(ICommand),
+                typeof(NumBox),
+                new PropertyMetadata(null));
+
+        protected void RaiseLostFocusCommand()
+        {
+            LostFocusCommand?.Execute(Value);
         }
         #endregion
         #endregion 【CustomCommands】
@@ -253,14 +324,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region “内容”文本改变
-        private void Content_TextChanged(object sender, RoutedEventArgs e)
-        {
-            SetTextToValue();
-        }
-        #endregion
-
-        #region “内容”鼠标滚动
+        #region 鼠标滚动
         private void Content_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (!IsEnable) return;
@@ -273,6 +337,22 @@ namespace TigerSan.UI.Controls
             {
                 btnDown_Click();
             }
+        }
+        #endregion
+
+        #region 失去焦点
+        private void Content_LostFocus(object sender, RoutedEventArgs e)
+        {
+            RaiseLostFocusEvent();
+            RaiseLostFocusCommand();
+        }
+        #endregion
+
+        #region “文本”改变
+        private void Content_TextChanged(object sender, RoutedEventArgs e)
+        {
+            _changeDelayTimer?.Stop();
+            _changeDelayTimer?.Start();
         }
         #endregion
         #endregion 【Events】
@@ -307,6 +387,7 @@ namespace TigerSan.UI.Controls
         {
             AddEvent();
             DataBinding();
+            UpdateChangeDelayTimer();
         }
         #endregion
 
@@ -316,6 +397,7 @@ namespace TigerSan.UI.Controls
             Loaded += OnLoaded;
             content.TextChanged += Content_TextChanged;
             content.MouseWheel += Content_MouseWheel;
+            content.LostFocus += Content_LostFocus;
         }
         #endregion
 
@@ -361,6 +443,14 @@ namespace TigerSan.UI.Controls
             if (string.Equals(text, content.Text)) return;
 
             content.Text = text;
+        }
+        #endregion
+
+        #region 更新“修改延迟”定时器
+        private void UpdateChangeDelayTimer()
+        {
+            _changeDelayTimer?.Stop();
+            _changeDelayTimer = new ActionTimer(ChangeDelaySeconds * 1000, false, SetTextToValue);
         }
         #endregion
         #endregion 【Functions】

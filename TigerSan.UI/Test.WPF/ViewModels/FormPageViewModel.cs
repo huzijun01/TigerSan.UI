@@ -65,7 +65,21 @@ namespace Test.WPF.ViewModels
         public ICommand NumBox_ValueChangedCommand { get => new DelegateCommand<object>(NumBox_ValueChanged); }
         private void NumBox_ValueChanged(object value)
         {
-            MsgBox.ShowInformation($"value = {value}");
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"{nameof(NumBox_ValueChanged)}:");
+            sb.AppendLine($"value = {value}");
+            MsgBox.ShowInformation(sb.ToString());
+        }
+        #endregion
+
+        #region “数字框”失去焦点
+        public ICommand NumBox_LostFocusCommand { get => new DelegateCommand<object>(NumBox_LostFocus); }
+        private void NumBox_LostFocus(object value)
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"{nameof(NumBox_LostFocus)}:");
+            sb.AppendLine($"value = {value}");
+            MsgBox.ShowInformation(sb.ToString());
         }
         #endregion
         #endregion 【Commands】
