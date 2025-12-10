@@ -14,23 +14,32 @@
         <ResourceDictionary Source="/TigerSan.UI;component/Windows/MenuWindowStyle.xaml"/>
     </Window.Resources>
 
-    <ScrollViewer
-        VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}"
-        DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-        d:DataContext="{StaticResource MenuWindowDesignData}">
-        <ItemsControl
-            x:Name="itemsControl"
-            VerticalAlignment="Top"
-            ItemsSource="{Binding Items}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ItemsControl}">
-                    <Button
-                        Content="{Binding Text}"
-                        Visibility="{Binding Visibility}"
-                        Command="{Binding ClickedCommand}"
-                        Style="{StaticResource MenuItemButtonStyle}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
+    <Grid>
+        <!-- 滚动视图: -->
+        <ScrollViewer
+            VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}"
+            DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+            d:DataContext="{StaticResource MenuWindowDesignData}">
+            <ItemsControl
+                x:Name="itemsControl"
+                VerticalAlignment="Top"
+                ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type ItemsControl}">
+                        <Button
+                            Content="{Binding Text}"
+                            Visibility="{Binding Visibility}"
+                            Command="{Binding ClickedCommand}"
+                            Style="{StaticResource MenuItemButtonStyle}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- 边框: -->
+        <Border
+            CornerRadius="5"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource Colors.Brand}"/>
+    </Grid>
 </Window>
