@@ -182,7 +182,7 @@ namespace TigerSan.UI.Models
         {
             DataType = dataType;
             if (string.IsNullOrEmpty(Name)) Name = DataType.Name;
-            Refresh();
+            InitTableModel();
         }
         #endregion 【Ctor】
 
