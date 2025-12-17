@@ -10,6 +10,13 @@ namespace Test.WPF.ViewModels
 {
     public class TablePageViewModel : BindableBase
     {
+        #region 【Fields】
+        /// <summary>
+        /// 是否已经初始化
+        /// </summary>
+        private bool isInitialized = false;
+        #endregion 【Fields】
+
         #region 【Properties】
         /// <summary>
         /// 员工表格模型
@@ -51,6 +58,13 @@ namespace Test.WPF.ViewModels
         #endregion 【Evnets】
 
         #region 【Commands】
+        #region 加载完成
+        public ICommand LoadedCommand { get => new DelegateCommand(OnLoaded); }
+        private void OnLoaded()
+        {
+        }
+        #endregion
+
         #region 点击“Refresh”按钮
         public ICommand btnRefresh_ClickCommand { get => new DelegateCommand(btnRefresh_Click); }
         private void btnRefresh_Click()
@@ -86,6 +100,15 @@ namespace Test.WPF.ViewModels
         #region 初始化“表格”
         public void InitTable()
         {
+            if (isInitialized)
+            {
+                return;
+            }
+            else
+            {
+                isInitialized = true;
+            }
+
             // 是否显示复选框：
             EmployeeTable.IsShowCheckBox = true;
 

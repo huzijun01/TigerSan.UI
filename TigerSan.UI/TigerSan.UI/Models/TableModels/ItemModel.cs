@@ -1,7 +1,7 @@
 ﻿using System.Windows;
+using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Reflection;
 using TigerSan.CsvLog;
 using TigerSan.UI.Helpers;
 
@@ -84,6 +84,16 @@ namespace TigerSan.UI.Models
         /// “菜单数据”集合
         /// </summary>
         public List<object>? _menuDatas { get; set; }
+
+        /// <summary>
+        /// 默认转换器
+        /// </summary>
+        public IValueConverter? _defaultConverter { get; set; }
+
+        /// <summary>
+        /// 默认特性
+        /// </summary>
+        public TableHeaderAttribute _defaultAttribute { get; set; } = new TableHeaderAttribute();
         #endregion【Fields】
 
         #region 【Properties】
@@ -224,15 +234,14 @@ namespace TigerSan.UI.Models
             if (prop == null)
             {
                 LogHelper.Instance.Warning($"The {nameof(prop)} is null!");
-                return new TableHeaderAttribute();
+                return _defaultAttribute;
             }
 
             // 获取属性名：
             var attributes = prop.GetCustomAttributes(typeof(TableHeaderAttribute), true);
             if (attributes == null || attributes.Length < 1)
             {
-                LogHelper.Instance.Warning($"The {nameof(attributes)} is null!");
-                return new TableHeaderAttribute();
+                return _defaultAttribute;
             }
 
             return (TableHeaderAttribute)attributes[0];
@@ -276,6 +285,57 @@ namespace TigerSan.UI.Models
             var floatCol = _tableModel._floatColDefs[index];
 
             col.Width = floatCol.Width = WidthGridLength;
+        }
+        #endregion
+
+        #region 初始化“默认转换器”
+        public void InitDefaultConverter(TableModel table)
+        {
+            var prop = GetProp();
+            if (prop == null)
+            {
+                LogHelper.Instance.IsNull(nameof(prop));
+                return;
+            }
+
+            if (prop.PropertyType == typeof(bool))
+            {
+                _defaultConverter = new Converters.Bool2StringConverter();
+            }
+            else if (prop.PropertyType == typeof(DateTime))
+            {
+                _defaultConverter = new Converters.DateTime2StringConverter();
+            }
+            else if (prop.PropertyType == typeof(double))
+            {
+                _defaultConverter = new Converters.Double2StringConverter();
+            }
+            else if (prop.PropertyType == typeof(int))
+            {
+                _defaultConverter = new Converters.Int2StringConverter();
+            }
+            else if (prop.PropertyType == typeof(object))
+            {
+                _defaultConverter = new Converters.Object2StringConverter();
+            }
+            else
+            {
+                _defaultConverter = null;
+            }
+        }
+        #endregion
+
+        #region 初始化“默认特性”
+        public void InitDefaultAttribute(TableModel table)
+        {
+            var prop = GetProp();
+            if (prop == null)
+            {
+                LogHelper.Instance.IsNull(nameof(prop));
+                return;
+            }
+
+            _defaultAttribute.Title = prop.Name;
         }
         #endregion
         #endregion 【Functions】
@@ -497,6 +557,10 @@ namespace TigerSan.UI.Models
                 {
                     source = _headerModel.Converter.ConvertBack(Target, null, null, null);
                 }
+                if (_headerModel._defaultConverter != null)
+                {
+                    source = _headerModel._defaultConverter.ConvertBack(Target, null, null, null);
+                }
                 else
                 {
                     source = Target.Trim();
@@ -532,7 +596,15 @@ namespace TigerSan.UI.Models
         {
             try
             {
-                if (_headerModel.Converter == null)
+                if (_headerModel.Converter != null)
+                {
+                    return (string)_headerModel.Converter.Convert(Source, null, null, null);
+                }
+                if (_headerModel._defaultConverter != null)
+                {
+                    return (string)_headerModel._defaultConverter.Convert(Source, null, null, null);
+                }
+                else
                 {
                     if (Source == null)
                     {
@@ -541,8 +613,6 @@ namespace TigerSan.UI.Models
                     var str = Source.ToString();
                     return str == null ? string.Empty : str;
                 }
-
-                return (string)_headerModel.Converter.Convert(Source, null, null, null);
             }
             catch (Exception e)
             {

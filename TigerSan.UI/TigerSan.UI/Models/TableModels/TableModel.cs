@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Reflection;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -21,12 +20,17 @@ namespace TigerSan.UI.Models
         private TableGrid? _tableGrid;
 
         /// <summary>
-        /// 列定义集合
+        /// 默认特性
+        /// </summary>
+        private TableAttribute _defaultAttribute = new TableAttribute();
+
+        /// <summary>
+        /// “列定义”集合
         /// </summary>
         public List<ColumnDefinition> _colDefs = new List<ColumnDefinition>();
 
         /// <summary>
-        /// 浮动列定义集合
+        /// “浮动列定义”集合
         /// </summary>
         public List<ColumnDefinition> _floatColDefs = new List<ColumnDefinition>();
 
@@ -41,7 +45,7 @@ namespace TigerSan.UI.Models
         private NotifyCollectionChangedEventArgs _args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
         /// <summary>
-        /// 旧行数据集合
+        /// “旧行数据”集合
         /// </summary>
         public List<object> _oldRowDatas = new List<object>();
 
@@ -82,6 +86,10 @@ namespace TigerSan.UI.Models
         public double? MinHeight { get => GetTableAttribute().MinHeight; }
         public double? MaxHeight { get => GetTableAttribute().MaxHeight; }
         public GridLength HeightGridLength { get => Height != null ? new GridLength(Height.Value) : Generic.DefaultGridHeight; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get => GetTableAttribute().Name; }
         #endregion [引用]
 
         #region [OneWay]
@@ -115,16 +123,6 @@ namespace TigerSan.UI.Models
         }
         private Visibility _checkBoxVisibility = Visibility.Visible;
         #endregion [OneWay]
-
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
-        private string _name = string.Empty;
 
         /// <summary>
         /// 是否显示复选框
@@ -181,8 +179,8 @@ namespace TigerSan.UI.Models
         public TableModel(Type dataType)
         {
             DataType = dataType;
-            if (string.IsNullOrEmpty(Name)) Name = DataType.Name;
             InitTableModel();
+            InitDefaultAttribute(dataType);
         }
         #endregion 【Ctor】
 
@@ -201,8 +199,8 @@ namespace TigerSan.UI.Models
 
         #region 【Functions】
         #region [Private]
-        #region 初始化网格
-        private void InitGrid()
+        #region 初始化“网格”
+        private void InitGrid(List<HeaderModel> headerModels)
         {
             _colDefs.Clear();
             _floatColDefs.Clear();
@@ -219,9 +217,9 @@ namespace TigerSan.UI.Models
             _floatColDefs.Add(new ColumnDefinition() { Width = Generic.DefaultGridWidth });
 
             // 内容框列：
-            foreach (var prop in props)
+            foreach (var header in headerModels)
             {
-                var attr = prop.GetCustomAttribute(typeof(TableHeaderAttribute)) as TableHeaderAttribute;
+                var attr = header.GetHeaderAttribute();
                 if (attr == null)
                 {
                     LogHelper.Instance.IsNull(nameof(attr));
@@ -243,17 +241,19 @@ namespace TigerSan.UI.Models
                     MaxWidth = attr.MaxWidth
                 };
                 _floatColDefs.Add(floatCol);
+
+                header.SetWidth(null); // 初始化“列宽”
             }
         }
         #endregion
 
-        #region 初始化表头模型集合
+        #region 初始化“表头模型”集合
         private void InitHeaderModels()
         {
-            // 清空表头：
+            // 清空“表头集合”：
             HeaderModels.Clear();
 
-            // 获取属性集合：
+            // 获取“属性集合”：
             var props = DataType.GetProperties();
             if (props == null)
             {
@@ -261,29 +261,30 @@ namespace TigerSan.UI.Models
                 return;
             }
 
-            // 添加表头：
+            // 添加“表头”：
             var count = props.Length;
             for (int index = 0; index < count; index++)
             {
                 var headerModel = new HeaderModel(this);
                 HeaderModels.Add(headerModel);
-                headerModel.SetWidth(null);
             }
 
-            // 执行“初始化”委托：
+            // 初始化“表头集合”：
             foreach (var headerModel in HeaderModels)
             {
-                _onHeaderInit?.Invoke(headerModel);
+                headerModel.InitDefaultConverter(this); // 初始化“默认转换器”
+                headerModel.InitDefaultAttribute(this); // 初始化“默认特性”
+                _onHeaderInit?.Invoke(headerModel); // 执行“初始化”委托
             }
         }
         #endregion
 
-        #region 初始化项目模型集合
-        private void InitItemModels()
+        #region 初始化“项目模型”集合
+        private void InitItemModels(List<HeaderModel> headerModels)
         {
             RowModels.Clear();
             var rowCount = RowDatas.Count;
-            var colCount = HeaderModels.Count;
+            var colCount = headerModels.Count;
 
             // 更新“旧行数据”：
             var rowDatas = TypeHelper.DeepCopyList(RowDatas);
@@ -303,7 +304,7 @@ namespace TigerSan.UI.Models
 
                 for (var iCol = 0; iCol < colCount; ++iCol)
                 {
-                    var headerModel = HeaderModels[iCol];
+                    var headerModel = headerModels[iCol];
 
                     var itemModel = new ItemModel(rowModel, headerModel);
                     _onItemInit?.Invoke(itemModel); // 执行“初始化”委托
@@ -312,6 +313,13 @@ namespace TigerSan.UI.Models
 
                 RowModels.Add(rowData, rowModel);
             }
+        }
+        #endregion
+
+        #region 初始化“默认特性”
+        private void InitDefaultAttribute(Type dataType)
+        {
+            _defaultAttribute.Name = dataType.Name;
         }
         #endregion
         #endregion [Private]
@@ -398,6 +406,41 @@ namespace TigerSan.UI.Models
         #endregion [获取模型]
 
         #region [初始化]
+        #region 初始化“表格模型”
+        public void InitTableModel(TableGrid? tableGrid = null)
+        {
+            if (tableGrid != null)
+            {
+                _tableGrid = tableGrid;
+            }
+
+            IsTriggerItemSourceChanged = false;
+
+            InitHeaderModels();
+            InitItemModels(HeaderModels);
+            InitGrid(HeaderModels);
+
+            IsSelectAll = false;
+
+            _onSelectedRowDatasChanged?.Invoke();
+            _onRowDatasCollectionChanged?.Invoke(null, _args);
+
+            IsTriggerItemSourceChanged = true;
+        }
+        #endregion
+
+        #region 初始化“UI元素”
+        public void InitUIElements(TableGrid tableGrid)
+        {
+            if (tableGrid == null)
+            {
+                LogHelper.Instance.IsNull(nameof(tableGrid));
+                return;
+            }
+            tableGrid.InitUIElements();
+        }
+        #endregion
+
         #region 初始化“列宽”
         /// <summary>
         /// 初始化“列宽”
@@ -413,41 +456,6 @@ namespace TigerSan.UI.Models
             _tableGrid.InitColumnsWidth();
         }
         #endregion
-
-        #region 初始化“表格模型”
-        public void InitTableModel(TableGrid? tableGrid = null)
-        {
-            if (tableGrid != null)
-            {
-                _tableGrid = tableGrid;
-            }
-
-            IsTriggerItemSourceChanged = false;
-
-            InitGrid();
-            InitHeaderModels();
-            InitItemModels();
-
-            IsSelectAll = false;
-
-            _onSelectedRowDatasChanged?.Invoke();
-            _onRowDatasCollectionChanged?.Invoke(null, _args);
-
-            IsTriggerItemSourceChanged = true;
-        }
-        #endregion
-
-        #region 初始化“UI元素”
-        public void InitUIElements()
-        {
-            if (_tableGrid == null)
-            {
-                LogHelper.Instance.IsNull(nameof(_tableGrid));
-                return;
-            }
-            _tableGrid.InitUIElements();
-        }
-        #endregion
         #endregion [初始化]
 
         #region 刷新
@@ -458,7 +466,10 @@ namespace TigerSan.UI.Models
         public void Refresh()
         {
             InitTableModel(null);
-            InitUIElements();
+            if (_tableGrid != null)
+            {
+                InitUIElements(_tableGrid);
+            }
         }
         #endregion
 
@@ -506,7 +517,7 @@ namespace TigerSan.UI.Models
             var attributes = DataType.GetCustomAttributes(typeof(TableAttribute), true);
             if (attributes == null || attributes.Length < 1)
             {
-                return new TableAttribute() { Name = Name };
+                return _defaultAttribute;
             }
 
             return (TableAttribute)attributes[0];
