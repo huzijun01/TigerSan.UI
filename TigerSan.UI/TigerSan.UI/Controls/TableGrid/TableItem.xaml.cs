@@ -158,6 +158,23 @@ namespace TigerSan.UI.Controls
                     "null",
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
+
+        #region 接受换行
+        /// <summary>
+        /// 接受换行
+        /// </summary>
+        public bool AcceptsReturn
+        {
+            get { return (bool)GetValue(AcceptsReturnProperty); }
+            set { SetValue(AcceptsReturnProperty, value); }
+        }
+        public static readonly DependencyProperty AcceptsReturnProperty =
+            DependencyProperty.Register(
+                nameof(AcceptsReturn),
+                typeof(bool),
+                typeof(TableItem),
+                new PropertyMetadata(true));
+        #endregion
         #endregion 【DependencyProperties】
 
         #region 【CustomEvents】
@@ -576,6 +593,23 @@ namespace TigerSan.UI.Controls
         /// 文本
         /// </summary>
         public string Text { get; set; }
+        #endregion
+
+        #region 接受换行
+        /// <summary>
+        /// 接受换行
+        /// </summary>
+        public bool AcceptsReturn
+        {
+            get { return (bool)GetValue(AcceptsReturnProperty); }
+            set { SetValue(AcceptsReturnProperty, value); }
+        }
+        public static readonly DependencyProperty AcceptsReturnProperty =
+            DependencyProperty.Register(
+                nameof(AcceptsReturn),
+                typeof(bool),
+                typeof(TableItem),
+                new PropertyMetadata(true));
         #endregion
         #endregion 【DependencyProperties】
 

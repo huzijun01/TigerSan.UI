@@ -10,15 +10,21 @@ namespace TigerSan.UI.Models
     public class TableAttribute : Attribute
     {
         #region [尺寸]
-        public double? Height { get; set; } = null;
-        public double? MinHeight { get; set; } = null;
-        public double? MaxHeight { get; set; } = null;
+        // 大于0有效
+        public double Height { get; set; } = 0;
+        public double MinHeight { get; set; } = 0;
+        public double MaxHeight { get; set; } = 0;
         #endregion [尺寸]
 
         /// <summary>
         /// 名称
         /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 接受换行
+        /// </summary>
+        public bool AcceptsReturn { get; set; } = true;
     }
     #endregion
 

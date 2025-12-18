@@ -6,14 +6,6 @@
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/TextBoxTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- 无边框文本框样式： -->
-    <Style x:Key="NoBorderTextBoxStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource Colors.RegularText}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource Colors.RegularText}" />
-    </Style>
-
     <!-- 自定义文本框样式： -->
     <Style x:Key="CustomTextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Padding" Value="{StaticResource TextBox.Padding}"/>
@@ -25,68 +17,32 @@
         <Setter Property="Template" Value="{StaticResource CustomTextBoxTemplate}"/>
     </Style>
 
+    <!-- 无边框文本框样式：（对话框中会进行内容尺寸计算，请勿设置边距。） -->
+    <Style x:Key="NoBorderTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource Colors.RegularText}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource Colors.RegularText}" />
+    </Style>
+
     <!--  省略号文本框：  -->
-    <Style x:Key="EllipsisTextBoxStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="Template" >
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <ControlTemplate.Resources>
-                        <!--  项目文本框：  -->
-                        <Style x:Key="ItemTextBoxStyle" TargetType="{x:Type TextBox}">
-                            <!--  基础：  -->
-                            <Setter Property="Padding" Value="8"/>
-                            <Setter Property="TextWrapping" Value="NoWrap"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <!--  其它：  -->
-                            <Setter Property="CaretBrush" Value="White"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                        </Style>
-
-                        <!--  项目文本块：  -->
-                        <Style x:Key="ItemTextBlockStyle" TargetType="{x:Type TextBlock}">
-                            <!--  基础：  -->
-                            <Setter Property="Padding" Value="8"/>
-                            <Setter Property="TextWrapping" Value="NoWrap"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <!--  其它：  -->
-                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                        </Style>
-                    </ControlTemplate.Resources>
-
-                    <Grid>
-                        <!-- 文本块： -->
-                        <TextBlock
-                            x:Name="textBlock"
-                            Text="{TemplateBinding Text}"
-                            TextAlignment="{TemplateBinding TextAlignment}"
-                            Style="{StaticResource ItemTextBlockStyle}"/>
-                        <!-- 文本框： -->
-                        <TextBox
-                            x:Name="textBox"
-                            IsReadOnly="{Binding IsReadOnly}"
-                            TextAlignment="{Binding TextAlignment}"
-                            Style="{StaticResource ItemTextBoxStyle}"
-                            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
-                    </Grid>
-
-                    <!-- 触发器： -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsReadOnly" Value="False">
-                            <Setter TargetName="textBlock" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="IsReadOnly" Value="True">
-                            <Setter TargetName="textBlock" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="textBox" Property="Foreground" Value="Transparent"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style
+        x:Key="EllipsisTextBoxStyle"
+        TargetType="{x:Type TextBox}"
+        BasedOn="{StaticResource NoBorderTextBoxStyle}">
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsReadOnly" Value="True"/>
+                    <Condition Property="AcceptsReturn" Value="False"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Template" Value="{StaticResource EllipsisTextBoxTemplate}"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
     </Style>
 
     <!-- 默认文本框样式： -->

@@ -181,10 +181,8 @@ namespace TigerSan.UI.Controls
             var rowCount = TableModel.RowDatas.Count + 1;
             for (int index = 0; index < rowCount; ++index)
             {
-                PART_ItemGrid.RowDefinitions.Add(new RowDefinition()
-                {
-                    Height = TableModel.HeightGridLength,
-                });
+                var row = new RowDefinition() { Height = Generic.DefaultGridHeight };
+                PART_ItemGrid.RowDefinitions.Add(row);
             }
 
             // 列定义：
@@ -290,6 +288,24 @@ namespace TigerSan.UI.Controls
                     GridHelper.SetRowColumn(tableItem, itemModel.Value.RowIndex, itemModel.Value.ColIndex);
                     itemRow.TableItems.Add(itemModel.Value, tableItem);
                     PART_ItemGrid.Children.Add(tableItem);
+
+                    #region 设置尺寸
+                    if (TableModel.Height > 0)
+                    {
+                        tableItem.Height = TableModel.Height;
+                    }
+                    if (TableModel.MaxHeight > 0)
+                    {
+                        tableItem.MaxHeight = TableModel.MaxHeight;
+                    }
+                    if (TableModel.MinHeight > 0)
+                    {
+                        tableItem.MinHeight = TableModel.MinHeight;
+                    }
+                    #endregion 设置尺寸
+
+                    // 设置“接受换行”：
+                    tableItem.AcceptsReturn = TableModel.AcceptsReturn;
                 }
             }
         }

@@ -5,7 +5,7 @@
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- 自定义文本框模板： -->
+    <!-- 自定义文本框： -->
     <ControlTemplate x:Key="CustomTextBoxTemplate" TargetType="{x:Type TextBoxBase}">
         <Border
             x:Name="border"
@@ -44,7 +44,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!-- 文本框模板（支持设置垂直对齐）： -->
+    <!-- 文本框（支持设置垂直对齐）： -->
     <ControlTemplate x:Key="VerticalAlignmentTextBoxTemplate" TargetType="{x:Type TextBox}">
         <Border
             Name="border" 
@@ -55,5 +55,63 @@
                 Name="PART_ContentHost" 
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </Border>
+    </ControlTemplate>
+
+    <!--  省略号文本框：  -->
+    <ControlTemplate x:Key="EllipsisTextBoxTemplate" TargetType="{x:Type TextBox}">
+        <ControlTemplate.Resources>
+            <!--  项目文本框：  -->
+            <Style x:Key="ItemTextBoxStyle" TargetType="{x:Type TextBox}">
+                <!--  基础：  -->
+                <Setter Property="Padding" Value="8"/>
+                <Setter Property="TextWrapping" Value="NoWrap"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <!--  其它：  -->
+                <Setter Property="CaretBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+
+            <!--  项目文本块：  -->
+            <Style x:Key="ItemTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <!--  基础：  -->
+                <Setter Property="Padding" Value="8"/>
+                <Setter Property="TextWrapping" Value="NoWrap"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <!--  其它：  -->
+                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            </Style>
+        </ControlTemplate.Resources>
+
+        <Grid>
+            <!-- 文本块： -->
+            <TextBlock
+            x:Name="textBlock"
+            Text="{TemplateBinding Text}"
+            TextAlignment="{TemplateBinding TextAlignment}"
+            Style="{StaticResource ItemTextBlockStyle}"/>
+            <!-- 文本框： -->
+            <TextBox
+            x:Name="textBox"
+            IsReadOnly="{Binding IsReadOnly}"
+            TextAlignment="{Binding TextAlignment}"
+            Style="{StaticResource ItemTextBoxStyle}"
+            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+        </Grid>
+
+        <!-- 触发器： -->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsReadOnly" Value="False">
+                <Setter TargetName="textBlock" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter TargetName="textBlock" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="textBox" Property="Foreground" Value="Transparent"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 </ResourceDictionary>

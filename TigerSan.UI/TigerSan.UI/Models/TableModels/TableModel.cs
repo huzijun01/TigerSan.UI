@@ -82,14 +82,19 @@ namespace TigerSan.UI.Models
 
         #region 【Properties】
         #region [引用]
-        public double? Height { get => GetTableAttribute().Height; }
-        public double? MinHeight { get => GetTableAttribute().MinHeight; }
-        public double? MaxHeight { get => GetTableAttribute().MaxHeight; }
-        public GridLength HeightGridLength { get => Height != null ? new GridLength(Height.Value) : Generic.DefaultGridHeight; }
+        public double Height { get => GetTableAttribute().Height; }
+        public double MinHeight { get => GetTableAttribute().MinHeight; }
+        public double MaxHeight { get => GetTableAttribute().MaxHeight; }
+
         /// <summary>
         /// 名称
         /// </summary>
         public string Name { get => GetTableAttribute().Name; }
+
+        /// <summary>
+        /// 接受换行
+        /// </summary>
+        public bool AcceptsReturn { get => GetTableAttribute().AcceptsReturn; }
         #endregion [引用]
 
         #region [OneWay]

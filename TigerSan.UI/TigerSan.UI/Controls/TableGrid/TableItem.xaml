@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignWidth="150"
              d:DesignHeight="50">
-    
+
     <UserControl.Resources>
         <ResourceDictionary Source="TableGridStyle.xaml" />
     </UserControl.Resources>
@@ -30,8 +30,15 @@
         <!-- 文本框： -->
         <TextBox
             x:Name="content"
+            Padding="8"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto"
             Text="{Binding Text}"
+            Height="{Binding Height}"
+            MaxHeight="{Binding MaxHeight}"
+            MinHeight="{Binding MinHeight}"
             IsReadOnly="{Binding IsReadOnly}"
+            AcceptsReturn="{Binding AcceptsReturn}"
             TextAlignment="{Binding TextAlignment}"
             Style="{StaticResource EllipsisTextBoxStyle}"/>
     </Grid>

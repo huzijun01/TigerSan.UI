@@ -262,15 +262,20 @@ Colors, Constant.
 `UrlTextBlockStyle`:
 
 ### TextBoxStyle:
+`CustomTextBoxStyle`:
+
 `NoBorderTextBoxStyle`:
 
-`CustomTextBoxTemplate`:
+`EllipsisTextBoxStyle`:
 
-`CustomTextBoxStyle`:
+`TextBoxStyle`: Global.
+
+### TextBoxTemplate:
+`CustomTextBoxTemplate`:
 
 `VerticalAlignmentTextBoxTemplate`:
 
-`TextBoxStyle`: Global.
+`EllipsisTextBoxTemplate`:
 
 ### TransparentUserControlStyle:
 `TransparentUserControlStyle`:
