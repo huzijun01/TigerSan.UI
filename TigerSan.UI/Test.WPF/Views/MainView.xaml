@@ -20,6 +20,11 @@
     mc:Ignorable="d">
 
     <TabControl>
+        <!--  拖拽：  -->
+        <TabItem Header="拖拽">
+            <pages:DragPage/>
+        </TabItem>
+
         <!--  表单：  -->
         <TabItem Header="表单">
             <pages:FormPage/>

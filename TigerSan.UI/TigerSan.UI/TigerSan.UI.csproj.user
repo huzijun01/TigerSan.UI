@@ -35,6 +35,9 @@
     <Compile Update="Windows\CustomToolBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\DragWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MenuWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

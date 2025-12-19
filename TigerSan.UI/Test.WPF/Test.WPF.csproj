@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\DragPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\ImageButtonPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using System.Windows.Data;
+﻿using System.Windows.Data;
+using System.Globalization;
 using TigerSan.CsvLog;
 
 namespace TigerSan.UI.Converters
@@ -18,7 +18,9 @@ namespace TigerSan.UI.Converters
 
             var source = (double)value;
 
-            return source.ToString();
+            if (parameter == null) return string.Format("{0:F2}", source);
+
+            return string.Format("{0:F" + parameter + "}", source);
         }
         #endregion
 

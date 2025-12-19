@@ -17,16 +17,8 @@ Before use, you need to reference "Generic.xaml" in "App.xaml".
 # 4. Classification:
 ## Animations:
 ### DoubleAnimations:
-`FadeIn`:
-
-`FadeOut`:
-
-`Rotate`:
-
-`Gradient`:
 
 ### ColorAnimations:
-`Gradient`:
 
 ## Attributes:
 ### TableAttribute:
@@ -90,36 +82,13 @@ When the data is incorrect, the item mask will automatically turn red.
 
 Can be used as global data.
 
-`ShowAboutView`:
-
-`ShowUpdateView`:
+### DragHelper:
 
 ### GridHelper:
-`SetColumnSpan`:
-
-`SetRowColumn`:
 
 ### MsgBox:
-`GetDialog`:
-
-`ShowDialog`:
-
-`ShowDialogAsync`:
-
-`ShowInformation`:
-
-`ShowSuccess`:
-
-`ShowWarning`:
-
-`ShowError`:
 
 ### NetworkHelper:
-`IsNetworkAvailable`:
-
-`GetAsync`:
-
-`IsOK`:
 
 ### StartupOnce:
 `StartupCheck`:
@@ -127,63 +96,19 @@ Can be used as global data.
 If the program has already started, it will exit.
 
 ### SystemHelper:
-`WINDOWPOS`:
-
-`SWP_NOSIZE`:
-
-`GetDpiScale`:
-
-`WndProc_NoResize`:
-
-`GetScreenPosition`:
 
 ### TypeHelper:
-`GetProp`:
-
-`GetPropNames`:
-
-`DeepCopyList`:
-
-`DeepCopyObject`:
 
 ### UpdateHelper:
-`_timerUpdate`:
-
-`CheckUpdateAsync`:
-
-`Compare`:
 
 ### WindowHelper:
-`GetIcon`:
 
 ## Models:
 ### DragData:
-`DragEvent`:
-
-`DragData`:
 
 ### MenuItemModel:
 
 ### TableModels:
-`HandelState`:
-
-`ItemState`:
-
-`ItemType`:
-
-`SortMode`:
-
-`ItemModelBase`:
-
-`HeaderModel`:
-
-`ItemModel`:
-
-`TableModel`:
-
-`HeaderRowUIElement`:
-
-`ItemRowUIElement`:
 
 ### Verifications:
 
@@ -298,6 +223,8 @@ Colors, Constant.
 `CustomWindowStyle`:
 
 ### DialogWindow:
+
+### DragWindow:
 
 ### MenuWindow:
 `MenuWindowStyle`:
