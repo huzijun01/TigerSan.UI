@@ -296,8 +296,7 @@ namespace TigerSan.UI.Controls
         private void Init()
         {
             AddEvent();
-
-            Style = Generic.TransparentUserControlStyle;
+            Loaded += (s, e) => { Style = Generic.TransparentUserControlStyle; };
         }
         #endregion
 

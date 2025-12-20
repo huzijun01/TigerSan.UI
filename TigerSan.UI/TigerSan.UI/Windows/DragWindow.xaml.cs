@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Controls;
 using TigerSan.CsvLog;
 using TigerSan.TimerHelper.WPF;
 using TigerSan.ScreenDetection;
@@ -26,9 +25,9 @@ namespace TigerSan.UI.Windows
         private double _oldTop;
 
         /// <summary>
-        /// 控件
+        /// 元素
         /// </summary>
-        private Control _control;
+        private FrameworkElement _element;
 
         /// <summary>
         /// 关闭后延时
@@ -92,11 +91,26 @@ namespace TigerSan.UI.Windows
         #endregion 【Properties】
 
         #region 【Ctor】
-        public DragWindow(Control control)
+        public DragWindow(FrameworkElement element)
         {
             InitializeComponent();
-            _control = control;
-            Init(control);
+            _element = element;
+            MouseLeftButtonDown += OnMouseLeftButtonDown;
+            MouseLeftButtonUp += OnMouseLeftButtonUp;
+            MouseLeave += OnMouseLeave;
+            LocationChanged += OnLocationChanged;
+            Closed += OnClosed;
+            UpdateWindowPosition();
+
+            #region 定时关闭
+            new ActionTimer(50, false, () =>
+            {
+                if (!IsMouseOver)
+                {
+                    SafeClose();
+                }
+            }).Start();
+            #endregion 定时关闭
         }
         #endregion 【Ctor】
 
@@ -173,28 +187,16 @@ namespace TigerSan.UI.Windows
 
         #region 【Functions】
         #region [Private]
-        #region 初始化
-        private void Init(Control control)
-        {
-            MouseLeftButtonDown += OnMouseLeftButtonDown;
-            MouseLeftButtonUp += OnMouseLeftButtonUp;
-            MouseLeave += OnMouseLeave;
-            LocationChanged += OnLocationChanged;
-            Closed += OnClosed;
-            UpdateWindowPosition();
-        }
-        #endregion
-
         #region 更新“窗口位置”
         private void UpdateWindowPosition()
         {
-            var positon = ScreenHelper.GetScreenPosition(_control);
+            var positon = ScreenHelper.GetScreenPosition(_element);
             if (positon == null) return;
 
             Left = positon.X;
             Top = positon.Y;
-            Width = _control.ActualWidth;
-            Height = _control.ActualHeight;
+            Width = _element.ActualWidth;
+            Height = _element.ActualHeight;
         }
         #endregion
 
@@ -219,7 +221,7 @@ namespace TigerSan.UI.Windows
         #region 判断“是否重叠”
         private bool IsOverlap()
         {
-            var positon = ScreenHelper.GetScreenPosition(_control);
+            var positon = ScreenHelper.GetScreenPosition(_element);
             if (positon == null) return false;
 
             return Math.Abs(Left - positon.X) < _overlapOffset && Math.Abs(Top - positon.Y) < _overlapOffset;

@@ -68,7 +68,6 @@ namespace TigerSan.UI.Controls
         public TableGrid()
         {
             InitializeComponent();
-            Style = Generic.TransparentUserControlStyle;
             Loaded += OnLoaded;
         }
         #endregion 【Ctor】
@@ -77,6 +76,8 @@ namespace TigerSan.UI.Controls
         #region 加载完成
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            Style = Generic.TransparentUserControlStyle;
+
             var table = (TableGrid)sender;
             if (table.TableModel == null)
             {

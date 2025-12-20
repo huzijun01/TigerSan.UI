@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Input;
 using TigerSan.UI.Windows;
 using TigerSan.ScreenDetection.Models;
 
@@ -20,10 +20,11 @@ namespace TigerSan.UI.Helpers
     public class DragHelper
     {
         #region 【Fields】
-        private Control _control;
-        public DragWindow? _dragWindow;
         double _oldX;
         double _oldY;
+        public Cursor? _cursor;
+        public DragWindow? _dragWindow;
+        private FrameworkElement _element;
 
         #region [委托]
         SetValue2D? _setX;
@@ -41,21 +42,21 @@ namespace TigerSan.UI.Helpers
         #region 【Properties】
         private double PanelWidth { get => _getPanelSize().X; }
         private double PanelHeight { get => _getPanelSize().Y; }
-        private double MaxX { get => PanelWidth - _control.Width; }
-        private double MaxY { get => PanelHeight - _control.Height; }
+        private double MaxX { get => PanelWidth - _element.Width; }
+        private double MaxY { get => PanelHeight - _element.Height; }
         private double MinX { get => _getMinPosition().X; }
         private double MinY { get => _getMinPosition().Y; }
         #endregion 【Properties】
 
         #region 【Ctor】
         public DragHelper(
-            Control control,
+            FrameworkElement element,
             DragDelegate dragDelegate,
             GetPoint2D getOldPosition,
             GetPoint2D getPanelSize,
             GetPoint2D getMinPosition)
         {
-            _control = control;
+            _element = element;
             _setX = dragDelegate._setX;
             _setY = dragDelegate._setY;
             _mouseUp = dragDelegate._mouseUp;
@@ -65,9 +66,10 @@ namespace TigerSan.UI.Helpers
             _getOldPosition = getOldPosition;
             _getPanelSize = getPanelSize;
             _getMinPosition = getMinPosition;
-            _control.MouseEnter -= ShowDragWindow;
-            _control.MouseEnter += ShowDragWindow;
+            _element.MouseEnter -= ShowDragWindow;
+            _element.MouseEnter += ShowDragWindow;
             UpdateOldPosition();
+
         }
         #endregion 【Ctor】
 
@@ -77,7 +79,9 @@ namespace TigerSan.UI.Helpers
         {
             if (_dragWindow != null) return;
 
-            _dragWindow = new DragWindow(_control);
+            _dragWindow = new DragWindow(_element);
+
+            if (_cursor != null) { _dragWindow.Cursor = _cursor; }
 
             _dragWindow._mouseLeftButtonDown += (distX, distY) =>
             {
@@ -102,7 +106,6 @@ namespace TigerSan.UI.Helpers
             _dragWindow._closed += (distX, distY) =>
             {
                 _setMousePosition?.Invoke(_dragWindow.MousePositionX, _dragWindow.MousePositionY);
-                _setDistance?.Invoke(distX, distY);
             };
 
             _dragWindow._closedDelay += (distX, distY) =>

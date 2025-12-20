@@ -7,6 +7,11 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/CheckBoxStyle.xaml"/>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/TransparentUserControlStyle.xaml"/>
+        <ResourceDictionary>
+            <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+            <converters:Bool2VisibilityConverter x:Key="SortMode2VisibilityConverter"/>
+        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <!--  颜色：  -->

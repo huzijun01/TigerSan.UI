@@ -5,7 +5,9 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using TigerSan.CsvLog;
 using TigerSan.UI.Models;
-using TigerSan.UI.Behaviors;
+using TigerSan.UI.Helpers;
+using TigerSan.TimerHelper.WPF;
+using TigerSan.ScreenDetection.Models;
 
 namespace TigerSan.UI.Controls
 {
@@ -19,7 +21,9 @@ namespace TigerSan.UI.Controls
         /// <summary>
         /// 列宽手柄鼠标拖拽行为
         /// </summary>
-        private static MouseDragBehavior? _handelMouseDrag;
+        private double _oldWidth;
+        public DragHelper? _dragHelper;
+        private ClickCounter _clickCounter = new ClickCounter(500);
         #endregion [Static]
         #endregion 【Fields】
 
@@ -254,81 +258,31 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 按下“列宽手柄”
-        private static void handel_MouseDown(object sender, DragData dragData)
+        #region “列宽手柄”加载完成
+        private void handel_Loaded(object sender, RoutedEventArgs e)
         {
-            var header = (TableHeader)sender;
+            if (_dragHelper != null) return;
 
-            var headerModel = header.HeaderModel;
-            if (headerModel == null)
+            var dragDelegate = new DragDelegate()
             {
-                LogHelper.Instance.Warning($"The {nameof(headerModel)} is null!");
-                return;
-            }
+                _setDistance = (x, y) =>
+                {
+                    SetWidth(_oldWidth + x);
+                },
+                _mouseDown = (x, y) =>
+                {
+                    _oldWidth = header.ActualWidth - handel.Width;
+                    DoubleClickDetect();
+                },
+            };
 
-            header.HandelWidth = Generic.ColumnWidthHandlePressedWidth;
-            var offset = Generic.ColumnWidthHandlePressedWidth - Generic.ColumnWidthHandleWidth;
-
-            headerModel.Width = header.ActualWidth + dragData.CentralDistance.X + offset;
-        }
-        #endregion
-
-        #region 抬起“列宽手柄”
-        private static void handel_MouseUp(object sender, DragData dragData)
-        {
-            var header = (TableHeader)sender;
-
-            var headerModel = header.HeaderModel;
-            if (headerModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(headerModel)} is null!");
-                return;
-            }
-
-            header.HandelWidth = Generic.ColumnWidthHandleWidth;
-            var offset = Generic.ColumnWidthHandlePressedWidth - Generic.ColumnWidthHandleWidth;
-
-            headerModel.Width = header.ActualWidth + dragData.CentralDistance.X - offset;
-        }
-        #endregion
-
-        #region 离开“列宽手柄”
-        private static void handel_MouseLeave(object sender, DragData dragData)
-        {
-            var header = (TableHeader)sender;
-            header.HandelWidth = Generic.ColumnWidthHandleWidth;
-        }
-        #endregion
-
-        #region 拖拽“列宽手柄”
-        private static void handel_MouseDrag(object sender, DragData dragData)
-        {
-            var header = (TableHeader)sender;
-
-            var headerModel = header.HeaderModel;
-            if (headerModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(headerModel)} is null!");
-                return;
-            }
-
-            headerModel.Width = header.ActualWidth + dragData.MovePosition.X;
-        }
-        #endregion
-
-        #region 双击“列宽手柄”
-        private static void handel_DoubleClicked(object sender, DragData dragData)
-        {
-            var header = (TableHeader)sender;
-
-            var headerModel = header.HeaderModel;
-            if (headerModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(headerModel)} is null!");
-                return;
-            }
-
-            headerModel.Width = headerModel.GetHeaderAttribute().Width;
+            _dragHelper = new DragHelper(
+                handel,
+                dragDelegate,
+                GetOldPosition,
+                GetPanelSize,
+                GetMinPosition)
+            { _cursor = Cursors.SizeWE };
         }
         #endregion
         #endregion 【Events】
@@ -341,7 +295,7 @@ namespace TigerSan.UI.Controls
         private void Init()
         {
             AddEvent();
-            Style = Generic.TransparentUserControlStyle;
+            Loaded += (s, e) => { Style = Generic.TransparentUserControlStyle; };
         }
         #endregion
 
@@ -362,19 +316,8 @@ namespace TigerSan.UI.Controls
             #endregion 背景
 
             #region 列宽手柄
-            handel.MouseEnter += Handel_MouseEnter;
-
-            _handelMouseDrag = new MouseDragBehavior(
-                handel,
-                this,
-                new DragEvents()
-                {
-                    _onDrag = handel_MouseDrag,
-                    _onMouseDown = handel_MouseDown,
-                    _onMouseUp = handel_MouseUp,
-                    _onMouseLeave = handel_MouseLeave,
-                    _onDoubleClicked = handel_DoubleClicked
-                });
+            handel.Loaded += handel_Loaded;
+            handel.MouseDown += (s, e) => { DoubleClickDetect(); };
             #endregion 列宽手柄
 
             #region 排序标签
@@ -518,6 +461,65 @@ namespace TigerSan.UI.Controls
             handel.Opacity = opacity;
         }
         #endregion
+
+        #region 设置宽度
+        public void SetWidth(double? width)
+        {
+            if (HeaderModel == null)
+            {
+                LogHelper.Instance.IsNull(nameof(HeaderModel));
+                return;
+            }
+
+            HeaderModel.Width = width;
+        }
+        #endregion
+
+        #region [列宽手柄]
+        #region 获取“旧坐标”
+        public Point2D GetOldPosition()
+        {
+            return new Point2D(_oldWidth, 0);
+        }
+        #endregion
+
+        #region 获取“容器尺寸”
+        public Point2D GetPanelSize()
+        {
+            return new Point2D(double.MaxValue, double.MaxValue);
+        }
+        #endregion
+
+        #region 获取“最小位置”
+        public Point2D GetMinPosition()
+        {
+            return new Point2D(double.MinValue, double.MinValue);
+        }
+        #endregion
+
+        #region 双击检测
+        public void DoubleClickDetect()
+        {
+            if (_clickCounter.IsStoped)
+            {
+                _clickCounter.Start();
+            }
+
+            ++_clickCounter._count;
+
+            if (_clickCounter._count > 1)
+            {
+                if (HeaderModel == null)
+                {
+                    LogHelper.Instance.IsNull(nameof(HeaderModel));
+                    return;
+                }
+
+                HeaderModel.Width = null;
+            }
+        }
+        #endregion
+        #endregion [列宽手柄]
         #endregion 【Functions】
     }
 
