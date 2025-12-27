@@ -57,19 +57,19 @@
                 Orientation="Horizontal">
             <controls:ToolBarButton
                 x:Name="btnMin"
-                Text="&#xe70d;"
+                Text="{StaticResource Icons.Minimize}"
                 Command="{Binding MinimizeCommand}"
                 Foreground="{Binding ToolBarForeground}"
                 Visibility="{Binding BtnMinVisibility}"/>
             <controls:ToolBarButton
                 x:Name="btnMax"
-                Text="&#xe62c;"
+                Text="{StaticResource Icons.Maximize}"
                 Command="{Binding MaximizeCommand}"
                 Foreground="{Binding ToolBarForeground}"
                 Visibility="{Binding BtnMaxVisibility}"/>
             <controls:ToolBarButton
                 x:Name="btnClose"
-                Text="&#xe649;"
+                Text="{StaticResource Icons.Close.Thin}"
                 Command="{Binding CloseCommand}"
                 Foreground="{Binding ToolBarForeground}"
                 MouseOverBackgroundOpacity="1"

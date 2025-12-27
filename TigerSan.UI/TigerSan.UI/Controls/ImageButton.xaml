@@ -10,9 +10,10 @@
     d:DesignWidth="500">
     <Grid
         x:Name="panel"
-        Width="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Width}"
-        Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Height}"
-        Margin="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Margin}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+        Width="{Binding Width}"
+        Height="{Binding Height}"
+        Margin="{Binding Margin}"
         ClipToBounds="True">
         <!-- 背景： -->
         <Border x:Name="background" Background="Black" Opacity="0.2" />
@@ -23,7 +24,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             RenderTransformOrigin="0.5,0.5"
-            Source="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ImageSource}" Stretch="UniformToFill">
+            Source="{Binding ImageSource}" Stretch="UniformToFill">
             <Image.RenderTransform>
                 <ScaleTransform
                     x:Name="ImageScaleTransform"
@@ -51,7 +52,7 @@
                 FontSize="12"
                 Foreground="White"
                 Opacity="0.6"
-                Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Title}"
+                Text="{Binding Title}"
                 TextAlignment="Center"
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="WrapWithOverflow" />
@@ -63,14 +64,14 @@
             Margin="8"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            IsChecked="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsChecked}"
-            Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CheckBoxVisibility}" />
+            IsChecked="{Binding IsChecked}"
+            Visibility="{Binding CheckBoxVisibility}" />
 
         <!-- 边框： -->
         <Border
             x:Name="border"
             BorderBrush="#4081f2"
-            BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderThickness}" />
+            BorderThickness="{Binding BorderThickness}" />
 
         <!-- 触发器： -->
         <Grid.Triggers>

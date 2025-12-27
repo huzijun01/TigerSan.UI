@@ -1,24 +1,13 @@
-﻿<windows:CustomWindow
-    x:Class="Test.WPF.MainView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:TigerSan.UI.Controls;assembly=TigerSan.UI"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:prism="http://prismlibrary.com/"
-    xmlns:local="clr-namespace:Test.WPF"
-    xmlns:pages="clr-namespace:Test.WPF.Pages"
-    xmlns:panels="clr-namespace:TigerSan.UI.Panels;assembly=TigerSan.UI"
-    xmlns:windows="clr-namespace:TigerSan.UI.Windows;assembly=TigerSan.UI"
-    Title="MainView"
-    Width="800"
-    Height="500"
-    WindowStartupLocation="CenterScreen"
-    Topmost="False"
-    Style="{StaticResource CustomWindowStyle}"
-    mc:Ignorable="d">
-
+﻿<UserControl x:Class="Test.WPF.Pages.NavBarPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Test.WPF.Pages"
+             xmlns:controls="clr-namespace:TigerSan.UI.Controls;assembly=TigerSan.UI"
+             mc:Ignorable="d" 
+             d:DesignWidth="500"
+             d:DesignHeight="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -61,8 +50,7 @@
 
             <!-- 页面: -->
             <Grid Grid.Row="1" Background="{StaticResource Colors.BaseFill}">
-                <controls:PageView NavBarModel="{Binding NavBarModel}"/>
             </Grid>
         </Grid>
     </Grid>
-</windows:CustomWindow>
+</UserControl>

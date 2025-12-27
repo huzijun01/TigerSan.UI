@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- 全局: -->
+    <Duration x:Key="Global.Duration">0:0:0.1</Duration>
+    <system:TimeSpan x:Key="Global.BeginTime">0:0:0.1</system:TimeSpan>
+    <system:Double x:Key="Global.Title.FontSize">18</system:Double>
+    <system:Double x:Key="Global.Content.FontSize">16</system:Double>
+    <FontFamily x:Key="Global.FontFamily">Microsoft YaHei</FontFamily>
+    <FontFamily x:Key="Iconfont" >/TigerSan.UI;component/Fonts/#iconfont</FontFamily>
+    <!-- 文本框: -->
+    <Thickness x:Key="TextBox.Padding">10,5</Thickness>
+    <Thickness x:Key="TextBox.BorderThickness">1</Thickness>
+    <CornerRadius x:Key="TextBox.CornerRadius">2</CornerRadius>
+    <!-- 按钮: -->
+    <Thickness x:Key="Button.Padding">15,8</Thickness>
+    <Thickness x:Key="Button.MarginRight">0,0,12,0</Thickness>
+    <Thickness x:Key="Button.MarginBottom">0,0,0,12</Thickness>
+    <CornerRadius x:Key="Button.CornerRadius">4</CornerRadius>
+    <!-- 表格: -->
+    <GridLength x:Key="DefaultGridWidth">Auto</GridLength>
+    <GridLength x:Key="DefaultGridHeight">Auto</GridLength>
+    <system:Double x:Key="ItemMask.Opacity">0.25</system:Double>
+    <system:Double x:Key="ItemBackground.Opacity">0.25</system:Double>
+    <system:Double x:Key="RowBackground.Opacity">0.25</system:Double>
+    <system:Double x:Key="ColumnWidthHandle.Width">12</system:Double>
+    <system:Double x:Key="ColumnWidthHandle.Pressed.Width">25</system:Double>
+    <!-- 窗口: -->
+    <Thickness x:Key="ZeroThickness">0</Thickness>
+    <Thickness x:Key="WindowPadding">4</Thickness>
+    <!-- 右键菜单项目: -->
+    <system:Double x:Key="MenuItem.FontSize">16</system:Double>
+</ResourceDictionary>

@@ -26,12 +26,23 @@ namespace TigerSan.UI
         /// 默认标题
         /// </summary>
         public static readonly string _defaultTitle = Path.GetFileNameWithoutExtension(Environment.ProcessPath) ?? "TigerSan.UI";
+
+        /// <summary>
+        /// 默认地址
+        /// </summary>
+        public static readonly string _defaultUrl = "https://space.bilibili.com/34323512";
+
+        /// <summary>
+        /// null
+        /// </summary>
+        public static readonly string Null = "null";
         #endregion 【Fields】
 
         #region 【Images】
         public static ImageSource logo_32 { get => GetBitmapSource(Resources.logo_32); }
         public static ImageSource Hello { get => GetBitmapSource(Resources.hello); }
         public static ImageSource Bye { get => GetBitmapSource(Resources.bye); }
+        public static ImageSource Tiger { get => GetBitmapSource(Resources.tiger); }
         #endregion 【Images】
 
         #region 【Styles】
@@ -39,20 +50,29 @@ namespace TigerSan.UI
         public static Style RowBackgroundBorderStyle { get => (Style)_element.FindResource(nameof(RowBackgroundBorderStyle)); }
         public static Style HorizontalDividingLineStyle { get => (Style)_element.FindResource(nameof(HorizontalDividingLineStyle)); }
         public static Style TransparentUserControlStyle { get => (Style)_element.FindResource(nameof(TransparentUserControlStyle)); }
-        public static Style FilePickerStyle { get => (Style)_element.FindResource(nameof(FilePickerStyle)); }
         #endregion 【Styles】
 
+        #region 【Templates】
+        public static DataTemplate NavFolderTemplate { get => (DataTemplate)_element.FindResource(nameof(NavFolderTemplate)); }
+        #endregion 【Templates】
+
         #region 【Colors】
-        // [主色]:
-        public static SolidColorBrush Brand { get => GetSolidColorBrush("#409EFF"); }
+        #region [主色]
+        public static SolidColorBrush Brand { get => GetSolidColorBrush("#376FDE"); }
+        public static SolidColorBrush Brand_10pct { get => GetSolidColorBrush("#1A376FDE"); }
+        public static SolidColorBrush Brand_25pct { get => GetSolidColorBrush("#40376FDE"); }
+        public static SolidColorBrush Brand_50pct { get => GetSolidColorBrush("#7F376FDE"); }
+        public static SolidColorBrush Brand_75pct { get => GetSolidColorBrush("#BF376FDE"); }
+        #endregion [主色]
 
-        // [辅助色]:
-        public static SolidColorBrush Success { get => GetSolidColorBrush("#67C23A"); }
-        public static SolidColorBrush Warning { get => GetSolidColorBrush("#E6A23C"); }
-        public static SolidColorBrush Danger { get => GetSolidColorBrush("#F56C6C"); }
+        #region [辅助色]
+        public static SolidColorBrush Success { get => GetSolidColorBrush("#4AB616"); }
+        public static SolidColorBrush Warning { get => GetSolidColorBrush("#E19F1A"); }
+        public static SolidColorBrush Danger { get => GetSolidColorBrush("#FF4D4F"); }
         public static SolidColorBrush Info { get => GetSolidColorBrush("#909399"); }
+        #endregion [辅助色]
 
-        // [中性色]:
+        #region [中性色]
         // 基础:
         public static SolidColorBrush BasicBlack { get => GetSolidColorBrush("#000000"); }
         public static SolidColorBrush BasicWhite { get => GetSolidColorBrush("#FFFFFF"); }
@@ -82,6 +102,18 @@ namespace TigerSan.UI
         public static SolidColorBrush PageBackground { get => GetSolidColorBrush("#0A0A0A"); }
         public static SolidColorBrush BaseBackground { get => GetSolidColorBrush("#141414"); }
         public static SolidColorBrush OverlayBackground { get => GetSolidColorBrush("#1D1E1F"); }
+        // 纯色:
+        public static SolidColorBrush Black_10pct { get => GetSolidColorBrush("#1A000000"); }
+        public static SolidColorBrush Black_25pct { get => GetSolidColorBrush("#40000000"); }
+        public static SolidColorBrush Black_50pct { get => GetSolidColorBrush("#7F000000"); }
+        public static SolidColorBrush Black_75pct { get => GetSolidColorBrush("#BF000000"); }
+        public static SolidColorBrush White_10pct { get => GetSolidColorBrush("#1AFFFFFF"); }
+        public static SolidColorBrush White_25pct { get => GetSolidColorBrush("#40FFFFFF"); }
+        public static SolidColorBrush White_50pct { get => GetSolidColorBrush("#7FFFFFFF"); }
+        public static SolidColorBrush White_75pct { get => GetSolidColorBrush("#BFFFFFFF"); }
+        #endregion [中性色]
+
+        #region [控件]
         // 遮罩:
         public static SolidColorBrush MaskHover { get => GetSolidColorBrush("#22000000"); }
         public static SolidColorBrush MaskPressed { get => GetSolidColorBrush("#22FFFFFF"); }
@@ -95,7 +127,8 @@ namespace TigerSan.UI
         public static SolidColorBrush PixelDot_NotSelected_BorderBrush { get => GetSolidColorBrush("#777"); }
         // 菜单项目:
         public static SolidColorBrush MenuItem_Hover { get => GetSolidColorBrush("#404040"); }
-        #endregion
+        #endregion [控件]
+        #endregion 【Colors】
 
         #region 【Constants】
         public static double ColumnWidthHandleWidth = 12;

@@ -22,7 +22,7 @@
         <Canvas
             Width="{Binding CanvasWidth}"
             Height="{Binding CanvasHeight}"
-            Background="{StaticResource Colors.BaseFill}">
+            Background="{StaticResource Colors.BaseBorder}">
             <!-- 按钮： -->
             <Button
                 Content="按钮"

@@ -9,7 +9,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <!--  基础：  -->
                 <ResourceDictionary Source="/TigerSan.UI;component/Generic.xaml"/>
-                <ResourceDictionary Source="/TigerSan.UI.Temp;component/Generic.xaml"/>
                 <!--  图片：  -->
                 <ResourceDictionary Source="/Images/Images.xaml" />
             </ResourceDictionary.MergedDictionaries>

@@ -5,6 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <!--  控件：  -->
         <ResourceDictionary Source="Controls/FilePicker/FilePickerStyle.xaml"/>
+        <ResourceDictionary Source="Controls/NavBar/NavBarStyle.xaml" />
         <ResourceDictionary Source="Controls/NumBox/NumBoxStyle.xaml" />
         <ResourceDictionary Source="Controls/Switch/SwitchStyle.xaml" />
         <ResourceDictionary Source="Controls/TableGrid/TableGridStyle.xaml" />
@@ -14,6 +15,7 @@
         <ResourceDictionary Source="Styles/BorderStyle.xaml" />
         <ResourceDictionary Source="Styles/ButtonStyle.xaml" />
         <ResourceDictionary Source="Styles/CheckBoxStyle.xaml" />
+        <ResourceDictionary Source="Styles/CircleButtonTemplate.xaml" />
         <ResourceDictionary Source="Styles/ContextMenuStyle.xaml" />
         <ResourceDictionary Source="Styles/ItemContainerStyle.xaml" />
         <ResourceDictionary Source="Styles/MenuItemStyle.xaml" />
@@ -44,6 +46,7 @@
             <BitmapImage x:Key="logo_32" UriSource="Images/logo_32.png" />
             <BitmapImage x:Key="Hello" UriSource="Images/hello.png" />
             <BitmapImage x:Key="Bye" UriSource="Images/bye.png" />
+            <BitmapImage x:Key="Tiger" UriSource="Images/tiger.png" />
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

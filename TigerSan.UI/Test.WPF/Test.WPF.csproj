@@ -32,12 +32,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TigerSan.UI.Temp\TigerSan.UI.Temp.csproj" />
     <ProjectReference Include="..\TigerSan.UI\TigerSan.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Pages\DragPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\NavBarPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\ImageButtonPage.xaml.cs">

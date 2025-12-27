@@ -13,7 +13,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>WPF;C#;.NET8;</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.10.3</Version>
+    <Version>1.0.0</Version>
     <Authors>TigerSan</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/huzijun01/TigerSan.UI</RepositoryUrl>
@@ -34,6 +34,7 @@
     <None Remove="Images\bye.png" />
     <None Remove="Images\hello.png" />
     <None Remove="Images\logo_32.png" />
+    <None Remove="Images\tiger.png" />
     <None Remove="Logos\logo.ico" />
   </ItemGroup>
 
@@ -63,6 +64,7 @@
     <Resource Include="Images\logo_32.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\tiger.png" />
     <Resource Include="Logos\logo.ico" />
     <Resource Include="Logos\logo.png">
       <PackagePath>\</PackagePath>
@@ -71,7 +73,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\NavBar\NavButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\NumBox\NumBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\PageView\PageView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\PageView\PageButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\TableGrid\TableItem.xaml.cs">

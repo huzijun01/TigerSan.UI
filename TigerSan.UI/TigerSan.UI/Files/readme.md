@@ -16,6 +16,8 @@ Before use, you need to reference "Generic.xaml" in "App.xaml".
 
 # 4. Classification:
 ## Animations:
+### BrushAnimations:
+
 ### DoubleAnimations:
 
 ### ColorAnimations:
@@ -31,9 +33,19 @@ Before use, you need to reference "Generic.xaml" in "App.xaml".
 ## Controls:
 ### FilePicker:
 
-### ImageButton:
+### NavBar:
+#### NavBar:
+#### NavButton:
+#### NavFolder:
 
 ### NumBox:
+
+### PageView:
+#### PageBar:
+#### PageButton:
+#### PageView:
+
+### ImageButton:
 
 ### TableGrid:
 #### Major Function:
@@ -82,6 +94,8 @@ When the data is incorrect, the item mask will automatically turn red.
 
 Can be used as global data.
 
+### BindingHelper:
+
 ### DragHelper:
 
 ### GridHelper:
@@ -104,6 +118,11 @@ If the program has already started, it will exit.
 ### WindowHelper:
 
 ## Models:
+### NavBar:
+#### NavBarModel:
+#### NavButtonModel:
+#### NavFolderModel:
+
 ### DragData:
 
 ### MenuItemModel:
@@ -114,9 +133,7 @@ If the program has already started, it will exit.
 
 ### VersionModels:
 #### UpdateInfo:
-
 #### ComparisonResults:
-
 #### VersionModel:
 
 ## Panels:
@@ -126,7 +143,7 @@ If the program has already started, it will exit.
 
 ## Styles:
 ### Global:
-Colors, Constant.
+Colors, Constants, Icons.
 
 ### BorderStyle:
 `CardBorderStyle`:
@@ -144,6 +161,9 @@ Colors, Constant.
 
 ### CheckBoxStyle:
 `CheckBoxStyle`: Global.
+
+### CircleButtonTemplate:
+`CircleButtonTemplate`:
 
 ### ContextMenuStyle:
 `ContextMenuStyle`: Global.

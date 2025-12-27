@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.NavFolder"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:local="clr-namespace:TigerSan.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300"
+             d:DesignWidth="200">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/TigerSan.UI;component/Controls/NavBar/NavBarStyle.xaml"/>
+    </UserControl.Resources>
+
+    <Grid
+        d:DataContext="{StaticResource NavFolderDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题: -->
+        <Grid Background="{Binding Background}">
+            <Grid x:Name="title" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 图标: -->
+                <Label
+                    x:Name="icon"
+                    Grid.Column="0"
+                    Content="{Binding Icon}"
+                    Foreground="{Binding Foreground}"
+                    Style="{StaticResource NavLabelStyle}"/>
+
+                <!-- 文本: -->
+                <TextBlock
+                    x:Name="text"
+                    Grid.Column="1"
+                    FontWeight="Bold"
+                    Text="{Binding Title}"
+                    Foreground="{Binding Foreground}"
+                    Style="{StaticResource NavTextBlockStyle}"/>
+
+                <!-- 箭头: -->
+                <Label
+                    x:Name="arrow"
+                    Grid.Column="2"
+                    Content="{StaticResource Icons.Arrow.Right}"
+                    Foreground="{Binding Foreground}"
+                    Style="{StaticResource NavLabelStyle}">
+                    <Label.RenderTransform>
+                        <RotateTransform
+                            CenterX="8"
+                            CenterY="8"
+                            Angle="{Binding ArrowAngle}" />
+                    </Label.RenderTransform>
+                </Label>
+            </Grid>
+
+            <!-- 遮罩: -->
+            <Border
+                x:Name="mask"
+                Cursor="Hand"
+                Background="Transparent"/>
+        </Grid>
+
+        <!-- 内容: -->
+        <Grid x:Name="content" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- 子文件夹: -->
+            <ItemsControl
+                x:Name="subFolders"
+                Margin="15,0,0,0"
+                ItemsSource="{Binding FolderModels}"
+                ItemTemplate="{Binding ItemTemplate}"/>
+
+            <!-- 按钮: -->
+            <ItemsControl
+                x:Name="buttons"
+                Grid.Row="1"
+                Margin="15,0,0,0"
+                ItemsSource="{Binding ButtonModels}"
+                ItemTemplate="{StaticResource NavButtonTemplate}"/>
+        </Grid>
+    </Grid>
+</UserControl>

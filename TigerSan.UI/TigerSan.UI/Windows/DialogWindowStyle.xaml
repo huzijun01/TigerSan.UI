@@ -66,7 +66,7 @@
                                     Foreground="{DynamicResource Colors.PrimaryText}"/>
                                 <Button
                                     x:Name="btnClose"
-                                    Content="&#xe639;"
+                                    Content="{StaticResource Icons.Close.Thin}"
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     Command="{Binding Path=btnClose_ClickCommand}"

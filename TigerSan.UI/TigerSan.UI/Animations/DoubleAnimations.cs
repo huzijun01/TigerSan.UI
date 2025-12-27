@@ -106,4 +106,43 @@ namespace TigerSan.UI.Animations
         }
         #endregion
     }
+
+    public class DoubleGradientStoryboard
+    {
+        #region 【Fields】
+        private Storyboard _sbForward;
+        private DoubleAnimation _animationForward;
+        #endregion 【Fields】
+
+        #region 【Ctor】
+        public DoubleGradientStoryboard(
+            DependencyObject target,
+            DependencyProperty dp,
+            double secDuration,
+            double from,
+            double to)
+        {
+            // 动画：
+            _animationForward = DoubleAnimations.Gradient(
+                target,
+                dp,
+                Generic.DurationTotalSeconds,
+                from,
+                to);
+
+            // 故事板：
+            _sbForward = new Storyboard();
+            _sbForward.Children.Add(_animationForward);
+        }
+        #endregion 【Ctor】
+
+        #region 【Functions】
+        #region 开始
+        public void Begin()
+        {
+            _sbForward.Begin();
+        }
+        #endregion
+        #endregion 【Functions】
+    }
 }

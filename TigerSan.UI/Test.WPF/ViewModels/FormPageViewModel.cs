@@ -76,6 +76,9 @@ namespace Test.WPF.ViewModels
         public ICommand NumBox_LostFocusCommand { get => new DelegateCommand<object>(NumBox_LostFocus); }
         private void NumBox_LostFocus(object value)
         {
+            var isDo = true;
+            if (isDo) return;
+
             var sb = new System.Text.StringBuilder();
             sb.AppendLine($"{nameof(NumBox_LostFocus)}:");
             sb.AppendLine($"value = {value}");

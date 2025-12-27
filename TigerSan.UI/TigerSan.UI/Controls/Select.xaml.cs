@@ -1,15 +1,18 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using System.Collections.ObjectModel;
-using TigerSan.UI.Animations;
-using TigerSan.UI.Converters;
-using TigerSan.UI.Models;
 using TigerSan.CsvLog;
 using TigerSan.TimerHelper.WPF;
+using TigerSan.UI.Animations;
+using TigerSan.UI.Converters;
+using TigerSan.UI.Helpers;
+using TigerSan.UI.Models;
 using TigerSan.UI.Windows;
 
 namespace TigerSan.UI.Controls
@@ -28,11 +31,6 @@ namespace TigerSan.UI.Controls
         private static double _arrowAngleClose = 90.0;
 
         /// <summary>
-        /// 是否鼠标悬浮
-        /// </summary>
-        private bool _isHover = false;
-
-        /// <summary>
         /// 菜单窗口
         /// </summary>
         private MenuWindow? _menuWindow;
@@ -41,6 +39,11 @@ namespace TigerSan.UI.Controls
         /// 菜单显示延时定时器
         /// </summary>
         private ActionTimer _timerMenuShowDelay = new ActionTimer(50, false);
+
+        /// <summary>
+        /// 边框动画
+        /// </summary>
+        private BrushGradientAnimation _borderAnimation;
         #endregion 【Fields】
 
         #region 【DependencyProperties】
@@ -60,29 +63,6 @@ namespace TigerSan.UI.Controls
                 typeof(string),
                 typeof(Select),
                 new PropertyMetadata(string.Empty));
-        #endregion
-
-        #region 边框色
-        /// <summary>
-        /// 边框色
-        /// </summary>
-        public Color BorderColor
-        {
-            get { return (Color)GetValue(BorderColorProperty); }
-            private set { SetValue(BorderColorProperty, value); }
-        }
-        public static readonly DependencyProperty BorderColorProperty =
-            DependencyProperty.Register(
-                nameof(BorderColor),
-                typeof(Color),
-                typeof(Select),
-                new PropertyMetadata(Colors.Transparent, BorderColorChanged));
-
-        private static void BorderColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (Select)d;
-            control.BorderBrush = new SolidColorBrush(control.BorderColor);
-        }
         #endregion
 
         #region 边框笔刷
@@ -432,9 +412,12 @@ namespace TigerSan.UI.Controls
         public Select()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
-            _timerMenuShowDelay._action = ShowMenu;
+            _borderAnimation = new BrushGradientAnimation(SetBorderBrush, Colors.Transparent);
             UpdateState();
+            AddValueChanged();
+            Loaded += OnLoaded;
+            MouseLeftButtonDown += OnMouseLeftButtonDown;
+            _timerMenuShowDelay._action = ShowMenu;
         }
         #endregion 【Ctor】
 
@@ -459,30 +442,9 @@ namespace TigerSan.UI.Controls
             Value = model.Source;
         }
         #endregion
-        #endregion 【Events】
 
-        #region 【Commands】
-        #region 鼠标进入遮罩
-        public ICommand Mask_MouseEnterCommand { get => new DelegateCommand(Mask_MouseEnter); }
-        private void Mask_MouseEnter()
-        {
-            _isHover = true;
-            UpdateState();
-        }
-        #endregion
-
-        #region 鼠标离开遮罩
-        public ICommand Mask_MouseLeaveCommand { get => new DelegateCommand(Mask_MouseLeave); }
-        private void Mask_MouseLeave()
-        {
-            _isHover = false;
-            UpdateState();
-        }
-        #endregion
-
-        #region 鼠标按下遮罩
-        public ICommand Mask_MouseLeftButtonDownCommand { get => new DelegateCommand(Mask_MouseLeftButtonDown); }
-        private void Mask_MouseLeftButtonDown()
+        #region 鼠标按下
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IsOpen = !IsOpen;
 
@@ -496,10 +458,24 @@ namespace TigerSan.UI.Controls
             }
         }
         #endregion
-        #endregion 【Commands】
+        #endregion 【Events】
 
         #region 【Functions】
-        #region 更新文本
+        #region 添加“值改变事件”
+        private void AddValueChanged()
+        {
+            BindingHelper.AddValueChanged(
+                this,
+                typeof(Select),
+                IsMouseOverProperty,
+                (s, e) =>
+                {
+                    UpdateState();
+                });
+        }
+        #endregion
+
+        #region 更新“文本”
         public void UpdateText()
         {
             Text = GetText(Value);
@@ -508,25 +484,25 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 更新状态
+        #region 更新“状态”
         public void UpdateState()
         {
             #region 边框色
             if (!IsEnabled)
             {
-                SetBorderColor(Generic.BaseBorder.Color);
+                _borderAnimation.SetColor(Generic.BaseBorder.Color);
             }
             else if (IsOpen)
             {
-                SetBorderColor(Generic.Brand.Color);
+                _borderAnimation.SetColor(Generic.Brand.Color);
             }
-            else if (_isHover)
+            else if (IsMouseOver)
             {
-                SetBorderColor(Generic.DisabledText.Color);
+                _borderAnimation.SetColor(Generic.DisabledText.Color);
             }
             else
             {
-                SetBorderColor(Generic.DarkBorder.Color);
+                _borderAnimation.SetColor(Generic.DarkBorder.Color);
             }
             #endregion 边框色
 
@@ -553,7 +529,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 初始化旋转中心
+        #region 初始化“旋转中心”
         private void InitRotationCenter()
         {
             var transform = Arrow.RenderTransform as RotateTransform;
@@ -568,10 +544,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 更新箭头角度
-        /// <summary>
-        /// 更新箭头角度
-        /// </summary>
+        #region 更新“箭头角度”
         private void UpdateArrowAngle()
         {
             Storyboard storyboard = new Storyboard();
@@ -593,31 +566,14 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 设置边框色
-        /// <summary>
-        /// 设置边框色
-        /// </summary>
-        private void SetBorderColor(Color to)
+        #region 设置“边框笔刷”
+        private void SetBorderBrush(Brush brush)
         {
-            if (Equals(BorderColor, to)) return;
-
-            Storyboard storyboard = new Storyboard();
-
-            var gradient = ColorAnimations.Gradient(
-                this,
-                BorderColorProperty,
-                Generic.DurationTotalSeconds,
-                BorderColor,
-                to
-                );
-            storyboard.Children.Add(gradient);
-
-            // 开始storyboard：
-            storyboard.Begin();
+            BorderBrush = brush;
         }
         #endregion
 
-        #region 获取文本
+        #region 获取“文本”
         public string GetText(object? source)
         {
             string? text = string.Empty;
@@ -635,7 +591,7 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 打开菜单
+        #region 打开“菜单”
         private void OpenMenu()
         {
             RaiseOpenedEvent();
@@ -652,14 +608,14 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 显示菜单
+        #region 显示“菜单”
         private void ShowMenu()
         {
             _menuWindow?.Show();
         }
         #endregion
 
-        #region 关闭菜单
+        #region 关闭“菜单”
         private void CloseMenu()
         {
             RaiseClosedEvent();

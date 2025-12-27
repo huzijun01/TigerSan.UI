@@ -5,6 +5,15 @@
     <Compile Update="Controls\FilePicker\FilePicker.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\NavBar\NavBar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\NavBar\NavFolder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\PageView\PageBar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\PixelDot.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -23,7 +32,7 @@
     <Compile Update="Controls\TableGrid\TableHeader.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\ImageButton\ImageButton.xaml.cs">
+    <Compile Update="Controls\ImageButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\Loading.xaml.cs">

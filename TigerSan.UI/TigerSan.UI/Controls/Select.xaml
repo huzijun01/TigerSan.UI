@@ -52,9 +52,9 @@
             <TextBlock
                 x:Name="Arrow"
                 Grid.Column="1"
-                Text="&#xe603;"
                 Margin="8,0,0,0"
                 FontFamily="{StaticResource Iconfont}"
+                Text="{StaticResource Icons.Arrow.Right}"
                 Style="{StaticResource SelectPlaceholderTextBlockStyle}">
                 <TextBlock.RenderTransform>
                     <RotateTransform
@@ -70,18 +70,6 @@
             x:Name="Mask"
             Grid.ColumnSpan="2"
             Background="Transparent"
-            Cursor="{Binding Cursor}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseEnter">
-                    <prism:InvokeCommandAction Command="{Binding Mask_MouseEnterCommand}" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeave">
-                    <prism:InvokeCommandAction Command="{Binding Mask_MouseLeaveCommand}" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <prism:InvokeCommandAction Command="{Binding Mask_MouseLeftButtonDownCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Border>
+            Cursor="{Binding Cursor}"/>
     </Grid>
 </UserControl>

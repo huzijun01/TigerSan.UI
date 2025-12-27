@@ -48,6 +48,19 @@
         <Setter Property="Background" Value="{DynamicResource Colors.Brand}" />
     </Style>
 
+    <!--  方形按钮：  -->
+    <Style x:Key="SquareArrowButton" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Content" Value="{StaticResource Icons.Menu}"/>
+        <Setter Property="FontFamily" Value="{StaticResource Iconfont}"/>
+        <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
+        <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
+        <Setter Property="Background" Value="{StaticResource Colors.Brand}"/>
+    </Style>
+
     <!--  屏保按钮：  -->
     <Style x:Key="ScreenSaverButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="MinWidth" Value="30" />

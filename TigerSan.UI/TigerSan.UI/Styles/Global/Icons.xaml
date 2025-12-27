@@ -1,0 +1,152 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- A: -->
+    <system:String x:Key="Icons.All">&#xe609;</system:String>
+    <system:String x:Key="Icons.Add">&#xe64f;</system:String>
+    <system:String x:Key="Icons.About">&#xe602;</system:String>
+    <system:String x:Key="Icons.Album">&#xe632;</system:String>
+    <system:String x:Key="Icons.Add.PIC">&#xe78d;</system:String>
+    <system:String x:Key="Icons.Animation">&#xe6ec;</system:String>
+    <system:String x:Key="Icons.Add.Small">&#xe761;</system:String>
+    <system:String x:Key="Icons.Arrow.Down">&#xe87e;</system:String>
+    <system:String x:Key="Icons.Add.Corner">&#xe64d;</system:String>
+    <system:String x:Key="Icons.Arrow.Right">&#xe603;</system:String>
+    <system:String x:Key="Icons.Align.Right">&#xec82;</system:String>
+    <system:String x:Key="Icons.Align.Center">&#xec80;</system:String>
+    <system:String x:Key="Icons.Align.Stretch">&#xec87;</system:String>
+    <system:String x:Key="Icons.Arrow.Left.Small">&#xe765;</system:String>
+    <system:String x:Key="Icons.Arrow.Right.Small">&#xe764;</system:String>
+
+    <!-- B: -->
+    <system:String x:Key="Icons.Bilibili">&#xe68f;</system:String>
+
+    <!-- C: -->
+    <system:String x:Key="Icons.Copy">&#xe75d;</system:String>
+    <system:String x:Key="Icons.Click">&#xe7fb;</system:String>
+    <system:String x:Key="Icons.Close">&#xe639;</system:String>
+    <system:String x:Key="Icons.Covert">&#xf079;</system:String>
+    <system:String x:Key="Icons.Close.Thin">&#xe649;</system:String>
+    <system:String x:Key="Icons.Close.All">&#xe601;</system:String>
+
+    <!-- D: -->
+    <system:String x:Key="Icons.DOC">&#xe60a;</system:String>
+    <system:String x:Key="Icons.Disabled">&#xe658;</system:String>
+    <system:String x:Key="Icons.Drag.Hand">&#xe605;</system:String>
+    <system:String x:Key="Icons.DataOutput">&#xe748;</system:String>
+    <system:String x:Key="Icons.Drag.Arrow">&#xe631;</system:String>
+    <system:String x:Key="Icons.Drag.Square">&#xe7ab;</system:String>
+    <system:String x:Key="Icons.Delete_Planar">&#xe68c;</system:String>
+    <system:String x:Key="Icons.Delete_Linear">&#xe75e;</system:String>
+
+    <!-- E: -->
+    <system:String x:Key="Icons.EQP">&#xe60c;</system:String>
+    <system:String x:Key="Icons.Eye">&#xe63f;</system:String>
+    <system:String x:Key="Icons.Edit">&#xe62e;</system:String>
+    <system:String x:Key="Icons.Eye.Close">&#xe607;</system:String>
+
+    <!-- F: -->
+    <system:String x:Key="Icons.File.New">&#xe64e;</system:String>
+    <system:String x:Key="Icons.File.Linear">&#xe718;</system:String>
+    <system:String x:Key="Icons.File.Planar">&#xe64a;</system:String>
+    <system:String x:Key="Icons.Folder.Linear">&#xec17;</system:String>
+    <system:String x:Key="Icons.Folder.Planar">&#xe676;</system:String>
+    <system:String x:Key="Icons.Feedback.Write">&#xe6ad;</system:String>
+    <system:String x:Key="Icons.Feedback.Letter">&#xe63e;</system:String>
+
+    <!-- G: -->
+    <system:String x:Key="Icons.Grid">&#xea3d;</system:String>
+    <system:String x:Key="Icons.Global.Net">&#xe735;</system:String>
+    <system:String x:Key="Icons.Global.Small">&#xeb31;</system:String>
+    <system:String x:Key="Icons.Global.Linear">&#xe7eb;</system:String>
+
+    <!-- H: -->
+    <system:String x:Key="Icons.Home">&#xe600;</system:String>
+
+    <!-- I: -->
+    <system:String x:Key="Icons.Input">&#xe65f;</system:String>
+    <system:String x:Key="Icons.InputDataSource">&#xe651;</system:String>
+
+    <!-- K: -->
+    <system:String x:Key="Icons.Keyboard">&#xe646;</system:String>
+
+    <!-- L: -->
+    <system:String x:Key="Icons.Loop">&#xe75f;</system:String>
+    <system:String x:Key="Icons.Letter">&#xe6e6;</system:String>
+    <system:String x:Key="Icons.Lightning">&#xe7e0;</system:String>
+    <system:String x:Key="Icons.Loading.Dot">&#xe7c5;</system:String>
+    <system:String x:Key="Icons.Loading.Circle">&#xe611;</system:String>
+
+    <!-- M: -->
+    <system:String x:Key="Icons.Mute">&#xe99b;</system:String>
+    <system:String x:Key="Icons.Menu">&#xe624;</system:String>
+    <system:String x:Key="Icons.Monitor">&#xe924;</system:String>
+    <system:String x:Key="Icons.Maximize">&#xe62c;</system:String>
+    <system:String x:Key="Icons.Minimize">&#xe70d;</system:String>
+    <system:String x:Key="Icons.Menu.Icon">&#xe68d;</system:String>
+    <system:String x:Key="Icons.Msg.Square">&#xe65e;</system:String>
+    <system:String x:Key="Icons.Msg.Circle">&#xe6a0;</system:String>
+    <system:String x:Key="Icons.Measurement.Ruler">&#xe627;</system:String>
+    <system:String x:Key="Icons.Measurement.Triangle">&#xe762;</system:String>
+
+    <!-- O: -->
+    <system:String x:Key="Icons.Output">&#xe65d;</system:String>
+
+    <!-- P: -->
+    <system:String x:Key="Icons.Pet">&#xe630;</system:String>
+    <system:String x:Key="Icons.PIC">&#xe686;</system:String>
+    <system:String x:Key="Icons.Play">&#xe619;</system:String>
+    <system:String x:Key="Icons.Pause">&#xe618;</system:String>
+    <system:String x:Key="Icons.Pointer">&#xe7bb;</system:String>
+    <system:String x:Key="Icons.Product">&#xe6b6;</system:String>
+    <system:String x:Key="Icons.Plugin.Linear">&#xe60b;</system:String>
+    <system:String x:Key="Icons.Plugin.Planar">&#xe648;</system:String>
+
+    <!-- Q: -->
+    <system:String x:Key="Icons.Question">&#xe72d;</system:String>
+
+    <!-- R: -->
+    <system:String x:Key="Icons.Radar">&#xe901;</system:String>
+    <system:String x:Key="Icons.Refresh">&#xec08;</system:String>
+
+    <!-- S: -->
+    <system:String x:Key="Icons.Sub">&#xe62b;</system:String>
+    <system:String x:Key="Icons.Size">&#xe63c;</system:String>
+    <system:String x:Key="Icons.Stop">&#xe737;</system:String>
+    <system:String x:Key="Icons.Skin">&#xe6b5;</system:String>
+    <system:String x:Key="Icons.Switch">&#xe634;</system:String>
+    <system:String x:Key="Icons.Screen">&#xe666;</system:String>
+    <system:String x:Key="Icons.StartUp">&#xe626;</system:String>
+    <system:String x:Key="Icons.SelectAll">&#xe613;</system:String>
+    <system:String x:Key="Icons.Save.Planar">&#xe8c8;</system:String>
+    <system:String x:Key="Icons.ScreenSaver">&#xe6b8;</system:String>
+    <system:String x:Key="Icons.Save_Linear">&#xe60d;</system:String>
+    <system:String x:Key="Icons.SelectButton">&#xe604;</system:String>
+    <system:String x:Key="Icons.Setting.Linear">&#xe62f;</system:String>
+    <system:String x:Key="Icons.Setting.Planar">&#xe650;</system:String>
+    <system:String x:Key="Icons.Setting_Linear">&#xe62f;</system:String>
+
+    <!-- T: -->
+    <system:String x:Key="Icons.Tray">&#xe620;</system:String>
+    <system:String x:Key="Icons.Time">&#xe635;</system:String>
+    <system:String x:Key="Icons.Team">&#xe749;</system:String>
+    <system:String x:Key="Icons.Table">&#xe66b;</system:String>
+    <system:String x:Key="Icons.Tools">&#xebb4;</system:String>
+    <system:String x:Key="Icons.Topmost">&#xe63d;</system:String>
+    <system:String x:Key="Icons.TextBox.A">&#xe77d;</system:String>
+    <system:String x:Key="Icons.TextBox.T">&#xe687;</system:String>
+    <system:String x:Key="Icons.Time.Small">&#xe60e;</system:String>
+    <system:String x:Key="Icons.TuningButton">&#xe606;</system:String>
+    <system:String x:Key="Icons.Topmost.Cancel">&#xe892;</system:String>
+
+    <!-- U: -->
+    <system:String x:Key="Icons.Unmute">&#xe6f6;</system:String>
+
+    <!-- V: -->
+    <system:String x:Key="Icons.Video">&#xe672;</system:String>
+    <system:String x:Key="Icons.ViewProcess">&#xe62d;</system:String>
+
+    <!-- W: -->
+    <system:String x:Key="Icons.Write">&#xe75b;</system:String>
+    <system:String x:Key="Icons.Window">&#xe60f;</system:String>
+</ResourceDictionary>
