@@ -1,14 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Controls;
-using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
+using System.Collections.ObjectModel;
 using TigerSan.CsvLog;
-using TigerSan.ScreenDetection;
-using TigerSan.ScreenDetection.Models;
 using TigerSan.UI.Models;
 using TigerSan.UI.Animations;
 using TigerSan.UI.Converters;
+using TigerSan.TimerHelper.WPF;
+using TigerSan.ScreenDetection;
+using TigerSan.ScreenDetection.Models;
 
 namespace TigerSan.UI.Windows
 {
@@ -29,6 +30,11 @@ namespace TigerSan.UI.Windows
     {
         #region 【Fields】
         /// <summary>
+        /// 已打开的“菜单窗口”
+        /// </summary>
+        private static MenuWindow? _openedMenuWindow;
+
+        /// <summary>
         /// 选择器
         /// </summary>
         private Control _control;
@@ -42,11 +48,6 @@ namespace TigerSan.UI.Windows
         /// 项目点击委托
         /// </summary>
         public Action<MenuItemModel>? _itemClicked;
-
-        /// <summary>
-        /// 是否被关闭
-        /// </summary>
-        private bool _isClosed = false;
 
         /// <summary>
         /// 打开方向
@@ -83,6 +84,13 @@ namespace TigerSan.UI.Windows
                 new PropertyMetadata(ScrollBarVisibility.Auto));
         #endregion
         #endregion [Private]
+
+        #region [OneWay]
+        /// <summary>
+        /// 是否已关闭
+        /// </summary>
+        public bool IsClosed { get; private set; } = false;
+        #endregion [OneWay]
 
         #region 项目集合
         /// <summary>
@@ -144,27 +152,44 @@ namespace TigerSan.UI.Windows
         #region 关闭后
         private void OnClosed(object? sender, EventArgs e)
         {
-            _isClosed = true;
+            IsClosed = true;
         }
         #endregion
 
         #region 失活后
         private void OnDeactivated(object? sender, EventArgs e)
         {
-            SafeClose();
+            SetHeightAndClose();
         }
         #endregion
 
         #region 项目被点击
         private void OnItemClicked(MenuItemModel itemModel)
         {
-            SafeClose();
+            SetHeightAndClose();
             _itemClicked?.Invoke(itemModel);
         }
         #endregion
         #endregion 【Events】
 
         #region 【Functions】
+        #region [Static]
+        #region 判断“是否已显示弹窗”
+        public static bool IsShowed(Control control)
+        {
+            return _openedMenuWindow != null && Equals(control, _openedMenuWindow._control);
+        }
+        #endregion
+
+        #region 判断“是否已全部关闭”
+        public static bool IsAllClosed(Control control)
+        {
+            return _openedMenuWindow == null || Equals(control, _openedMenuWindow._control) && _openedMenuWindow.IsClosed;
+        }
+        #endregion
+        #endregion [Static]
+
+        #region [Private]
         #region 初始化“窗口”
         private void InitWindow()
         {
@@ -420,12 +445,46 @@ namespace TigerSan.UI.Windows
             storyboard.Begin();
         }
         #endregion
+        #endregion [Private]
 
-        #region 安全关闭
-        public void SafeClose()
+        #region [Override]
+        #region 显示
+        public new void Show()
         {
-            if (_isClosed) return;
+            if (IsShowed(_control) || !IsAllClosed(_control)) return; // 防止“多开”
 
+            _openedMenuWindow?.SetHeightAndClose();
+            _openedMenuWindow = this;
+
+            new ActionTimer(50, false, () =>
+            {
+                base.Show();
+            }).Start(); // 防止“漏失活事件”
+        }
+        #endregion
+
+        #region 关闭
+        private new void Close()
+        {
+            if (IsClosed) return;
+
+            try
+            {
+                base.Close();
+                _closed?.Invoke();
+                _openedMenuWindow = null;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Instance.Error(e.Message);
+            }
+        }
+        #endregion
+        #endregion [Override]
+
+        #region 设置高度并关闭
+        public void SetHeightAndClose()
+        {
             switch (_openDirection)
             {
                 case Direction.Top:
@@ -451,15 +510,6 @@ namespace TigerSan.UI.Windows
                 default:
                     break;
             }
-        }
-        #endregion
-
-        #region 关闭
-        private new void Close()
-        {
-            base.Close();
-            _isClosed = true;
-            _closed?.Invoke();
         }
         #endregion
         #endregion 【Functions】

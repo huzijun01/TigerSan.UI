@@ -33,6 +33,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal">
@@ -55,6 +56,11 @@
                         Command="{Binding btnDelete_ClickCommand}"
                         Margin="{StaticResource Button.MarginRight}"
                         Background="{StaticResource Colors.Danger}"/>
+
+                <!-- 开关按钮： -->
+                <controls:Switch
+                    Value="{Binding IsShowMsg}"
+                    Margin="{StaticResource Button.MarginRight}"/>
             </StackPanel>
 
             <StackPanel
@@ -70,16 +76,21 @@
                     Style="{StaticResource PropValueTextBlockStyle}"/>
             </StackPanel>
 
+            <!--<controls:TableGridStatic
+                x:Name="table"
+                Grid.Row="2"
+                Margin="0,5,0,0"/>-->
+
             <controls:TableGrid
                 x:Name="table"
                 Grid.Row="2"
-                Margin="{StaticResource MarginTop}"
+                Margin="0,5,0,0"
                 TableModel="{Binding EmployeeTable}"/>
 
-            <!--<controls:TableGridStatic
-                x:Name="table"
-                Grid.Row="1"
-                Margin="0,5,0,0"/>-->
+            <controls:Pagination
+                Grid.Row="3"
+                Margin="0,5,0,0"
+                PaginationModel="{Binding PaginationModel}"/>
         </Grid>
     </Border>
 </UserControl>

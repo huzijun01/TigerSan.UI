@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:local="clr-namespace:TigerSan.UI.Controls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:TigerSan.UI.Converters"
              mc:Ignorable="d" 
              Cursor="Hand"
              Width="150"
@@ -17,9 +18,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary  Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
-                <ResourceDictionary  Source="/TigerSan.UI;component/Styles/CircleButtonTemplate.xaml"/>
+                <ResourceDictionary  Source="/TigerSan.UI;component/Styles/Templates/CircleButtonTemplate.xaml"/>
                 <ResourceDictionary>
                     <local:PageButtonDesignData x:Key="PageButtonDesignData"/>
+                    <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
@@ -93,6 +95,7 @@
                         Grid.Column="2"
                         Content="{StaticResource Icons.Close}"
                         Foreground="{Binding Foreground}"
+                        Visibility="{Binding IsShowCloseButton, Converter={StaticResource Bool2VisibilityConverter}}"
                         Style="{StaticResource PageButtonButtonStyle}"/>
                 </Grid>
             </Border>

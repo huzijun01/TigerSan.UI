@@ -40,7 +40,7 @@
             <TextBlock
                 x:Name="header"
                 Grid.Column="0"
-                Text="{Binding Title}"
+                Text="{Binding Text}"
                 Style="{StaticResource HeaderTextBlockStyle}"/>
 
             <!--  筛选标签：  -->

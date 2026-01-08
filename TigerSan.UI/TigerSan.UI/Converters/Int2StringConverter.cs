@@ -40,5 +40,17 @@ namespace TigerSan.UI.Converters
             return source;
         }
         #endregion
+
+        #region 【Functions】
+        #region [Static]
+        #region 获取“int”
+        public static int GetInt(string str)
+        {
+            var num = new Int2StringConverter().ConvertBack(str);
+            return num == null ? 0 : (int)num;
+        }
+        #endregion
+        #endregion [Static]
+        #endregion 【Functions】
     }
 }

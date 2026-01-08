@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
@@ -58,21 +57,21 @@ namespace TigerSan.UI.Controls
                 new PropertyMetadata(new SolidColorBrush()));
         #endregion
 
-        #region 标题
+        #region 文本
         /// <summary>
-        /// 标题
+        /// 文本
         /// </summary>
-        public string Title
+        public string Text
         {
-            get { return (string)GetValue(TitleProperty); }
-            protected set { SetValue(TitleProperty, value); }
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
-        public static readonly DependencyProperty TitleProperty =
+        public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
-                nameof(Title),
+                nameof(Text),
                 typeof(string),
                 typeof(TableHeader),
-                new PropertyMetadata("null", null));
+                new PropertyMetadata(Generic.Null, null));
         #endregion
 
         #region 排序模式
@@ -201,14 +200,7 @@ namespace TigerSan.UI.Controls
                 nameof(HeaderModel),
                 typeof(HeaderModel),
                 typeof(TableHeader),
-                new PropertyMetadata(HeaderModelChanged));
-
-        private static void HeaderModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var header = (TableHeader)d;
-
-            header.DataBinding();
-        }
+                new PropertyMetadata());
         #endregion
         #endregion 【DependencyProperties】
 
@@ -326,69 +318,6 @@ namespace TigerSan.UI.Controls
             filter.MouseLeftButtonUp += Sort_MouseLeftButtonUp;
             sort.MouseLeftButtonUp += Sort_MouseLeftButtonUp;
             #endregion 排序标签
-        }
-        #endregion
-
-        #region 数据绑定
-        private void DataBinding()
-        {
-            if (HeaderModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(HeaderModel));
-                return;
-            }
-
-            #region 绑定“Background”
-            // 创建双向绑定对象：
-            var bindingBackground = new Binding(nameof(HeaderModel.Background))
-            {
-                Source = HeaderModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(BackgroundProperty, bindingBackground);
-            #endregion 绑定“Background”
-
-            #region 绑定“Title”
-            // 创建双向绑定对象：
-            var bindingTitle = new Binding(nameof(HeaderModel.Title))
-            {
-                Source = HeaderModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(TitleProperty, bindingTitle);
-            #endregion 绑定“Title”
-
-            #region 绑定“SortMode”
-            // 创建双向绑定对象：
-            var bindingSortMode = new Binding(nameof(HeaderModel.SortMode))
-            {
-                Source = HeaderModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(SortModeProperty, bindingSortMode);
-            #endregion 绑定“SortMode”
-
-            #region 绑定“IsAllowSort”
-            // 创建双向绑定对象：
-            var bindingIsAllowSort = new Binding(nameof(HeaderModel.IsAllowSort))
-            {
-                Source = HeaderModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(IsAllowSortProperty, bindingIsAllowSort);
-            #endregion 绑定“IsAllowSort”
         }
         #endregion
 
@@ -528,7 +457,7 @@ namespace TigerSan.UI.Controls
     {
         public TableHeaderDesignData()
         {
-            Title = "Header";
+            Text = "Header";
             IsFiltered = true;
             IsAllowSort = true;
             SortMode = SortMode.Increasing;

@@ -1,12 +1,12 @@
 ﻿using System.Windows;
-using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Controls;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using TigerSan.CsvLog;
 using TigerSan.UI.Models;
+using TigerSan.UI.Helpers;
 using TigerSan.UI.Windows;
+using System.Collections.ObjectModel;
 
 namespace TigerSan.UI.Controls
 {
@@ -16,29 +16,67 @@ namespace TigerSan.UI.Controls
     public partial class TableItem : UserControl
     {
         #region 【Fields】
-        /// <summary>
-        /// 菜单
-        /// </summary>
-        private MenuWindow? _menu;
         #endregion 【Fields】
 
         #region 【DependencyProperties】
         #region [OneWay]
-        #region 是否只读
+        #region 遮罩背景
         /// <summary>
-        /// 是否只读
+        /// 遮罩背景
         /// </summary>
-        public bool IsReadOnly
+        public Brush MaskBackground
         {
-            get { return (bool)GetValue(IsReadOnlyProperty); }
-            private set { SetValue(IsReadOnlyProperty, value); }
+            get { return (Brush)GetValue(MaskBackgroundProperty); }
+            private set { SetValue(MaskBackgroundProperty, value); }
         }
-        public static readonly DependencyProperty IsReadOnlyProperty =
+        public static readonly DependencyProperty MaskBackgroundProperty =
             DependencyProperty.Register(
-                nameof(IsReadOnly),
+                nameof(MaskBackground),
+                typeof(Brush),
+                typeof(TableItem),
+                new PropertyMetadata(new SolidColorBrush()));
+        #endregion
+        #endregion [OneWay]
+
+        #region 项目模型
+        /// <summary>
+        /// 项目模型
+        /// </summary>
+        public ItemModel? ItemModel
+        {
+            get { return (ItemModel)GetValue(ItemModelProperty); }
+            set { SetValue(ItemModelProperty, value); }
+        }
+        public static readonly DependencyProperty ItemModelProperty =
+            DependencyProperty.Register(
+                nameof(ItemModel),
+                typeof(ItemModel),
+                typeof(TableItem),
+                new PropertyMetadata(ItemModelChanged));
+
+        private static void ItemModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var tableItem = (TableItem)d;
+
+            tableItem.InitItemModel();
+        }
+        #endregion
+
+        #region 接受换行
+        /// <summary>
+        /// 接受换行
+        /// </summary>
+        public bool AcceptsReturn
+        {
+            get { return (bool)GetValue(AcceptsReturnProperty); }
+            set { SetValue(AcceptsReturnProperty, value); }
+        }
+        public static readonly DependencyProperty AcceptsReturnProperty =
+            DependencyProperty.Register(
+                nameof(AcceptsReturn),
                 typeof(bool),
                 typeof(TableItem),
-                new PropertyMetadata(false));
+                new PropertyMetadata(true));
         #endregion
 
         #region 项目状态
@@ -48,7 +86,7 @@ namespace TigerSan.UI.Controls
         public ItemState ItemState
         {
             get { return (ItemState)GetValue(ItemStateProperty); }
-            private set { SetValue(ItemStateProperty, value); }
+            set { SetValue(ItemStateProperty, value); }
         }
         public static readonly DependencyProperty ItemStateProperty =
             DependencyProperty.Register(
@@ -80,21 +118,21 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 遮罩背景
+        #region 是否只读
         /// <summary>
-        /// 遮罩背景
+        /// 是否只读
         /// </summary>
-        public Brush MaskBackground
+        public bool IsReadOnly
         {
-            get { return (Brush)GetValue(MaskBackgroundProperty); }
-            private set { SetValue(MaskBackgroundProperty, value); }
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
         }
-        public static readonly DependencyProperty MaskBackgroundProperty =
+        public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register(
-                nameof(MaskBackground),
-                typeof(Brush),
+                nameof(IsReadOnly),
+                typeof(bool),
                 typeof(TableItem),
-                new PropertyMetadata(new SolidColorBrush()));
+                new PropertyMetadata(false));
         #endregion
 
         #region 文本对齐方式
@@ -104,7 +142,7 @@ namespace TigerSan.UI.Controls
         public TextAlignment TextAlignment
         {
             get { return (TextAlignment)GetValue(TextAlignmentProperty); }
-            private set { SetValue(TextAlignmentProperty, value); }
+            set { SetValue(TextAlignmentProperty, value); }
         }
         public static readonly DependencyProperty TextAlignmentProperty =
             DependencyProperty.Register(
@@ -112,68 +150,6 @@ namespace TigerSan.UI.Controls
                 typeof(TextAlignment),
                 typeof(TableItem),
                 new PropertyMetadata(TextAlignment.Left));
-        #endregion
-        #endregion [OneWay]
-
-        #region 项目模型
-        /// <summary>
-        /// 项目模型
-        /// </summary>
-        public ItemModel? ItemModel
-        {
-            get { return (ItemModel)GetValue(ItemModelProperty); }
-            set { SetValue(ItemModelProperty, value); }
-        }
-        public static readonly DependencyProperty ItemModelProperty =
-            DependencyProperty.Register(
-                nameof(ItemModel),
-                typeof(ItemModel),
-                typeof(TableItem),
-                new PropertyMetadata(ItemModelChanged));
-
-        private static void ItemModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var tableItem = (TableItem)d;
-
-            tableItem.AddEventToItemModel();
-            tableItem.DataBinding();
-        }
-        #endregion
-
-        #region 文本
-        /// <summary>
-        /// 文本
-        /// </summary>
-        public string Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(
-                nameof(Text),
-                typeof(string),
-                typeof(TableItem),
-                new FrameworkPropertyMetadata(
-                    "null",
-                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        #endregion
-
-        #region 接受换行
-        /// <summary>
-        /// 接受换行
-        /// </summary>
-        public bool AcceptsReturn
-        {
-            get { return (bool)GetValue(AcceptsReturnProperty); }
-            set { SetValue(AcceptsReturnProperty, value); }
-        }
-        public static readonly DependencyProperty AcceptsReturnProperty =
-            DependencyProperty.Register(
-                nameof(AcceptsReturn),
-                typeof(bool),
-                typeof(TableItem),
-                new PropertyMetadata(true));
         #endregion
         #endregion 【DependencyProperties】
 
@@ -237,46 +213,6 @@ namespace TigerSan.UI.Controls
         #endregion 【Ctor】
 
         #region 【Events】
-        #region 鼠标进入背景
-        private void Background_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (ItemModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(ItemModel));
-                return;
-            }
-            ItemModel.IsHover = true;
-        }
-        #endregion
-
-        #region 鼠标离开背景
-        private void Background_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (ItemModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(ItemModel));
-                return;
-            }
-            ItemModel.IsHover = false;
-        }
-        #endregion
-
-        #region 获得焦点
-        private void content_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ShowMenuWindow();
-            RaiseGotFocusEvent();
-        }
-        #endregion
-
-        #region 失去焦点
-        private void content_LostFocus(object sender, RoutedEventArgs e)
-        {
-            RaiseLostFocusEvent();
-            SetTextToTarget();
-        }
-        #endregion
-
         #region 点击“项目”
         private void itemClicked(MenuItemModel model)
         {
@@ -303,96 +239,37 @@ namespace TigerSan.UI.Controls
         #region 添加事件
         private void AddEvent()
         {
-            #region [减]
-            #region 背景
-            background.MouseEnter -= Background_MouseEnter;
-            background.MouseLeave -= Background_MouseLeave;
-            content.MouseEnter -= Background_MouseEnter;
-            content.MouseLeave -= Background_MouseLeave;
-            #endregion 背景
+            BindingHelper.AddValueChanged(
+                this,
+                typeof(TableItem),
+                IsMouseOverProperty,
+                (s, e) =>
+                {
+                    if (ItemModel == null)
+                    {
+                        LogHelper.Instance.IsNull(nameof(ItemModel));
+                        return;
+                    }
+                    ItemModel.IsHover = IsMouseOver;
+                });
 
-            #region 内容
-            content.GotFocus -= content_GotFocus;
-            content.LostFocus -= content_LostFocus;
-            #endregion 内容
-            #endregion [减]
-
-            #region [加]
-            #region 背景
-            background.MouseEnter += Background_MouseEnter;
-            background.MouseLeave += Background_MouseLeave;
-            content.MouseEnter += Background_MouseEnter;
-            content.MouseLeave += Background_MouseLeave;
-            #endregion 背景
-
-            #region 内容
-            content.GotFocus += content_GotFocus;
-            content.LostFocus += content_LostFocus;
-            #endregion 内容
-            #endregion [加]
-        }
-        #endregion
-
-        #region 数据绑定
-        private void DataBinding()
-        {
-            if (ItemModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(ItemModel));
-                return;
-            }
-
-            #region 绑定“Background”
-            // 创建双向绑定对象：
-            var bindingBackground = new Binding(nameof(ItemModel.Background))
-            {
-                Source = ItemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(BackgroundProperty, bindingBackground);
-            #endregion 绑定“Background”
-
-            #region 绑定“ItemState”
-            // 创建双向绑定对象：
-            var bindingItemState = new Binding(nameof(ItemModel.ItemState))
-            {
-                Source = ItemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(ItemStateProperty, bindingItemState);
-            #endregion 绑定“ItemState”
-
-            #region 绑定“IsReadOnly”
-            // 创建双向绑定对象：
-            var bindingIsReadOnly = new Binding(nameof(ItemModel.IsReadOnly))
-            {
-                Source = ItemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(IsReadOnlyProperty, bindingIsReadOnly);
-            #endregion 绑定“IsReadOnly”
-
-            #region 绑定“TextAlignment”
-            // 创建双向绑定对象：
-            var bindingTextAlignment = new Binding(nameof(ItemModel.TextAlignment))
-            {
-                Source = ItemModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            SetBinding(TextAlignmentProperty, bindingTextAlignment);
-            #endregion 绑定“TextAlignment”
+            BindingHelper.AddValueChanged(
+                content,
+                typeof(TextBox),
+                IsKeyboardFocusedProperty,
+                (s, e) =>
+                {
+                    if (content.IsKeyboardFocused)
+                    {
+                        ShowMenuWindow();
+                        RaiseGotFocusEvent();
+                    }
+                    else
+                    {
+                        SetTextToTarget();
+                        RaiseLostFocusEvent();
+                    }
+                });
         }
         #endregion
 
@@ -401,15 +278,13 @@ namespace TigerSan.UI.Controls
         {
             if (IsReadOnly) return;
 
-            if (_menu != null) return;
-
             if (ItemModel == null)
             {
                 LogHelper.Instance.IsNull(nameof(ItemModel));
                 return;
             }
 
-            // 添加项目：
+            #region 添加项目
             var menuDatas = ItemModel._headerModel._menuDatas;
             var menuWidth = ItemModel._headerModel._menuWidth;
             var converter = ItemModel._headerModel.Converter;
@@ -425,30 +300,31 @@ namespace TigerSan.UI.Controls
                     Source = data
                 });
             }
+            #endregion 添加项目
 
-            // 显示菜单：
-            _menu = new MenuWindow(this, ItemModels)
+            #region 显示菜单
+            var menu = new MenuWindow(this, ItemModels)
             {
-                _itemClicked = itemClicked,
-                _closed = () => { _menu = null; }
+                _itemClicked = itemClicked
             };
 
             if (menuWidth != null)
             {
-                _menu.Width = menuWidth.Value;
+                menu.Width = menuWidth.Value;
             }
 
             if (converter != null)
             {
-                _menu.Converter = converter;
+                menu.Converter = converter;
             }
 
-            _menu.Show();
+            menu.Show();
+            #endregion 显示菜单
         }
         #endregion
 
-        #region 向“项目模型”添加事件
-        private void AddEventToItemModel()
+        #region 初始化“项目模型”
+        private void InitItemModel()
         {
             if (ItemModel == null)
             {
@@ -456,8 +332,10 @@ namespace TigerSan.UI.Controls
                 return;
             }
 
+            // 添加事件:
             ItemModel._onTargetChanged = SetTargetToText;
 
+            // 设置文本:
             SetTargetToText();
         }
         #endregion
@@ -471,7 +349,7 @@ namespace TigerSan.UI.Controls
                 return;
             }
 
-            ItemModel.Target = Text;
+            ItemModel.Target = content.Text;
         }
         #endregion
 
@@ -484,7 +362,7 @@ namespace TigerSan.UI.Controls
                 return;
             }
 
-            Text = ItemModel.Target;
+            content.Text = ItemModel.Target;
         }
         #endregion
         #endregion 【Functions】
@@ -495,121 +373,15 @@ namespace TigerSan.UI.Controls
     {
         #region 【DependencyProperties】
         #region [OneWay]
-        #region 是否只读
-        /// <summary>
-        /// 是否只读
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return (bool)GetValue(IsReadOnlyProperty); }
-            private set { SetValue(IsReadOnlyProperty, value); }
-        }
-        public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register(
-                nameof(IsReadOnly),
-                typeof(bool),
-                typeof(TableItem),
-                new PropertyMetadata(false));
-        #endregion
-
-        #region 项目状态
-        /// <summary>
-        /// 项目状态
-        /// </summary>
-        public ItemState ItemState
-        {
-            get { return (ItemState)GetValue(ItemStateProperty); }
-            private set { SetValue(ItemStateProperty, value); }
-        }
-        public static readonly DependencyProperty ItemStateProperty =
-            DependencyProperty.Register(
-                nameof(ItemState),
-                typeof(ItemState),
-                typeof(TableItem),
-                new PropertyMetadata(ItemState.Normal, ItemStateChanged));
-
-        private static void ItemStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var state = (ItemState)e.NewValue;
-            var item = (TableItem)d;
-        }
-        #endregion
-
-        #region 遮罩背景
-        /// <summary>
-        /// 遮罩背景
-        /// </summary>
-        public Brush MaskBackground
-        {
-            get { return (Brush)GetValue(MaskBackgroundProperty); }
-            private set { SetValue(MaskBackgroundProperty, value); }
-        }
-        public static readonly DependencyProperty MaskBackgroundProperty =
-            DependencyProperty.Register(
-                nameof(MaskBackground),
-                typeof(Brush),
-                typeof(TableItem),
-                new PropertyMetadata(new SolidColorBrush()));
-        #endregion
-
-        #region 文本对齐方式
-        /// <summary>
-        /// 文本对齐方式
-        /// </summary>
-        public TextAlignment TextAlignment
-        {
-            get { return (TextAlignment)GetValue(TextAlignmentProperty); }
-            private set { SetValue(TextAlignmentProperty, value); }
-        }
-        public static readonly DependencyProperty TextAlignmentProperty =
-            DependencyProperty.Register(
-                nameof(TextAlignment),
-                typeof(TextAlignment),
-                typeof(TableItem),
-                new PropertyMetadata(TextAlignment.Left));
-        #endregion
+        public bool IsReadOnly { get; set; } = false;
+        public ItemState ItemState { get; set; } = ItemState.Normal;
+        public Brush MaskBackground { get; set; } = new SolidColorBrush();
+        public TextAlignment TextAlignment { get; set; } = TextAlignment.Left;
         #endregion [OneWay]
 
-        #region 项目模型
-        /// <summary>
-        /// 项目模型
-        /// </summary>
-        public ItemModel? ItemModel
-        {
-            get { return (ItemModel)GetValue(ItemModelProperty); }
-            set { SetValue(ItemModelProperty, value); }
-        }
-        public static readonly DependencyProperty ItemModelProperty =
-            DependencyProperty.Register(
-                nameof(ItemModel),
-                typeof(ItemModel),
-                typeof(TableItem),
-                new PropertyMetadata());
-        #endregion
-
-        #region 文本
-        /// <summary>
-        /// 文本
-        /// </summary>
+        public ItemModel? ItemModel { get; set; }
         public string Text { get; set; }
-        #endregion
-
-        #region 接受换行
-        /// <summary>
-        /// 接受换行
-        /// </summary>
-        public bool AcceptsReturn
-        {
-            get { return (bool)GetValue(AcceptsReturnProperty); }
-            set { SetValue(AcceptsReturnProperty, value); }
-        }
-        public static readonly DependencyProperty AcceptsReturnProperty =
-            DependencyProperty.Register(
-                nameof(AcceptsReturn),
-                typeof(bool),
-                typeof(TableItem),
-                new PropertyMetadata(true));
-        #endregion
+        public bool AcceptsReturn { get; set; } = true;
         #endregion 【DependencyProperties】
 
         #region 【Ctor】

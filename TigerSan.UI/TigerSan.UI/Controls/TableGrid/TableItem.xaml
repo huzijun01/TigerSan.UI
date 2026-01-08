@@ -13,8 +13,8 @@
     </UserControl.Resources>
 
     <Grid
-        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
-        d:DataContext="{StaticResource TableItemDesignData}">
+        d:DataContext="{StaticResource TableItemDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
         <!-- 背景： -->
         <Border
             x:Name="background"
@@ -33,7 +33,6 @@
             Padding="8"
             VerticalScrollBarVisibility="Auto"
             HorizontalScrollBarVisibility="Auto"
-            Text="{Binding Text}"
             Height="{Binding Height}"
             MaxHeight="{Binding MaxHeight}"
             MinHeight="{Binding MinHeight}"

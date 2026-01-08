@@ -114,7 +114,7 @@ namespace TigerSan.UI.Controls
                 nameof(Title),
                 typeof(string),
                 typeof(NavFolder),
-                new PropertyMetadata("null"));
+                new PropertyMetadata(Generic.Null));
         #endregion
 
         #region 是否打开

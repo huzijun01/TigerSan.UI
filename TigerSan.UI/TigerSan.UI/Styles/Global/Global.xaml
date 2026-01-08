@@ -9,6 +9,8 @@
         <!-- 图标: -->
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Icons.xaml"/>
         <!-- 透明用户控件： -->
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/ItemsPanelTemplate.xaml" />
+        <!-- 透明用户控件： -->
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/TransparentUserControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

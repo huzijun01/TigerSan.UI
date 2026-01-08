@@ -1,12 +1,8 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Controls;
-using TigerSan.CsvLog;
-using TigerSan.UI.Controls;
+﻿using System.Windows.Input;
+using System.Windows.Media;
 
 namespace TigerSan.UI.Models
 {
-    #region 行模型
     /// <summary>
     /// 行模型
     /// </summary>
@@ -21,10 +17,12 @@ namespace TigerSan.UI.Models
 
         #region 【Properties】
         #region [引用]
+        #region 是否显示复选框
         /// <summary>
-        /// 行号
+        /// 是否显示复选框
         /// </summary>
-        public int RowIndex { get => GetRowIndex(); }
+        public bool IsShowCheckBox { get => _tableModel.IsShowCheckBox; }
+        #endregion
         #endregion [引用]
 
         #region [OneWay]
@@ -72,6 +70,7 @@ namespace TigerSan.UI.Models
         #endregion [更新状态]
 
         #region [Others]
+        #region 是否选中
         /// <summary>
         /// 是否选中
         /// </summary>
@@ -85,11 +84,14 @@ namespace TigerSan.UI.Models
             }
         }
         private bool _isChecked = false;
+        #endregion
 
+        #region “项目模型”集合
         /// <summary>
-        /// 项目模型集合
+        /// “项目模型”集合
         /// </summary>
         public Dictionary<HeaderModel, ItemModel> ItemModels { get; private set; } = new Dictionary<HeaderModel, ItemModel>();
+        #endregion
         #endregion [Others]
         #endregion 【Properties】
 
@@ -105,26 +107,32 @@ namespace TigerSan.UI.Models
         }
         #endregion 【Ctor】
 
-        #region 【Functions】
-        #region 获取行号
-        private int GetRowIndex()
+        #region 【Commands】
+        #region 选中
+        public ICommand CheckedCommand { get => new DelegateCommand<RowModel>(Checked); }
+        private void Checked(RowModel rowModel)
         {
-            var index = _tableModel.RowDatas.IndexOf(RowData);
-            if (index < 0)
-            {
-                LogHelper.Instance.IsNotContain(nameof(_tableModel.RowDatas), nameof(RowData));
-                return 0;
-            }
-            return index + 1;
+            UpdateIsSelectAll();
         }
         #endregion
 
+        #region 未选中
+        public ICommand UncheckedCommand { get => new DelegateCommand<RowModel>(Unchecked); }
+        private void Unchecked(RowModel rowModel)
+        {
+            UpdateIsSelectAll();
+        }
+        #endregion
+        #endregion 【Commands】
+
+        #region 【Functions】
+        #region [Private]
         #region 更新“源数据”集合
         private void UpdateSources()
         {
             foreach (var itemModel in ItemModels)
             {
-                itemModel.Value.LoadSource(true);
+                itemModel.Value.SetSource();
             }
         }
         #endregion
@@ -148,58 +156,22 @@ namespace TigerSan.UI.Models
             }
         }
         #endregion
+
+        #region 更新“是否全选”
+        private void UpdateIsSelectAll()
+        {
+            if (!_tableModel.IsUpdateIsSelectAll) return;
+
+            _tableModel._isUpdateRowIsChecked = false;
+
+            _tableModel.IsSelectAll = !_tableModel.RowModels.Any(row => !row.Value.IsChecked);
+
+            _tableModel._onSelectedRowDatasChanged?.Invoke();
+
+            _tableModel._isUpdateRowIsChecked = true;
+        }
+        #endregion
+        #endregion [Private]
         #endregion 【Functions】
     }
-    #endregion
-
-    #region 表头行UI元素
-    /// <summary>
-    /// 表头行UI元素
-    /// </summary>
-    public class HeaderRowUIElement
-    {
-        /// <summary>
-        /// 复选框
-        /// </summary>
-        public CheckBox CheckBox = new CheckBox();
-
-        /// <summary>
-        /// 水平分割线
-        /// </summary>
-        public Line HorizontalDividingLine = new Line();
-
-        /// <summary>
-        /// 表头集合
-        /// </summary>
-        public Dictionary<HeaderModel, TableHeader> TableHeaders = new Dictionary<HeaderModel, TableHeader>();
-    }
-    #endregion
-
-    #region 项目行UI元素
-    /// <summary>
-    /// 项目行UI元素
-    /// </summary>
-    public class ItemRowUIElement
-    {
-        /// <summary>
-        /// 背景
-        /// </summary>
-        public Border Background = new Border();
-
-        /// <summary>
-        /// 复选框
-        /// </summary>
-        public CheckBox CheckBox = new CheckBox();
-
-        /// <summary>
-        /// 水平分割线
-        /// </summary>
-        public Line HorizontalDividingLine = new Line();
-
-        /// <summary>
-        /// 表格项目集合
-        /// </summary>
-        public Dictionary<ItemModel, TableItem> TableItems = new Dictionary<ItemModel, TableItem>();
-    }
-    #endregion
 }

@@ -15,7 +15,6 @@
         <ResourceDictionary Source="Styles/BorderStyle.xaml" />
         <ResourceDictionary Source="Styles/ButtonStyle.xaml" />
         <ResourceDictionary Source="Styles/CheckBoxStyle.xaml" />
-        <ResourceDictionary Source="Styles/CircleButtonTemplate.xaml" />
         <ResourceDictionary Source="Styles/ContextMenuStyle.xaml" />
         <ResourceDictionary Source="Styles/ItemContainerStyle.xaml" />
         <ResourceDictionary Source="Styles/MenuItemStyle.xaml" />
@@ -25,7 +24,9 @@
         <ResourceDictionary Source="Styles/TabItemStyle.xaml" />
         <ResourceDictionary Source="Styles/TextBlockStyle.xaml" />
         <ResourceDictionary Source="Styles/TextBoxStyle.xaml" />
-        <ResourceDictionary Source="Styles/TextBoxTemplate.xaml" />
+        <!--  模板：  -->
+        <ResourceDictionary Source="Styles/Templates/CircleButtonTemplate.xaml" />
+        <ResourceDictionary Source="Styles/Templates/TextBoxTemplate.xaml" />
         <!--  窗口：  -->
         <ResourceDictionary Source="Windows/CustomWindowStyle.xaml" />
         <ResourceDictionary Source="Windows/DialogWindowStyle.xaml" />

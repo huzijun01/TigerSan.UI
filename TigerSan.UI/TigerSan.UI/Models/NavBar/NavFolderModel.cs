@@ -48,7 +48,7 @@ namespace TigerSan.UI.Models
             get { return _Title; }
             set { SetProperty(ref _Title, value); }
         }
-        private string _Title = "null";
+        private string _Title = Generic.Null;
 
         public bool IsOpen
         {

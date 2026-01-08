@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 水平项目集合画布模板: -->
+    <ItemsPanelTemplate x:Key="HorizontalItemsPanelTemplate">
+        <StackPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+</ResourceDictionary>

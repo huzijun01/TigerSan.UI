@@ -2,7 +2,6 @@
 using System.Windows.Data;
 using System.Windows.Shapes;
 using System.Windows.Controls;
-using System.Collections.Specialized;
 using TigerSan.CsvLog;
 using TigerSan.UI.Models;
 using TigerSan.UI.Helpers;
@@ -12,30 +11,9 @@ namespace TigerSan.UI.Controls
     public partial class TableGrid : UserControl
     {
         #region 【Fields】
-        /// <summary>
-        /// 表头行UI元素
-        /// </summary>
-        private HeaderRowUIElement _headerRowUIElement = new HeaderRowUIElement();
-
-        /// <summary>
-        /// 浮动表头行UI元素
-        /// </summary>
-        private HeaderRowUIElement _floatHeaderRowUIElement = new HeaderRowUIElement();
-
-        /// <summary>
-        /// 项目行UI元素集合
-        /// </summary>
-        private Dictionary<RowModel, ItemRowUIElement> _itemRowUIElements = new Dictionary<RowModel, ItemRowUIElement>();
-
-        /// <summary>
-        /// 是否不改变全选状态
-        /// </summary>
-        private bool _isDoNotChangeIsSelectAll = false;
-
-        /// <summary>
-        /// 是否不改变项目选中状态
-        /// </summary>
-        private bool _isDoNotChangeItemCheckedState = false;
+        private List<TableHeader> _headers = new List<TableHeader>();
+        private List<TableHeader> _floatHeaders = new List<TableHeader>();
+        private List<double> _colWidths = new List<double>();
         #endregion 【Fields】
 
         #region 【DependencyProperties】
@@ -43,7 +21,7 @@ namespace TigerSan.UI.Controls
         /// <summary>
         /// 表格模型
         /// </summary>
-        public TableModel? TableModel
+        public TableModel TableModel
         {
             get { return (TableModel)GetValue(TableModelProperty); }
             set { SetValue(TableModelProperty, value); }
@@ -53,13 +31,13 @@ namespace TigerSan.UI.Controls
                 nameof(TableModel),
                 typeof(TableModel),
                 typeof(TableGrid),
-                new PropertyMetadata(TableModelChanged));
+                new PropertyMetadata(new TableModel(typeof(object)), TableModelChanged));
 
         private static void TableModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            TableGrid table = (TableGrid)d;
-
-            table.InitTableModelAndUIElement();
+            var table = (TableGrid)d;
+            ((TableModel)e.OldValue)._tableGrid = null;
+            ((TableModel)e.NewValue)._tableGrid = table;
         }
         #endregion
         #endregion 【DependencyProperties】
@@ -69,6 +47,7 @@ namespace TigerSan.UI.Controls
         {
             InitializeComponent();
             Loaded += OnLoaded;
+            ItemGrid.SizeChanged += ItemGrid_SizeChanged;
         }
         #endregion 【Ctor】
 
@@ -76,249 +55,182 @@ namespace TigerSan.UI.Controls
         #region 加载完成
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            Style = Generic.TransparentUserControlStyle;
-
-            var table = (TableGrid)sender;
-            if (table.TableModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(table.TableModel));
-                return;
-            }
-
-            table.TableModel._onLoaded?.Invoke();
+            Refresh();
+            TableModel._onLoaded?.Invoke();
         }
         #endregion
 
-        #region “行数据集合”改变
-        private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        #region “项目网格”尺寸改变后
+        /// <summary>
+        /// “项目网格”尺寸改变后
+        /// （内容相同时不会触发）
+        /// </summary>
+        private void ItemGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            InitUIElements();
-        }
-        #endregion
-
-        #region “表头复选框”选中
-        private void HeaderCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            _isDoNotChangeIsSelectAll = true;
-            UpdateItemIsChecked();
-            _isDoNotChangeIsSelectAll = false;
-        }
-        #endregion
-
-        #region “表头复选框”未选中
-        private void HeaderCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            _isDoNotChangeIsSelectAll = true;
-            UpdateItemIsChecked();
-            _isDoNotChangeIsSelectAll = false;
-        }
-        #endregion
-
-        #region “项目复选框”选中
-        private void ItemCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            _isDoNotChangeItemCheckedState = true;
-            UpdateIsSelectAll();
-            _isDoNotChangeItemCheckedState = false;
-        }
-        #endregion
-
-        #region “项目复选框”未选中
-        private void ItemCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            _isDoNotChangeItemCheckedState = true;
-            UpdateIsSelectAll();
-            _isDoNotChangeItemCheckedState = false;
+            UpdateFloatGridSize();
         }
         #endregion
         #endregion 【Events】
 
         #region 【Functions】
         #region [Private]
-        #region 初始化“表格模型”和“UI元素”
-        private void InitTableModelAndUIElement()
+        #region 初始化“列头”集合
+        private void InitHeaders()
         {
-            if (TableModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(TableModel));
-                return;
-            }
+            ItemGrid.Children.Clear();
+            FloatGrid.Children.Clear();
 
-            TableModel.InitTableModel(this);
+            AddHeaders(_headers, ItemGrid);
+            AddHeaders(_floatHeaders, FloatGrid);
 
-            InitUIElements();
-
-            TableModel._onRowDatasCollectionChanged = RowDatas_CollectionChanged;
+            BindingHeaderWidth();
         }
         #endregion
 
-        #region 清空“UI元素”
-        private void ClearUIElements()
+        #region 更新“悬浮网格”尺寸
+        private void UpdateFloatGridSize()
         {
-            // 网格：
-            PART_ItemGrid.Children.Clear();
-            PART_ItemGrid.RowDefinitions.Clear();
-            PART_ItemGrid.ColumnDefinitions.Clear();
-            PART_FloatGrid.Children.Clear();
-            PART_FloatGrid.ColumnDefinitions.Clear();
-            // 集合：
-            _headerRowUIElement.TableHeaders.Clear();
-            _floatHeaderRowUIElement.TableHeaders.Clear();
-            _itemRowUIElements.Clear();
-        }
-        #endregion
-
-        #region 初始化“网格”
-        private void InitGrid()
-        {
-            if (TableModel == null)
+            if (ItemGrid.ColumnDefinitions.Count != FloatGrid.ColumnDefinitions.Count)
             {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
+                LogHelper.Instance.Warning("The number of grid columns is not equal!");
                 return;
             }
 
-            #region 项目网格
-            // 行定义：
-            var rowCount = TableModel.RowDatas.Count + 1;
-            for (int index = 0; index < rowCount; ++index)
-            {
-                var row = new RowDefinition() { Height = Generic.DefaultGridHeight };
-                PART_ItemGrid.RowDefinitions.Add(row);
-            }
+            _colWidths.Clear();
 
-            // 列定义：
-            foreach (var colDef in TableModel._colDefs)
+            for (int iCol = 0; iCol < ItemGrid.ColumnDefinitions.Count; iCol++)
             {
-                PART_ItemGrid.ColumnDefinitions.Add(colDef);
-            }
-            #endregion 项目网格
+                var itemCol = ItemGrid.ColumnDefinitions[iCol];
+                var floatCol = FloatGrid.ColumnDefinitions[iCol];
 
-            #region 浮动网格
-            // 列定义：
-            foreach (var floatCol in TableModel._floatColDefs)
-            {
-                PART_FloatGrid.ColumnDefinitions.Add(floatCol);
+                _colWidths.Add(itemCol.ActualWidth);
+                floatCol.Width = new GridLength(itemCol.ActualWidth);
             }
-            #endregion 浮动网格
         }
         #endregion
 
-        #region 初始化“表头行UI元素”
-        /// <summary>
-        /// 初始化“表头行UI元素”
-        /// </summary>
-        private void InitHeaderRowUIElement()
+        #region 更新“悬浮网格”尺寸（使用缓存）
+        private void UpdateFloatGridSizeFromCache()
         {
-            if (TableModel == null)
+            if (_colWidths.Count != FloatGrid.ColumnDefinitions.Count)
             {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
+                //LogHelper.Instance.Warning("The number of grid columns is not equal!");
                 return;
             }
 
-            // 复选框：
-            InitTableHeaderCheckBox(_headerRowUIElement.CheckBox, false);
-            PART_ItemGrid.Children.Add(_headerRowUIElement.CheckBox);
-            // 浮动复选框：
-            InitTableHeaderCheckBox(_floatHeaderRowUIElement.CheckBox);
-            PART_FloatGrid.Children.Add(_floatHeaderRowUIElement.CheckBox);
+            for (int iCol = 0; iCol < ItemGrid.ColumnDefinitions.Count; iCol++)
+            {
+                var width = _colWidths[iCol];
+                var floatCol = FloatGrid.ColumnDefinitions[iCol];
+
+                floatCol.Width = new GridLength(width);
+            }
+        }
+        #endregion
+
+        #region 绑定“列头宽度”
+        private void BindingHeaderWidth()
+        {
+            var headerCount = TableModel.HeaderModels.Count;
+
+            for (int iCol = 0; iCol < headerCount; iCol++)
+            {
+                var headerModel = TableModel.HeaderModels[iCol];
+                var itemCol = ItemGrid.ColumnDefinitions[iCol + 1];
+
+                #region 绑定“Width”
+                // 创建双向绑定对象：
+                var bindingWidth = new Binding(nameof(headerModel.WidthGridLength))
+                {
+                    Source = headerModel,
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, // 实时更新
+                };
+
+                // 应用绑定到目标控件：
+                itemCol.SetBinding(ColumnDefinition.WidthProperty, bindingWidth);
+                #endregion 绑定“Width”
+            }
+        }
+        #endregion
+
+        #region 添加“列头”集合
+        private void AddHeaders(List<TableHeader> headers, Grid grid)
+        {
+            headers.Clear();
+
+            grid.Children.Add(GetHorizontalDividingLine(0, 2));
+
+            #region 复选框
+            var ckbSelectAll = GetHeaderCheckBox(TableModel);
+            grid.Children.Add(ckbSelectAll);
+
+            if (Equals(headers, _headers))
+            {
+                ckbSelectAll.DataContext = new TableModel(typeof(object))
+                { IsShowCheckBox = TableModel.IsShowCheckBox }; // 防止命令重复触发
+            }
+            #endregion 复选框
 
             foreach (var headerModel in TableModel.HeaderModels)
             {
-                // 表头：
-                var tableHeader = new TableHeader(headerModel) { Visibility = Visibility.Hidden };
-                _headerRowUIElement.TableHeaders.Add(headerModel, tableHeader);
-                GridHelper.SetRowColumn(tableHeader, headerModel.RowIndex, headerModel.ColIndex);
-                PART_ItemGrid.Children.Add(tableHeader);
-
-                // 浮动表头：
-                var floatTableHeader = new TableHeader(headerModel);
-                _floatHeaderRowUIElement.TableHeaders.Add(headerModel, floatTableHeader);
-                GridHelper.SetRowColumn(floatTableHeader, headerModel.RowIndex, headerModel.ColIndex);
-                PART_FloatGrid.Children.Add(floatTableHeader);
-
-                // 同步宽度：
-                tableHeader.SizeChanged += (s, args) =>
-                {
-                    floatTableHeader.Width = tableHeader.ActualWidth;
-                };
+                var header = (TableHeader)Generic.TableHeaderTemplate.LoadContent();
+                header.DataContext = headerModel;
+                grid.Children.Add(header);
+                headers.Add(header);
             }
-
-            // 水平分割线：
-            InitHorizontalDividingLine(_headerRowUIElement.HorizontalDividingLine, 0);
-            PART_ItemGrid.Children.Add(_headerRowUIElement.HorizontalDividingLine);
-            // 浮动水平分割线：
-            InitHorizontalDividingLine(_floatHeaderRowUIElement.HorizontalDividingLine, 0);
-            PART_FloatGrid.Children.Add(_floatHeaderRowUIElement.HorizontalDividingLine);
         }
         #endregion
 
-        #region 初始化“项目行UI元素”集合
-        /// <summary>
-        /// 初始化“项目行UI元素”集合
-        /// </summary>
-        private void InitItemRowUIElement()
+        #region 初始化“项目”集合
+        private void InitItems()
         {
-            if (TableModel == null)
+            for (int iRow = 0; iRow < TableModel.RowDatas.Count; iRow++)
             {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
-                return;
-            }
-
-            foreach (var rowModel in TableModel.RowModels)
-            {
-                var itemRow = new ItemRowUIElement();
-                _itemRowUIElements.Add(rowModel.Value, itemRow);
-
-                // 行背景：
-                var iRow = TableModel.RowDatas.IndexOf(rowModel.Key);
-                InitRowBackground(itemRow.Background, rowModel.Value, iRow + 1);
-                PART_ItemGrid.Children.Add(itemRow.Background);
-
-                // 复选框：
-                InitItemCheckBox(itemRow.CheckBox, rowModel.Value);
-                PART_ItemGrid.Children.Add(itemRow.CheckBox);
-
-                // 水平分割线：
-                InitHorizontalDividingLine(itemRow.HorizontalDividingLine, rowModel.Value.RowIndex);
-                PART_ItemGrid.Children.Add(itemRow.HorizontalDividingLine);
-
-                // 项目：
-                foreach (var itemModel in rowModel.Value.ItemModels)
+                var rowModel = TableModel.GetRowModel(iRow);
+                if (rowModel == null)
                 {
-                    var tableItem = new TableItem(itemModel.Value);
-                    GridHelper.SetRowColumn(tableItem, itemModel.Value.RowIndex, itemModel.Value.ColIndex);
-                    itemRow.TableItems.Add(itemModel.Value, tableItem);
-                    PART_ItemGrid.Children.Add(tableItem);
+                    LogHelper.Instance.IsNull(nameof(rowModel));
+                    return;
+                }
 
-                    #region 设置尺寸
-                    if (TableModel.Height > 0)
-                    {
-                        tableItem.Height = TableModel.Height;
-                    }
-                    if (TableModel.MaxHeight > 0)
-                    {
-                        tableItem.MaxHeight = TableModel.MaxHeight;
-                    }
-                    if (TableModel.MinHeight > 0)
-                    {
-                        tableItem.MinHeight = TableModel.MinHeight;
-                    }
-                    #endregion 设置尺寸
+                ItemGrid.Children.Add(GetHorizontalDividingLine(iRow + 1));
+                ItemGrid.Children.Add(GetRowBackground(rowModel, iRow + 1));
 
-                    // 设置“接受换行”：
-                    tableItem.AcceptsReturn = TableModel.AcceptsReturn;
+                #region 复选框
+                var ckbItem = GetHeaderCheckBox(rowModel, iRow + 1);
+                ItemGrid.Children.Add(ckbItem);
+                #endregion 复选框
+
+                foreach (var itemModel in rowModel.ItemModels)
+                {
+                    var item = (TableItem)Generic.TableItemTemplate.LoadContent();
+                    item.DataContext = itemModel.Value;
+                    ItemGrid.Children.Add(item);
                 }
             }
         }
         #endregion
 
-        #region 初始化“行背景”
-        private void InitRowBackground(Border border, RowModel rowModel, int row)
+        #region 获取“水平分隔线”
+        private Line GetHorizontalDividingLine(int iRow, double strokeThickness = 1)
         {
+            var line = new Line() { Style = Generic.HorizontalDividingLineStyle, StrokeThickness = strokeThickness };
+            GridHelper.SetRowColumn(line, iRow, 0);
+            GridHelper.SetColumnSpan(line, TableModel.HeaderModels.Count + 1);
+            return line;
+        }
+        #endregion
+
+        #region 获取“行背景”
+        private Border GetRowBackground(RowModel rowModel, int row)
+        {
+            var border = new Border();
+
             if (TableModel == null)
             {
                 LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
-                return;
+                return border;
             }
 
             border.Style = Generic.RowBackgroundBorderStyle;
@@ -337,175 +249,76 @@ namespace TigerSan.UI.Controls
             // 应用绑定到目标控件：
             border.SetBinding(Border.BackgroundProperty, bindingBackground);
             #endregion 绑定“Background”
+
+            return border;
         }
         #endregion
 
-        #region 初始化“表头复选框”
-        private void InitTableHeaderCheckBox(CheckBox checkBox, bool isAddEvent = true)
+        #region 获取“列头复选框”
+        private CheckBox GetHeaderCheckBox(TableModel tableModel)
         {
-            checkBox.Style = Generic.TableCheckBoxStyle;
+            var checkBox = (CheckBox)Generic.TableHeaderCheckBoxTemplate.LoadContent();
+            checkBox.DataContext = tableModel;
             GridHelper.SetRowColumn(checkBox, 0, 0);
-
-            if (isAddEvent)
-            {
-                checkBox.Checked += HeaderCheckBox_Checked;
-                checkBox.Unchecked += HeaderCheckBox_Unchecked;
-            }
-
-            #region 绑定“IsSelectAll”
-            // 创建双向绑定对象：
-            var bindingIsChecked = new Binding(nameof(TableModel.IsSelectAll))
-            {
-                Source = TableModel,
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            checkBox.SetBinding(CheckBox.IsCheckedProperty, bindingIsChecked);
-            #endregion 绑定“IsSelectAll”
-
-            #region 绑定“CheckBoxVisibility”
-            // 创建双向绑定对象：
-            var bindingVisibility = new Binding(nameof(TableModel.CheckBoxVisibility))
-            {
-                Source = TableModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            checkBox.SetBinding(CheckBox.VisibilityProperty, bindingVisibility);
-            #endregion 绑定“CheckBoxVisibility”
+            return checkBox;
         }
         #endregion
 
-        #region 初始化“项目复选框”
-        private void InitItemCheckBox(CheckBox checkBox, RowModel rowModel)
+        #region 获取“项目复选框”
+        private CheckBox GetHeaderCheckBox(RowModel rowModel, int row)
         {
-            checkBox.Style = Generic.TableCheckBoxStyle;
-            checkBox.Checked += ItemCheckBox_Checked;
-            checkBox.Unchecked += ItemCheckBox_Unchecked;
-            GridHelper.SetRowColumn(checkBox, rowModel.RowIndex, 0);
-
-            #region 绑定“IsSelectAll”
-            // 创建双向绑定对象：
-            var binding = new Binding(nameof(RowModel.IsChecked))
-            {
-                Source = rowModel,
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            checkBox.SetBinding(CheckBox.IsCheckedProperty, binding);
-            #endregion 绑定“IsSelectAll”
-
-            #region 绑定“CheckBoxVisibility”
-            // 创建双向绑定对象：
-            var bindingVisibility = new Binding(nameof(TableModel.CheckBoxVisibility))
-            {
-                Source = TableModel,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // 实时更新
-            };
-
-            // 应用绑定到目标控件：
-            checkBox.SetBinding(CheckBox.VisibilityProperty, bindingVisibility);
-            #endregion 绑定“CheckBoxVisibility”
-        }
-        #endregion
-
-        #region 初始化“水平分割线”
-        private void InitHorizontalDividingLine(Line line, int row)
-        {
-            if (TableModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
-                return;
-            }
-
-            // 添加浮动表头水平分割线：
-            line.StrokeThickness = 2;
-            line.Style = Generic.HorizontalDividingLineStyle;
-            GridHelper.SetRowColumn(line, row, 0);
-            GridHelper.SetColumnSpan(line, TableModel.HeaderModels.Count + 1);
-        }
-        #endregion
-
-        #region 更新“是否全选”
-        private void UpdateIsSelectAll()
-        {
-            if (_isDoNotChangeIsSelectAll) return;
-
-            if (TableModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(TableModel));
-                return;
-            }
-
-            TableModel.IsSelectAll = !TableModel.RowModels.Any(row => !row.Value.IsChecked);
-
-            TableModel._onSelectedRowDatasChanged?.Invoke();
-        }
-        #endregion
-
-        #region 更新“项目是否选中”
-        private void UpdateItemIsChecked()
-        {
-            if (_isDoNotChangeItemCheckedState) return;
-
-            if (TableModel == null)
-            {
-                LogHelper.Instance.IsNull(nameof(TableModel));
-                return;
-            }
-
-            foreach (var rowModel in TableModel.RowModels)
-            {
-                rowModel.Value.IsChecked = TableModel.IsSelectAll;
-            }
-
-            TableModel._onSelectedRowDatasChanged?.Invoke();
+            var checkBox = (CheckBox)Generic.TableRowCheckBoxTemplate.LoadContent();
+            checkBox.DataContext = rowModel;
+            GridHelper.SetRowColumn(checkBox, row, 0);
+            return checkBox;
         }
         #endregion
         #endregion [Private]
 
-        #region 初始化“UI元素”
-        public void InitUIElements()
+        #region 刷新
+        public void Refresh()
         {
-            if (TableModel == null)
-            {
-                LogHelper.Instance.Warning($"The {nameof(TableModel)} is null!");
-                return;
-            }
-
-            // 清空：
-            ClearUIElements();
-
-            // 初始化网格：
-            InitGrid();
-
-            // 初始化“表头行UI元素集合”：
-            InitHeaderRowUIElement();
-
-            // 初始化“项目行UI元素集合”：
-            InitItemRowUIElement();
-        }
-        #endregion
-
-        #region 初始化“列宽”
-        /// <summary>
-        /// 初始化“列宽”
-        /// </summary>
-        public void InitColumnsWidth()
-        {
-            foreach (var header in _headerRowUIElement.TableHeaders)
-            {
-                header.Key.SetWidth(header.Value.ActualWidth);
-            }
+            InitHeaders();
+            InitItems();
+            UpdateFloatGridSizeFromCache();
         }
         #endregion
         #endregion 【Functions】
     }
+
+    #region 测试表格数据
+    public class TestTableDate
+    {
+        public int ID { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int Age { get; set; }
+    }
+    #endregion
+
+    #region 设计数据
+    public class TableGridDesignData : UserControl
+    {
+        #region 【Properties】
+        public TableModel TableModel { get; set; } = new TableModel(typeof(TestTableDate));
+        #endregion 【Properties】
+
+        #region 【Ctor】
+        public TableGridDesignData()
+        {
+            Init(TableModel);
+        }
+        #endregion 【Ctor】
+
+        #region 【Functions】
+        #region 初始化
+        public static void Init(TableModel tableModel)
+        {
+            tableModel.RowDatas.Add(new TestTableDate() { ID = 1, Name = "张三", Age = 18 });
+            tableModel.RowDatas.Add(new TestTableDate() { ID = 2, Name = "李四", Age = 19 });
+            tableModel.RowDatas.Add(new TestTableDate() { ID = 3, Name = "王五", Age = 20 });
+        }
+        #endregion
+        #endregion 【Functions】
+    }
+    #endregion
 }

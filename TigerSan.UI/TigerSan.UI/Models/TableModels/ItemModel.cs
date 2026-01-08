@@ -7,66 +7,44 @@ using TigerSan.UI.Helpers;
 
 namespace TigerSan.UI.Models
 {
-    #region 项目基类
-    /// <summary>
-    /// 项目模型模型
-    /// </summary>
-    public abstract class ItemModelBase : BindableBase
+    #region “项目模型”基类
+    public class ItemModelBase : BindableBase
     {
         #region 【Properties】
-        #region [引用]
-        /// <summary>
-        /// 项目类型
-        /// </summary>
-        public ItemType ItemType { get; private set; }
-
         /// <summary>
         /// 行号
         /// </summary>
-        public int RowIndex { get => GetRowIndex(); }
+        public int RowIndex
+        {
+            get { return _RowIndex; }
+            set { SetProperty(ref _RowIndex, value); }
+        }
+        private int _RowIndex;
 
         /// <summary>
         /// 列号
         /// </summary>
-        public int ColIndex { get => GetColIndex(); }
-        #endregion [引用]
+        public int ColIndex
+        {
+            get { return _ColIndex; }
+            set { SetProperty(ref _ColIndex, value); }
+        }
+        private int _ColIndex;
 
         /// <summary>
         /// 背景
         /// </summary>
         public Brush Background
         {
-            get { return _background; }
-            set { SetProperty(ref _background, value); }
+            get { return _Background; }
+            set { SetProperty(ref _Background, value); }
         }
-        private Brush _background = Generic.Transparent;
+        private Brush _Background = Generic.Transparent;
         #endregion 【Properties】
-
-        #region 【Ctor】
-        protected ItemModelBase(ItemType type)
-        {
-            ItemType = type;
-        }
-        #endregion 【Ctor】
-
-        #region 【Functions】
-        /// <summary>
-        /// 获取行号
-        /// </summary>
-        public abstract int GetRowIndex();
-
-        /// <summary>
-        /// 获取列号
-        /// </summary>
-        public abstract int GetColIndex();
-        #endregion 【Functions】
     }
     #endregion
 
-    #region 表头模型
-    /// <summary>
-    /// 表头模型
-    /// </summary>
+    #region “列头”模型
     public class HeaderModel : ItemModelBase
     {
         #region 【Fields】
@@ -97,11 +75,22 @@ namespace TigerSan.UI.Models
         #endregion【Fields】
 
         #region 【Properties】
+        #region [OneWay]
+        /// <summary>
+        /// 网格宽度
+        /// </summary>
+        public GridLength WidthGridLength
+        {
+            get { return _WidthGridLength; }
+            private set { SetProperty(ref _WidthGridLength, value); }
+        }
+        private GridLength _WidthGridLength;
+        #endregion [OneWay]
+
         #region [引用]
         #region [尺寸]
         public double? MinWidth { get => GetHeaderAttribute().MinWidth; }
         public double? MaxWidth { get => GetHeaderAttribute().MaxWidth; }
-        public GridLength WidthGridLength { get => GetWidthGridLength(); }
         #endregion [尺寸]
 
         /// <summary>
@@ -142,6 +131,7 @@ namespace TigerSan.UI.Models
 
         /// <summary>
         /// 宽度
+        /// （会同步修改WidthGridLength）
         /// </summary>
         public double? Width
         {
@@ -162,31 +152,18 @@ namespace TigerSan.UI.Models
         #endregion 【Properties】
 
         #region 【Ctor】
-        public HeaderModel(TableModel table) : base(ItemType.Header)
+        public HeaderModel(TableModel table)
         {
             _tableModel = table;
+            _WidthGridLength = GetWidthGridLength();
         }
         #endregion 【Ctor】
 
         #region 【Functions】
-        #region 获取行号
-        public override int GetRowIndex()
+        #region 获取网格宽度
+        public GridLength GetWidthGridLength()
         {
-            return 0;
-        }
-
-        #endregion
-
-        #region 获取列号
-        public override int GetColIndex()
-        {
-            var index = _tableModel.HeaderModels.IndexOf(this);
-            if (index < 0)
-            {
-                LogHelper.Instance.IsNotContain(nameof(_tableModel.HeaderModels), nameof(HeaderModel));
-                return 1;
-            }
-            return index + 1;
+            return Width != null ? new GridLength(Width.Value) : Generic.DefaultGridWidth;
         }
         #endregion
 
@@ -201,13 +178,6 @@ namespace TigerSan.UI.Models
             }
 
             return TypeHelper.GetProp(_tableModel.DataType, index);
-        }
-        #endregion
-
-        #region 获取网格宽度
-        public GridLength GetWidthGridLength()
-        {
-            return Width != null ? new GridLength(Width.Value) : Generic.DefaultGridWidth;
         }
         #endregion
 
@@ -273,18 +243,7 @@ namespace TigerSan.UI.Models
                 _Width = width;
             }
 
-            // 修改网格列宽：
-            var index = _tableModel.HeaderModels.IndexOf(this) + 1;
-            if (index < 0 || _tableModel._colDefs.Count <= index)
-            {
-                LogHelper.Instance.Warning($"The {nameof(index)} out of range!");
-                return;
-            }
-
-            var col = _tableModel._colDefs[index];
-            var floatCol = _tableModel._floatColDefs[index];
-
-            col.Width = floatCol.Width = WidthGridLength;
+            WidthGridLength = GetWidthGridLength();
         }
         #endregion
 
@@ -342,10 +301,7 @@ namespace TigerSan.UI.Models
     }
     #endregion
 
-    #region 项目模型
-    /// <summary>
-    /// 项目模型
-    /// </summary>
+    #region “项目”模型
     public class ItemModel : ItemModelBase
     {
         #region 【Fields】
@@ -365,7 +321,8 @@ namespace TigerSan.UI.Models
         public HeaderModel _headerModel;
 
         /// <summary>
-        /// “目标数据”改变委托（控件内使用）
+        /// “目标数据”改变委托
+        /// （用于通知TableItem将Target赋值给Text）
         /// </summary>
         public Action? _onTargetChanged;
         #endregion【Fields】
@@ -492,7 +449,7 @@ namespace TigerSan.UI.Models
         #endregion 【Properties】
 
         #region 【Ctor】
-        public ItemModel(RowModel rowModel, HeaderModel header) : base(ItemType.Item)
+        public ItemModel(RowModel rowModel, HeaderModel header)
         {
             _isTriggerItemSourceChanged = false;
 
@@ -500,8 +457,8 @@ namespace TigerSan.UI.Models
             _headerModel = header;
             IsReadOnly = header.IsReadOnly;
             TextAlignment = header.TextAlignment;
-            LoadSource(true);
-            UpdateItemState();
+
+            SetSource();
             UpdateOldSource();
 
             _isTriggerItemSourceChanged = true;
@@ -510,83 +467,29 @@ namespace TigerSan.UI.Models
 
         #region 【Functions】
         #region [Private]
-        #region 设置“源数据”
-        private void SetSource(object? value)
+        #region 获取“源数据”
+        private object? GetSource()
         {
-            if (value == null)
-            {
-                SetProperty(ref _Source, _Source);
-            }
-            else if (value is string)
-            {
-                var str = ((string)value).Trim();
-                SetRowData(str);
-                SetProperty(ref _Source, str);
-            }
-            else
-            {
-                SetRowData(value);
-                SetProperty(ref _Source, value);
-            }
+            // 获取RowData的类型：
+            Type type = RowData.GetType();
 
-            _Target = GetTarget();
-            SetProperty(ref _Target, _Target);
-            RaiseTargetChanged();
-
-            if (_isTriggerItemSourceChanged
-                && _headerModel._tableModel.IsTriggerItemSourceChanged)
+            // 获取指定名称的属性：
+            var property = type.GetProperty(_headerModel.PropName);
+            if (property == null)
             {
-                _headerModel._tableModel._onItemSourceChanged?.Invoke(this);
+                LogHelper.Instance.Warning($"There is no property named {_headerModel.PropName} in {nameof(RowData)}!");
+                return null;
             }
-        }
-        #endregion
-
-        #region 设置“目标数据”
-        private void SetTarget(string value)
-        {
-            if (string.Equals(_Target, value)) return;
-
-            SetProperty(ref _Target, value);
 
             try
             {
-                // 转为“源数据”：
-                object source;
-
-                if (_headerModel.Converter != null)
-                {
-                    source = _headerModel.Converter.ConvertBack(Target, null, null, null);
-                }
-                if (_headerModel._defaultConverter != null)
-                {
-                    source = _headerModel._defaultConverter.ConvertBack(Target, null, null, null);
-                }
-                else
-                {
-                    source = Target.Trim();
-                }
-
-                // 若转换失败，则回退：
-                if (source == null)
-                {
-                    Target = GetTarget();
-                    return;
-                }
-
-                // 修改“源数据”：
-                SetSource(source);
-
-                // 保证“目标数据”格式：
-                var target = GetTarget();
-                if (Target != target)
-                {
-                    Target = target;
-                }
+                // 获取属性值：
+                return property.GetValue(RowData);
             }
             catch (Exception e)
             {
                 LogHelper.Instance.Error(e.Message);
-                Target = GetTarget();
+                return null;
             }
         }
         #endregion
@@ -594,23 +497,25 @@ namespace TigerSan.UI.Models
         #region 获取“目标数据”
         private string GetTarget()
         {
+            var source = GetSource();
+
             try
             {
                 if (_headerModel.Converter != null)
                 {
-                    return (string)_headerModel.Converter.Convert(Source, null, null, null);
+                    return (string)_headerModel.Converter.Convert(source, null, null, null);
                 }
                 if (_headerModel._defaultConverter != null)
                 {
-                    return (string)_headerModel._defaultConverter.Convert(Source, null, null, null);
+                    return (string)_headerModel._defaultConverter.Convert(source, null, null, null);
                 }
                 else
                 {
-                    if (Source == null)
+                    if (source == null)
                     {
                         return string.Empty;
                     }
-                    var str = Source.ToString();
+                    var str = source.ToString();
                     return str == null ? string.Empty : str;
                 }
             }
@@ -686,53 +591,122 @@ namespace TigerSan.UI.Models
         #endregion
         #endregion [Private]
 
-        #region 获取“行号”
-        public override int GetRowIndex()
+        #region 设置“源数据”
+        public void SetSource(object? value = null)
         {
-            var index = _headerModel._tableModel.RowDatas.IndexOf(_rowModel.RowData);
-            if (index < 0)
+            try
             {
-                LogHelper.Instance.IsNotContain(nameof(_headerModel._tableModel.RowDatas), nameof(_rowModel.RowData));
-                return 0;
+                if (value == null)
+                {
+                    SetProperty(ref _Source, GetSource());
+                }
+                else if (value is string)
+                {
+                    var str = ((string)value).Trim();
+                    SetRowData(str);
+                    SetProperty(ref _Source, str);
+                }
+                else
+                {
+                    SetRowData(value);
+                    SetProperty(ref _Source, value);
+                }
+
+                _Target = GetTarget();
+                SetProperty(ref _Target, _Target);
+                RaiseTargetChanged();
+
+                if (_isTriggerItemSourceChanged
+                    && _headerModel._tableModel.IsTriggerItemSourceChanged)
+                {
+                    _headerModel._tableModel._onItemSourceChanged?.Invoke(this);
+                }
             }
-            return index + 1;
-        }
-        #endregion
-
-        #region 获取“列号”
-        public override int GetColIndex()
-        {
-            return _headerModel.ColIndex;
-        }
-        #endregion
-
-        #region 加载“源数据”
-        public void LoadSource(bool updateUI)
-        {
-            // 获取RowData的类型：
-            Type type = RowData.GetType();
-
-            // 获取指定名称的属性：
-            var property = type.GetProperty(_headerModel.PropName);
-            if (property == null)
+            catch (Exception e)
             {
-                LogHelper.Instance.Warning($"There is no property named {_headerModel.PropName} in {nameof(RowData)}!");
-                _Source = null;
+                LogHelper.Instance.Error(e.Message);
+                Source = GetSource();
+            }
+        }
+        #endregion
+
+        #region 设置“目标数据”
+        public void SetTarget(string? value = null)
+        {
+            try
+            {
+                if (string.Equals(_Target, value)) return;
+
+                if (value == null)
+                {
+                    SetProperty(ref _Target, GetTarget());
+                }
+                else
+                {
+                    SetProperty(ref _Target, value);
+                }
+
+                // 转为“源数据”：
+                object source;
+
+                if (_headerModel.Converter != null)
+                {
+                    source = _headerModel.Converter.ConvertBack(Target, null, null, null);
+                }
+                if (_headerModel._defaultConverter != null)
+                {
+                    source = _headerModel._defaultConverter.ConvertBack(Target, null, null, null);
+                }
+                else
+                {
+                    source = Target.Trim();
+                }
+
+                // 若转换失败，则回退：
+                if (source == null)
+                {
+                    Target = GetTarget();
+                    return;
+                }
+
+                // 修改“源数据”：
+                SetSource(source);
+
+                // 保证“目标数据”格式：
+                var target = GetTarget();
+                if (Target != target)
+                {
+                    Target = target;
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Instance.Error(e.Message);
+                Target = GetTarget();
+            }
+        }
+        #endregion
+
+        #region 更新“项目状态”
+        public void UpdateItemState()
+        {
+            UpdateIsModified();
+
+            if (!IsVerifyOk)
+            {
+                ItemState = ItemState.Error;
+            }
+            else if (IsModified)
+            {
+                ItemState = ItemState.Modified;
+            }
+            else if (IsHover)
+            {
+                ItemState = ItemState.Hover;
             }
             else
             {
-                // 获取属性值：
-                var value = property.GetValue(RowData);
-                if (value == null)
-                {
-                    LogHelper.Instance.Warning($"The value of the property named {_headerModel.PropName} in {nameof(RowData)} is null!");
-                }
-                _Source = value;
-            }
-
-            if (updateUI)
-            {
-                Source = _Source;
+                ItemState = ItemState.Normal;
             }
         }
         #endregion
@@ -766,31 +740,6 @@ namespace TigerSan.UI.Models
             }
 
             OldSource = value;
-        }
-        #endregion
-
-        #region 更新“项目状态”
-        public void UpdateItemState()
-        {
-            LoadSource(false);
-            UpdateIsModified();
-
-            if (!IsVerifyOk)
-            {
-                ItemState = ItemState.Error;
-            }
-            else if (IsModified)
-            {
-                ItemState = ItemState.Modified;
-            }
-            else if (IsHover)
-            {
-                ItemState = ItemState.Hover;
-            }
-            else
-            {
-                ItemState = ItemState.Normal;
-            }
         }
         #endregion
         #endregion 【Functions】

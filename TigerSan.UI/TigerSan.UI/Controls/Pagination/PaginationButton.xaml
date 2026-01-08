@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.PaginationButton"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:local="clr-namespace:TigerSan.UI.Controls"
+             xmlns:converters="clr-namespace:TigerSan.UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignWidth="32"
+             d:DesignHeight="32"
+             Style="{StaticResource TransparentUserControlStyle}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+                <ResourceDictionary>
+                    <local:PaginationButtonDesignData x:Key="PaginationButtonDesignData"/>
+                    <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+
+                    <!-- 清除标签默认样式: -->
+                    <Style x:Key="ClearLabelStyle" TargetType="{x:Type Label}">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border
+        Padding="10,5"
+        Background="{Binding Background}"
+        d:DataContext="{StaticResource PaginationButtonDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <Label
+            Content="{Binding ShowText}"
+            FontFamily="{Binding FontFamily}"
+            Foreground="{Binding Foreground}"
+            Style="{StaticResource ClearLabelStyle}"/>
+    </Border>
+</UserControl>

@@ -28,6 +28,8 @@ Before use, you need to reference "Generic.xaml" in "App.xaml".
 ### TableHeaderAttribute:
 
 ## Behaviors:
+### DynamicGridBehavior:
+
 ### MouseDragBehavior:
 
 ## Controls:
@@ -44,6 +46,10 @@ Before use, you need to reference "Generic.xaml" in "App.xaml".
 #### PageBar:
 #### PageButton:
 #### PageView:
+
+### Pagination:
+#### Pagination:
+#### PaginationButton:
 
 ### ImageButton:
 
@@ -162,9 +168,6 @@ Colors, Constants, Icons.
 ### CheckBoxStyle:
 `CheckBoxStyle`: Global.
 
-### CircleButtonTemplate:
-`CircleButtonTemplate`:
-
 ### ContextMenuStyle:
 `ContextMenuStyle`: Global.
 
@@ -215,15 +218,19 @@ Colors, Constants, Icons.
 
 `TextBoxStyle`: Global.
 
+### TransparentUserControlStyle:
+`TransparentUserControlStyle`:
+
+## Templates:
+### CircleButtonTemplate:
+`CircleButtonTemplate`:
+
 ### TextBoxTemplate:
 `CustomTextBoxTemplate`:
 
 `VerticalAlignmentTextBoxTemplate`:
 
 `EllipsisTextBoxTemplate`:
-
-### TransparentUserControlStyle:
-`TransparentUserControlStyle`:
 
 ## ViewModels:
 ### AboutViewModel:

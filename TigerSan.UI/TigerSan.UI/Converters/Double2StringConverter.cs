@@ -42,5 +42,17 @@ namespace TigerSan.UI.Converters
             return source;
         }
         #endregion
+
+        #region 【Functions】
+        #region [Static]
+        #region 获取“double”
+        public static double GetDouble(string str)
+        {
+            var num = new Double2StringConverter().ConvertBack(str);
+            return num == null ? 0 : (double)num;
+        }
+        #endregion
+        #endregion [Static]
+        #endregion 【Functions】
     }
 }

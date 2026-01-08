@@ -17,6 +17,7 @@ namespace TigerSan.UI.Controls
         #region 导航栏模型
         /// <summary>
         /// 导航栏模型
+        /// （会触发“界面更新”）
         /// </summary>
         public NavBarModel NavBarModel
         {
@@ -54,7 +55,15 @@ namespace TigerSan.UI.Controls
             panel.Children.Clear();
 
             var selectedButtonModel = NavBarModel.SelectedButtonModel;
-            if (selectedButtonModel == null) return;
+            if (selectedButtonModel == null)
+            {
+                // 默认选择第一个打开的按钮:
+                if (NavBarModel.OpenedButtonModels.Count > 0)
+                {
+                    NavBarModel.SelectedButtonModel = NavBarModel.OpenedButtonModels[0];
+                }
+                return;
+            }
 
             // 清除“多余缓存”:
             ClearViewCache();

@@ -15,9 +15,24 @@ namespace Test.WPF.ViewModels
         /// 是否已经初始化
         /// </summary>
         private bool isInitialized = false;
+
+        /// <summary>
+        /// “行数据”集合
+        /// </summary>
+        private ObservableCollection<EmployeeInfo> _rowDatas = new ObservableCollection<EmployeeInfo>();
         #endregion 【Fields】
 
         #region 【Properties】
+        /// <summary>
+        /// 是否显示消息
+        /// </summary>
+        public bool IsShowMsg
+        {
+            get { return _IsShowMsg; }
+            set { SetProperty(ref _IsShowMsg, value); }
+        }
+        private bool _IsShowMsg = false;
+
         /// <summary>
         /// 员工表格模型
         /// </summary>
@@ -32,6 +47,11 @@ namespace Test.WPF.ViewModels
             set { SetProperty(ref _selectedRowCount, value); }
         }
         private int _selectedRowCount = 0;
+
+        /// <summary>
+        /// 分页模型
+        /// </summary>
+        public PaginationModel PaginationModel { get; set; } = new PaginationModel();
         #endregion 【Properties】
 
         #region 【Ctor】
@@ -45,14 +65,17 @@ namespace Test.WPF.ViewModels
         #region “项目源数据”改变
         private void OnItemSourceChanged(ItemModel itemModel)
         {
-            MsgBox.ShowInformation($"Source = {itemModel.Target}");
+            if (IsShowMsg)
+            {
+                MsgBox.ShowInformation($"Source = {itemModel.Target}");
+            }
         }
         #endregion
 
         #region “选中行集合”改变
         private void OnSelectedRowDatasChanged()
         {
-            SelectedRowCount = EmployeeTable.SelectedRowCount;
+            SelectedRowCount = EmployeeTable.SelectedRowsCount;
         }
         #endregion
         #endregion 【Evnets】
@@ -100,6 +123,7 @@ namespace Test.WPF.ViewModels
         #region 初始化“表格”
         public void InitTable()
         {
+            #region 单次执行
             if (isInitialized)
             {
                 return;
@@ -108,6 +132,7 @@ namespace Test.WPF.ViewModels
             {
                 isInitialized = true;
             }
+            #endregion 单次执行
 
             // 是否显示复选框：
             EmployeeTable.IsShowCheckBox = true;
@@ -161,18 +186,32 @@ namespace Test.WPF.ViewModels
             #endregion 设置“项目初始化”委托
 
             #region 添加数据
-            var RowDatas = new ObservableCollection<object>
+            _rowDatas = new ObservableCollection<EmployeeInfo>
             {
                 new EmployeeInfo() { Id = 1, Name = "张三", Age = 18, Gender = true, Salary = 8000.01, JoinDate = DateTime.Now },
                 new EmployeeInfo() { Id = 2, Name = "李四", Age = 19, Gender = false, Salary = 9000.02, JoinDate = DateTime.Now },
                 new EmployeeInfo() { Id = 3, Name = "王五", Age = 20, Gender = true, Salary = 10000.03, JoinDate = DateTime.Now },
                 new EmployeeInfo() { Id = 4, Name = "赵六", Age = 21, Gender = false, Salary = 11000.04, JoinDate = DateTime.Now },
                 new EmployeeInfo() { Id = 5, Name = "吴七", Age = 22, Gender = true, Salary = 12000.05, JoinDate = DateTime.Now },
-                new EmployeeInfo() { Id = 6, Name = "周八", Age = 23, Gender = true, Salary = 13000.06, JoinDate = DateTime.Now }
+                new EmployeeInfo() { Id = 6, Name = "周八", Age = 23, Gender = true, Salary = 13000.06, JoinDate = DateTime.Now },
+                new EmployeeInfo() { Id = 7, Name = "郑九", Age = 24, Gender = true, Salary = 14000.07, JoinDate = DateTime.Now },
+                new EmployeeInfo() { Id = 8, Name = "冯十", Age = 25, Gender = false, Salary = 15000.08, JoinDate = DateTime.Now },
+                new EmployeeInfo() { Id = 9, Name = "陈锋", Age = 26, Gender = true, Salary = 16000.09, JoinDate = DateTime.Now },
+                new EmployeeInfo() { Id = 10, Name = "楚亮", Age = 27, Gender = true, Salary = 17000.10, JoinDate = DateTime.Now },
+                new EmployeeInfo() { Id = 11, Name = "魏源", Age = 28, Gender = true, Salary = 18000.11, JoinDate = DateTime.Now },
+                new EmployeeInfo() { Id = 12, Name = "蒋庆", Age = 24, Gender = true, Salary = 19000.12, JoinDate = DateTime.Now }
             };
-            EmployeeTable.RowDatas = RowDatas; // 触发一次刷新
-            EmployeeTable.RowDatas.Add(new EmployeeInfo() { Id = 7, Name = "郑九", Age = 24, Gender = true, Salary = 14000.07, JoinDate = DateTime.Now }); // 触发一次刷新
             #endregion 添加数据
+
+            #region 分页
+            PaginationModel.Count = _rowDatas.Count;
+            PaginationModel.OnChecked = buttonModel =>
+            {
+                EmployeeTable.RowDatas = new ObservableCollection<object>(PaginationModel.GetPageDatas(_rowDatas, buttonModel.Num));
+            };
+
+            PaginationModel.RaiseOnChecked();
+            #endregion 分页
         }
         #endregion
         #endregion 【Functions】

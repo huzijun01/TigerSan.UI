@@ -10,6 +10,7 @@ namespace Test.WPF.Pages
         {
             InitializeComponent();
             DataContext = new TablePageViewModel();
+            //DataContext = new TablePageViewModelOld();
         }
         #endregion 【Ctor】
     }

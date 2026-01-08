@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:TigerSan.UI.Controls"
     xmlns:converters="clr-namespace:TigerSan.UI.Converters">
 
@@ -10,9 +12,13 @@
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/TransparentUserControlStyle.xaml"/>
         <ResourceDictionary>
             <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
-            <converters:Bool2VisibilityConverter x:Key="SortMode2VisibilityConverter"/>
+            <converters:SortMode2VisibilityConverter x:Key="SortMode2VisibilityConverter"/>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
+
+    <!-- 设计数据： -->
+    <local:TableHeaderDesignData x:Key="TableHeaderDesignData"/>
+    <local:TableItemDesignData x:Key="TableItemDesignData"/>
 
     <!--  颜色：  -->
     <SolidColorBrush x:Key="TableItem.Static.Foreground" Color="White" />
@@ -110,7 +116,59 @@
         <Setter Property="Opacity" Value="{StaticResource RowBackground.Opacity}"/>
     </Style>
 
-    <!-- 设计数据： -->
-    <local:TableHeaderDesignData x:Key="TableHeaderDesignData"/>
-    <local:TableItemDesignData x:Key="TableItemDesignData"/>
+    <!-- 列头模板： -->
+    <DataTemplate x:Key="TableHeaderTemplate">
+        <local:TableHeader
+            HeaderModel="{Binding}"
+            Text="{Binding Title}"
+            Grid.Row="{Binding RowIndex}"
+            Grid.Column="{Binding ColIndex}"
+            Background="{Binding Background}"/>
+    </DataTemplate>
+
+    <!-- 项目模板: -->
+    <DataTemplate x:Key="TableItemTemplate">
+        <local:TableItem 
+            ItemModel="{Binding}"
+            Grid.Row="{Binding RowIndex}"
+            Grid.Column="{Binding ColIndex}"
+            ItemState="{Binding ItemState}"
+            IsReadOnly="{Binding IsReadOnly}"
+            Background="{Binding Background}"
+            TextAlignment="{Binding TextAlignment}"/>
+    </DataTemplate>
+
+    <!-- 列头复选框模板: -->
+    <DataTemplate x:Key="TableHeaderCheckBoxTemplate">
+        <CheckBox
+            IsChecked="{Binding IsSelectAll}"
+            Visibility="{Binding IsShowCheckBox, Converter={StaticResource Bool2VisibilityConverter}}"
+            Style="{StaticResource TableCheckBoxStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <prism:InvokeCommandAction Command="{Binding CheckedCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked">
+                    <prism:InvokeCommandAction Command="{Binding UncheckedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+    </DataTemplate>
+
+    <!-- 行复选框模板: -->
+    <DataTemplate x:Key="TableRowCheckBoxTemplate">
+        <CheckBox
+            IsChecked="{Binding IsChecked}"
+            Visibility="{Binding IsShowCheckBox, Converter={StaticResource Bool2VisibilityConverter}}"
+            Style="{StaticResource TableCheckBoxStyle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <prism:InvokeCommandAction Command="{Binding CheckedCommand}" CommandParameter="{Binding}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked">
+                    <prism:InvokeCommandAction Command="{Binding UncheckedCommand}" CommandParameter="{Binding}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+    </DataTemplate>
 </ResourceDictionary>

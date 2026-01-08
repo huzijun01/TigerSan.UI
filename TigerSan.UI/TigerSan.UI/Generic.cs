@@ -54,6 +54,10 @@ namespace TigerSan.UI
 
         #region 【Templates】
         public static DataTemplate NavFolderTemplate { get => (DataTemplate)_element.FindResource(nameof(NavFolderTemplate)); }
+        public static DataTemplate TableHeaderTemplate { get => (DataTemplate)_element.FindResource(nameof(TableHeaderTemplate)); }
+        public static DataTemplate TableItemTemplate { get => (DataTemplate)_element.FindResource(nameof(TableItemTemplate)); }
+        public static DataTemplate TableHeaderCheckBoxTemplate { get => (DataTemplate)_element.FindResource(nameof(TableHeaderCheckBoxTemplate)); }
+        public static DataTemplate TableRowCheckBoxTemplate { get => (DataTemplate)_element.FindResource(nameof(TableRowCheckBoxTemplate)); }
         #endregion 【Templates】
 
         #region 【Colors】

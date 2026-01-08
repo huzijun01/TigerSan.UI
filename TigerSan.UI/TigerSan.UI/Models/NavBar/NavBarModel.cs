@@ -38,6 +38,7 @@ namespace TigerSan.UI.Models
 
         /// <summary>
         /// 选中的“按钮模型”
+        /// （会触发“选中状态”更新）
         /// </summary>
         public NavButtonModel? SelectedButtonModel
         {

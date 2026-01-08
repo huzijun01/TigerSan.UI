@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="TigerSan.UI.Controls.Pagination"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:local="clr-namespace:TigerSan.UI.Controls"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:TigerSan.UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignWidth="200"
+             d:DesignHeight="80">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+                <ResourceDictionary>
+                    <local:PaginationDesignData x:Key="PaginationDesignData"/>
+                    <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+
+                    <!-- 常量: -->
+                    <Thickness x:Key="MarginLeft">15,0,0,0</Thickness>
+                    <Thickness x:Key="MarginRight">0,0,15,0</Thickness>
+
+                    <!-- 清除标签默认样式: -->
+                    <Style x:Key="HorizontalStackPanelStyle" TargetType="{x:Type StackPanel}">
+                        <Setter Property="Orientation" Value="Horizontal"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+
+                    <!-- “分页按钮”模板: -->
+                    <DataTemplate x:Key="PaginationButtonTemplate">
+                        <local:PaginationButton
+                            DataContext="{Binding}"
+                            ButtonModel="{Binding}"
+                            Text="{Binding Text}"
+                            HoverText="{Binding HoverText}"
+                            IsShow="{Binding IsShow}"
+                            IsSelected="{Binding IsSelected}"
+                            IsEnabled="{Binding IsEnabled}"/>
+                    </DataTemplate>
+
+                    <!-- 清除标签默认样式: -->
+                    <Style x:Key="ClearLabelStyle" TargetType="{x:Type Label}">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel
+        Style="{StaticResource HorizontalStackPanelStyle}"
+        d:DataContext="{StaticResource PaginationDesignData}"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+        <!-- 总数: -->
+        <StackPanel
+            Orientation="Horizontal"
+            Margin="{StaticResource MarginRight}"
+            Visibility="{Binding PaginationModel.IsShowCount, Converter={StaticResource Bool2VisibilityConverter}}">
+            <Label
+                Content="Count: "
+                Style="{StaticResource ClearLabelStyle}"
+                Foreground="{StaticResource Colors.PrimaryText}"/>
+            <Label
+                Content="{Binding PaginationModel.Count}"
+                Style="{StaticResource ClearLabelStyle}"
+                Foreground="{StaticResource Colors.Brand}"/>
+        </StackPanel>
+
+        <!-- 页大小: -->
+        <local:Select
+            Margin="{StaticResource MarginRight}"
+            Value="{Binding PaginationModel.PageSize}"
+            Items="{Binding PaginationModel.PageSizeModels}"
+            Width="{Binding PaginationModel.PageSizeWidth}"
+            Visibility="{Binding PaginationModel.IsShowPageSize, Converter={StaticResource Bool2VisibilityConverter}}"/>
+
+        <!-- “按钮”集合: -->
+        <ItemsControl
+            ItemsSource="{Binding PaginationModel.ButtonModels}"
+            ItemTemplate="{StaticResource PaginationButtonTemplate}"
+            ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}">
+        </ItemsControl>
+
+        <!-- 跳转: -->
+        <StackPanel
+            Orientation="Horizontal"
+            Margin="{StaticResource MarginLeft}"
+            Visibility="{Binding PaginationModel.IsShowPageTextBox, Converter={StaticResource Bool2VisibilityConverter}}">
+            <Label
+                Content="To"
+                Style="{StaticResource ClearLabelStyle}"
+                Foreground="{StaticResource Colors.PrimaryText}"/>
+            <TextBox
+                x:Name="txtPageText"
+                Margin="5,0"
+                Text="{Binding PaginationModel.PageText}"/>
+            <Label
+                Content="page"
+                Style="{StaticResource ClearLabelStyle}"
+                Foreground="{StaticResource Colors.PrimaryText}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

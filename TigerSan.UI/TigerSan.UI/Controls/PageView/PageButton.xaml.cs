@@ -94,6 +94,23 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
+        #region 是否显示“关闭按钮”
+        /// <summary>
+        /// 是否显示“关闭按钮”
+        /// </summary>
+        public bool IsShowCloseButton
+        {
+            get { return (bool)GetValue(IsShowCloseButtonProperty); }
+            set { SetValue(IsShowCloseButtonProperty, value); }
+        }
+        public static readonly DependencyProperty IsShowCloseButtonProperty =
+            DependencyProperty.Register(
+                nameof(IsShowCloseButton),
+                typeof(bool),
+                typeof(PageButton),
+                new PropertyMetadata(true));
+        #endregion
+
         #region 按钮模型
         /// <summary>
         /// 按钮模型
@@ -218,13 +235,12 @@ namespace TigerSan.UI.Controls
         public PageButton()
         {
             InitializeComponent();
+            btnClose.Click += BtnClose_Click;
+            MouseLeftButtonDown += OnMouseLeftButtonDown;
             _foregroundAnimation = new BrushGradientAnimation(SetForeground_bdrSub, Generic.PrimaryText.Color);
             _bdrSub_BackgroundAnimation = new BrushGradientAnimation(SetBackground_bdrSub, Colors.Transparent);
             _bdrMain_BackgroundAnimation = new BrushGradientAnimation(SetBackground_bdrMain, Colors.Transparent);
             _line_StrokeAnimation = new BrushGradientAnimation(SetLineStroke, Generic.White_25pct.Color);
-            MouseLeftButtonDown += OnMouseLeftButtonDown;
-            btnClose.Click += BtnClose_Click;
-            Init();
             AddValueChanged();
         }
         #endregion 【Ctor】
@@ -273,17 +289,9 @@ namespace TigerSan.UI.Controls
         }
         #endregion
 
-        #region 初始化
-        private void Init()
-        {
-
-        }
-        #endregion
-
         #region 更新状态
         public void UpdateState()
         {
-            #region 状态切换
             if (IsSelected)
             {
                 FontWeight = FontWeights.Bold;
@@ -308,7 +316,6 @@ namespace TigerSan.UI.Controls
                 _bdrSub_BackgroundAnimation.SetColor(Colors.Transparent);
                 _line_StrokeAnimation.SetColor(Generic.White_25pct.Color);
             }
-            #endregion 状态切换
         }
         #endregion
 
@@ -349,6 +356,7 @@ namespace TigerSan.UI.Controls
         public string Icon { get; set; } = Icons.File_Linear;
         public string Title { get; set; } = Generic.Null;
         public bool IsSelect { get; set; } = false;
+        public bool IsShowCloseButton { get; set; } = true;
         #endregion 【Properties】
 
         #region 【Ctor】

@@ -8,7 +8,14 @@
              d:DesignWidth="400"
              d:DesignHeight="50">
     <UserControl.Resources>
-        <local:PageBarDesignData x:Key="PageBarDesignData"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+                <ResourceDictionary>
+                    <local:PageBarDesignData x:Key="PageBarDesignData"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <ScrollViewer
@@ -17,13 +24,9 @@
         d:DataContext="{StaticResource PageBarDesignData}"
         DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
         <!-- 集合控件: -->
-        <ItemsControl ItemsSource="{Binding NavBarModel.OpenedButtonModels}">
-            <!-- 画布模板: -->
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+        <ItemsControl
+            ItemsSource="{Binding NavBarModel.OpenedButtonModels}"
+            ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}">
 
             <!-- 项目模板: -->
             <ItemsControl.ItemTemplate>
@@ -34,6 +37,7 @@
                         Title="{Binding Title}"
                         IsSelected="{Binding IsSelected}"
                         NavBarModel="{Binding NavBarModel}"
+                        IsShowCloseButton="{Binding IsShowCloseButton}"
                         Command="{Binding Command}"
                         CheckedCommand="{Binding CheckedCommand}"/>
                 </DataTemplate>

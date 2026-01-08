@@ -1,19 +1,17 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Collections.ObjectModel;
 using TigerSan.CsvLog;
 using TigerSan.TimerHelper.WPF;
+using TigerSan.UI.Models;
+using TigerSan.UI.Helpers;
+using TigerSan.UI.Windows;
 using TigerSan.UI.Animations;
 using TigerSan.UI.Converters;
-using TigerSan.UI.Helpers;
-using TigerSan.UI.Models;
-using TigerSan.UI.Windows;
 
 namespace TigerSan.UI.Controls
 {
@@ -620,7 +618,7 @@ namespace TigerSan.UI.Controls
         {
             RaiseClosedEvent();
             RaiseClosedCommand();
-            _menuWindow?.SafeClose();
+            _menuWindow?.SetHeightAndClose();
             _menuWindow = null;
         }
         #endregion

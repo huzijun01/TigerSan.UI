@@ -74,6 +74,10 @@ namespace Test.WPF.ViewModels
             var btnDragPage = new NavButtonModel(NavBarModel, fdrBehavior, typeof(DragPage)) { Title = "拖拽", Icon = Icons.Drag_Hand };
             fdrBehavior.ButtonModels.Add(btnDragPage);
             #endregion 导航
+
+            NavBarModel.OpenedButtonModels.Add(btnTablePage);
+            NavBarModel.IsOpen = false;
+            btnTablePage.IsShowCloseButton = false;
         }
         #endregion 【Ctor】
     }

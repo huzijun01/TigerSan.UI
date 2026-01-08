@@ -39,7 +39,7 @@ namespace TigerSan.UI.Models
             get { return _Title; }
             set { SetProperty(ref _Title, value); }
         }
-        private string _Title = "null";
+        private string _Title = Generic.Null;
 
         public bool IsSelected
         {
@@ -47,6 +47,13 @@ namespace TigerSan.UI.Models
             set { SetProperty(ref _IsSelected, value); }
         }
         private bool _IsSelected = false;
+
+        public bool IsShowCloseButton
+        {
+            get { return _IsShowCloseButton; }
+            set { SetProperty(ref _IsShowCloseButton, value); }
+        }
+        private bool _IsShowCloseButton = true;
 
         public Visibility Visibility
         {

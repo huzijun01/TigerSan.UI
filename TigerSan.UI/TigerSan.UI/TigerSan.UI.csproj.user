@@ -14,6 +14,9 @@
     <Compile Update="Controls\PageView\PageBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\Pagination\PaginationButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\PixelDot.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

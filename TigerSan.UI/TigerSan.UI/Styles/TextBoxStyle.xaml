@@ -3,7 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
-        <ResourceDictionary Source="/TigerSan.UI;component/Styles/TextBoxTemplate.xaml" />
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Templates/TextBoxTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- 自定义文本框样式： -->

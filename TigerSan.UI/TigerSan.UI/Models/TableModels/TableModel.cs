@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using TigerSan.CsvLog;
@@ -14,25 +13,23 @@ namespace TigerSan.UI.Models
     public class TableModel : BindableBase
     {
         #region 【Fields】
-        /// <summary>
-        /// 表格控件
-        /// </summary>
-        private TableGrid? _tableGrid;
-
+        #region [Private]
         /// <summary>
         /// 默认特性
         /// </summary>
         private TableAttribute _defaultAttribute = new TableAttribute();
 
         /// <summary>
-        /// “列定义”集合
+        /// 集合改变事件参数
         /// </summary>
-        public List<ColumnDefinition> _colDefs = new List<ColumnDefinition>();
+        private NotifyCollectionChangedEventArgs _args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        #endregion [Private]
 
         /// <summary>
-        /// “浮动列定义”集合
+        /// 表格实例
+        /// （由TableGrid传入，用于刷新）
         /// </summary>
-        public List<ColumnDefinition> _floatColDefs = new List<ColumnDefinition>();
+        public TableGrid? _tableGrid;
 
         /// <summary>
         /// 是否自动刷新
@@ -40,9 +37,10 @@ namespace TigerSan.UI.Models
         public bool _isAutoRefresh = true;
 
         /// <summary>
-        /// 集合改变事件参数
+        /// 是否更新“行”的“是否选中”
+        /// （由RowModel维护）
         /// </summary>
-        private NotifyCollectionChangedEventArgs _args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        public bool _isUpdateRowIsChecked = true;
 
         /// <summary>
         /// “旧行数据”集合
@@ -95,102 +93,149 @@ namespace TigerSan.UI.Models
         /// 接受换行
         /// </summary>
         public bool AcceptsReturn { get => GetTableAttribute().AcceptsReturn; }
+
+        /// <summary>
+        /// “被选中行”总数
+        /// </summary>
+        public int SelectedRowsCount { get => RowModels.Where(row => row.Value.IsChecked).Count(); }
+
+        /// <summary>
+        /// “被选中”的“行数据”集合
+        /// </summary>
+        public List<object> SelectedRowDatas { get => GetSelectedRowDatas(); }
+
+        /// <summary>
+        /// “被选中”的“行模型”集合
+        /// </summary>
+        public List<RowModel> SelectedRowModels { get => GetSelectedRowModels(); }
         #endregion [引用]
 
         #region [OneWay]
-        /// <summary>
-        /// 是否触发“项目源数据改变”委托
-        /// </summary>
-        public bool IsTriggerItemSourceChanged { get; private set; } = true;
-
         /// <summary>
         /// 数据类型
         /// </summary>
         public Type DataType { get; private set; }
 
         /// <summary>
-        /// 表头模型集合
+        /// 行数
         /// </summary>
-        public List<HeaderModel> HeaderModels { get; private set; } = new List<HeaderModel>();
-
-        /// <summary>
-        /// 项目模型集合
-        /// </summary>
-        public Dictionary<object, RowModel> RowModels { get; private set; } = new Dictionary<object, RowModel>();
-
-        /// <summary>
-        /// 复选框可见性
-        /// </summary>
-        public Visibility CheckBoxVisibility
+        public int RowCount
         {
-            get { return _checkBoxVisibility; }
-            private set { SetProperty(ref _checkBoxVisibility, value); }
+            get { return _RowCount; }
+            private set { SetProperty(ref _RowCount, value); }
         }
-        private Visibility _checkBoxVisibility = Visibility.Visible;
+        private int _RowCount;
+
+        /// <summary>
+        /// 列数
+        /// </summary>
+        public int ColCount
+        {
+            get { return _ColCount; }
+            private set { SetProperty(ref _ColCount, value); }
+        }
+        private int _ColCount;
+
+        /// <summary>
+        /// 是否触发“项目源数据改变”委托
+        /// </summary>
+        public bool IsTriggerItemSourceChanged { get; private set; } = true;
+
+        /// <summary>
+        /// 是否更新“是否全选”
+        /// </summary>
+        public bool IsUpdateIsSelectAll { get; private set; } = true;
         #endregion [OneWay]
 
+        #region [Other]
+        #region “行数据”集合
         /// <summary>
-        /// 是否显示复选框
-        /// </summary>
-        public bool IsShowCheckBox
-        {
-            get { return CheckBoxVisibility == Visibility.Visible; }
-            set { CheckBoxVisibility = value ? Visibility.Visible : Visibility.Collapsed; }
-        }
-
-        /// <summary>
-        /// 是否全选
-        /// </summary>
-        public bool IsSelectAll
-        {
-            get { return _isSelectAll; }
-            set { SetProperty(ref _isSelectAll, value); }
-        }
-        private bool _isSelectAll = false;
-
-        /// <summary>
-        /// 行数据集合
+        /// “行数据”集合
+        /// （触发刷新）
         /// </summary>
         public ObservableCollection<object> RowDatas
         {
-            get { return _rowDatas; }
+            get { return _RowDatas; }
             set
             {
-                _rowDatas = value;
-                RowDatas.CollectionChanged -= RowDatas_CollectionChanged;
-                RowDatas.CollectionChanged += RowDatas_CollectionChanged;
+                _RowDatas = value;
+                _RowDatas.CollectionChanged -= RowDatas_CollectionChanged;
+                _RowDatas.CollectionChanged += RowDatas_CollectionChanged;
                 RowDatas_CollectionChanged(this, _args);
             }
         }
-        private ObservableCollection<object> _rowDatas = new ObservableCollection<object>();
+        private ObservableCollection<object> _RowDatas = new ObservableCollection<object>();
+        #endregion
 
+        #region “列头模型”集合
         /// <summary>
-        /// 被选中的行数据集合
+        /// “列头模型”集合
+        /// （触发网格初始化）
         /// </summary>
-        public List<object> SelectedRowDatas { get => GetSelectedRowDatas(); }
+        public ObservableCollection<HeaderModel> HeaderModels
+        {
+            get { return _HeaderModels; }
+            set
+            {
+                _HeaderModels = value;
+                _RowDatas.CollectionChanged += RowDatas_CollectionChanged;
+                _HeaderModels.CollectionChanged += HeaderModels_CollectionChanged;
+                HeaderModels_CollectionChanged(this, _args);
+            }
+        }
+        private ObservableCollection<HeaderModel> _HeaderModels = new ObservableCollection<HeaderModel>();
+        #endregion
 
+        #region “行模型”集合
         /// <summary>
-        /// 行数
+        /// “行模型”集合
         /// </summary>
-        public int RowCount { get => RowModels.Count; }
+        public Dictionary<object, RowModel> RowModels
+        {
+            get { return _RowModels; }
+            set { _RowModels = value; }
+        }
+        private Dictionary<object, RowModel> _RowModels = new Dictionary<object, RowModel>();
+        #endregion
 
+        #region 是否“全选”
         /// <summary>
-        /// 被选中的行数
+        /// 是否“全选”
         /// </summary>
-        public int SelectedRowCount { get => RowModels.Where(row => row.Value.IsChecked).Count(); }
+        public bool IsSelectAll
+        {
+            get { return _IsSelectAll; }
+            set { SetProperty(ref _IsSelectAll, value); }
+        }
+        private bool _IsSelectAll = false;
+        #endregion
+
+        #region 是否“显示复选框”
+        /// <summary>
+        /// 是否“显示复选框”
+        /// </summary>
+        public bool IsShowCheckBox
+        {
+            get { return _IsShowCheckBox; }
+            set { SetProperty(ref _IsShowCheckBox, value); }
+        }
+        private bool _IsShowCheckBox = true;
+        #endregion
+        #endregion [Other]
         #endregion 【Properties】
 
         #region 【Ctor】
         public TableModel(Type dataType)
         {
             DataType = dataType;
-            InitTableModel();
-            InitDefaultAttribute(dataType);
+            _RowDatas.CollectionChanged += RowDatas_CollectionChanged;
+            _HeaderModels.CollectionChanged += HeaderModels_CollectionChanged;
         }
         #endregion 【Ctor】
 
         #region 【Events】
-        #region 行数据集合改变
+        #region [Private]
+        #region “行数据”集合改变后
         private void RowDatas_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (!_isAutoRefresh) return;
@@ -200,61 +245,71 @@ namespace TigerSan.UI.Models
             _onRowDatasCollectionChanged?.Invoke(sender, e);
         }
         #endregion
+
+        #region “列头模型”集合改变后
+        private void HeaderModels_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            InitGrid();
+        }
+        #endregion
+        #endregion [Private]
         #endregion 【Events】
+
+        #region 【Commands】
+        #region 选中
+        public ICommand CheckedCommand { get => new DelegateCommand(Checked); }
+        private void Checked()
+        {
+            UpdateItemIsChecked();
+        }
+        #endregion
+
+        #region 未选中
+        public ICommand UncheckedCommand { get => new DelegateCommand(Unchecked); }
+        private void Unchecked()
+        {
+            UpdateItemIsChecked();
+        }
+        #endregion
+        #endregion 【Commands】
 
         #region 【Functions】
         #region [Private]
         #region 初始化“网格”
-        private void InitGrid(List<HeaderModel> headerModels)
+        private void InitGrid()
         {
-            _colDefs.Clear();
-            _floatColDefs.Clear();
+            RowCount = RowModels.Count + 1;
+            ColCount = HeaderModels.Count + 1;
+        }
+        #endregion
 
-            var props = DataType.GetProperties();
-            if (props == null)
+        #region 初始化“表格模型”
+        public void InitTableModel(TableGrid? tableGrid = null)
+        {
+            if (tableGrid != null)
             {
-                LogHelper.Instance.IsNull(nameof(props));
-                return;
+                _tableGrid = tableGrid;
             }
 
-            // 复选框列：
-            _colDefs.Add(new ColumnDefinition() { Width = Generic.DefaultGridWidth });
-            _floatColDefs.Add(new ColumnDefinition() { Width = Generic.DefaultGridWidth });
+            IsTriggerItemSourceChanged = false;
 
-            // 内容框列：
-            foreach (var header in headerModels)
-            {
-                var attr = header.GetHeaderAttribute();
-                if (attr == null)
-                {
-                    LogHelper.Instance.IsNull(nameof(attr));
-                    return;
-                }
+            InitHeaderModels();
+            InitItemModels(HeaderModels);
 
-                var col = new ColumnDefinition()
-                {
-                    Width = attr.WidthLength,
-                    MinWidth = attr.MinWidth,
-                    MaxWidth = attr.MaxWidth
-                };
-                _colDefs.Add(col);
+            IsSelectAll = false;
 
-                var floatCol = new ColumnDefinition()
-                {
-                    Width = attr.WidthLength,
-                    MinWidth = attr.MinWidth,
-                    MaxWidth = attr.MaxWidth
-                };
-                _floatColDefs.Add(floatCol);
+            _onSelectedRowDatasChanged?.Invoke();
+            _onRowDatasCollectionChanged?.Invoke(null, _args);
 
-                header.SetWidth(null); // 初始化“列宽”
-            }
+            IsTriggerItemSourceChanged = true;
         }
         #endregion
 
         #region 初始化“表头模型”集合
         private void InitHeaderModels()
         {
+            if (HeaderModels.Count > 0) return;
+
             // 清空“表头集合”：
             HeaderModels.Clear();
 
@@ -268,9 +323,9 @@ namespace TigerSan.UI.Models
 
             // 添加“表头”：
             var count = props.Length;
-            for (int index = 0; index < count; index++)
+            for (int iCol = 0; iCol < count; iCol++)
             {
-                var headerModel = new HeaderModel(this);
+                var headerModel = new HeaderModel(this) { ColIndex = iCol + 1 };
                 HeaderModels.Add(headerModel);
             }
 
@@ -285,7 +340,7 @@ namespace TigerSan.UI.Models
         #endregion
 
         #region 初始化“项目模型”集合
-        private void InitItemModels(List<HeaderModel> headerModels)
+        private void InitItemModels(ObservableCollection<HeaderModel> headerModels)
         {
             RowModels.Clear();
             var rowCount = RowDatas.Count;
@@ -311,33 +366,47 @@ namespace TigerSan.UI.Models
                 {
                     var headerModel = headerModels[iCol];
 
-                    var itemModel = new ItemModel(rowModel, headerModel);
+                    var itemModel = new ItemModel(rowModel, headerModel) { RowIndex = iRow + 1, ColIndex = iCol + 1 };
                     _onItemInit?.Invoke(itemModel); // 执行“初始化”委托
                     rowModel.ItemModels.Add(headerModel, itemModel);
                 }
 
                 RowModels.Add(rowData, rowModel);
             }
+
+            // 初始化“网格”:
+            InitGrid();
         }
         #endregion
 
-        #region 初始化“默认特性”
-        private void InitDefaultAttribute(Type dataType)
+        #region 更新“项目是否选中”
+        private void UpdateItemIsChecked()
         {
-            _defaultAttribute.Name = dataType.Name;
+            if (!_isUpdateRowIsChecked) return;
+
+            IsUpdateIsSelectAll = false;
+
+            foreach (var rowModel in RowModels)
+            {
+                rowModel.Value.IsChecked = IsSelectAll;
+            }
+
+            _onSelectedRowDatasChanged?.Invoke();
+
+            IsUpdateIsSelectAll = true;
         }
         #endregion
         #endregion [Private]
 
         #region [获取模型]
-        #region 获取“表头模型”
+        #region 获取“表头模型”（属性名）
         public HeaderModel? GetHeaderModel(string propName)
         {
             return HeaderModels.FirstOrDefault(header => string.Equals(header.PropName, propName));
         }
         #endregion
 
-        #region 获取“项目模型”
+        #region 获取“项目模型”（源数据，属性名）
         public ItemModel? GetItemModel(object rowData, string propName)
         {
             var header = HeaderModels.FirstOrDefault(h => string.Equals(h.PropName, propName));
@@ -365,7 +434,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取“项目模型”
+        #region 获取“项目模型”（行号，属性名）
         public ItemModel? GetItemModel(int iRow, string propName)
         {
             if (iRow < 0 || iRow >= RowModels.Count() || iRow >= RowDatas.Count())
@@ -380,7 +449,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取“行模型”
+        #region 获取“行模型”（源数据）
         public RowModel? GetRowModel(object rowData)
         {
             var rowModel = RowModels[rowData];
@@ -394,7 +463,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取“行模型”
+        #region 获取“行模型”（行号）
         public RowModel? GetRowModel(int iRow)
         {
             if (iRow < 0 || iRow >= RowModels.Count() || iRow >= RowDatas.Count())
@@ -410,71 +479,15 @@ namespace TigerSan.UI.Models
         #endregion
         #endregion [获取模型]
 
-        #region [初始化]
-        #region 初始化“表格模型”
-        public void InitTableModel(TableGrid? tableGrid = null)
-        {
-            if (tableGrid != null)
-            {
-                _tableGrid = tableGrid;
-            }
-
-            IsTriggerItemSourceChanged = false;
-
-            InitHeaderModels();
-            InitItemModels(HeaderModels);
-            InitGrid(HeaderModels);
-
-            IsSelectAll = false;
-
-            _onSelectedRowDatasChanged?.Invoke();
-            _onRowDatasCollectionChanged?.Invoke(null, _args);
-
-            IsTriggerItemSourceChanged = true;
-        }
-        #endregion
-
-        #region 初始化“UI元素”
-        public void InitUIElements(TableGrid tableGrid)
-        {
-            if (tableGrid == null)
-            {
-                LogHelper.Instance.IsNull(nameof(tableGrid));
-                return;
-            }
-            tableGrid.InitUIElements();
-        }
-        #endregion
-
-        #region 初始化“列宽”
-        /// <summary>
-        /// 初始化“列宽”
-        /// </summary>
-        public void InitColumnsWidth()
-        {
-            if (_tableGrid == null)
-            {
-                LogHelper.Instance.IsEmpty(nameof(_tableGrid));
-                return;
-            }
-
-            _tableGrid.InitColumnsWidth();
-        }
-        #endregion
-        #endregion [初始化]
-
         #region 刷新
         /// <summary>
         /// 刷新
-        /// （初始化“模型”和“UI元素”）
         /// </summary>
         public void Refresh()
         {
-            InitTableModel(null);
-            if (_tableGrid != null)
-            {
-                InitUIElements(_tableGrid);
-            }
+            InitGrid();
+            InitTableModel();
+            _tableGrid?.Refresh();
         }
         #endregion
 
@@ -498,19 +511,14 @@ namespace TigerSan.UI.Models
             {
                 var oldRowData = _oldRowDatas.Count > iRow ? _oldRowDatas[iRow] : null;
 
-                for (var iCol = 0; iCol < colCount; ++iCol)
+                var rowModel = GetRowModel(iRow);
+                if (rowModel == null)
                 {
-                    var header = HeaderModels[iCol];
-
-                    var rowModel = GetRowModel(iRow);
-                    if (rowModel == null)
-                    {
-                        LogHelper.Instance.IsNull(nameof(rowModel));
-                        continue;
-                    }
-
-                    rowModel.OldRowData = oldRowData;
+                    LogHelper.Instance.IsNull(nameof(rowModel));
+                    continue;
                 }
+
+                rowModel.OldRowData = oldRowData;
             }
         }
         #endregion
@@ -529,24 +537,41 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 获取“被选中的行数据”集合
+        #region 获取“被选中”的“行数据”集合
         private List<object> GetSelectedRowDatas()
         {
-            var selectedRowDatas = new List<object>();
+            var list = new List<object>();
 
             foreach (var row in RowModels)
             {
                 if (row.Value.IsChecked)
                 {
-                    selectedRowDatas.Add(row.Value.RowData);
+                    list.Add(row.Key);
                 }
             }
 
-            return selectedRowDatas;
+            return list;
         }
         #endregion
 
-        #region 判断数据是否正确
+        #region 获取“被选中”的“行模型”集合
+        private List<RowModel> GetSelectedRowModels()
+        {
+            var list = new List<RowModel>();
+
+            foreach (var row in RowModels)
+            {
+                if (row.Value.IsChecked)
+                {
+                    list.Add(row.Value);
+                }
+            }
+
+            return list;
+        }
+        #endregion
+
+        #region 判断“数据是否正确”
         public bool IsVerifyOK()
         {
             foreach (var rowModel in RowModels)
