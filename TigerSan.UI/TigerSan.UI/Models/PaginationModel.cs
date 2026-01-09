@@ -724,11 +724,28 @@ namespace TigerSan.UI.Models
         {
             // 行数：
             var rowCount = GetRowCount();
+            if (rowCount < 1)
+            {
+                start = end = 1;
+                return;
+            }
 
             // 起始：
             var offset = (row - 1) * MaxShowPageCount;
             start = offset + 1;
-            end = offset + (row == rowCount ? PageCount % MaxShowPageCount : MaxShowPageCount);
+
+            // 剩下的页数：
+            var remainingPageCount = PageCount - start + 1;
+
+            // 结束：
+            if (remainingPageCount / MaxShowPageCount > 0)
+            {
+                end = start + MaxShowPageCount - 1;
+            }
+            else
+            {
+                end = PageCount;
+            }
         }
         #endregion
         #endregion [Private]
