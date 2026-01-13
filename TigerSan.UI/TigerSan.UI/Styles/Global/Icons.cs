@@ -18,6 +18,7 @@
         public const string Align_Stretch = "";
         public const string Arrow_Left_Small = "";
         public const string Arrow_Right_Small = "";
+        public const string Arrow_Right_Bold = "";
 
         // B:
         public const string Bilibili = "";
@@ -27,8 +28,10 @@
         public const string Click = "";
         public const string Close = "";
         public const string Covert = "";
-        public const string Close_Thin = "";
         public const string Close_All = "";
+        public const string Close_Thin = "";
+        public const string Chart_Pie = "";
+        public const string Chart_Line = "";
 
         // D:
         public const string DOC = "";
@@ -37,12 +40,12 @@
         public const string DataOutput = "";
         public const string Drag_Arrow = "";
         public const string Drag_Square = "";
-        public const string Delete_Planar = "";
         public const string Delete_Linear = "";
+        public const string Delete_Planar = "";
 
         // E:
-        public const string EQP = "";
         public const string Eye = "";
+        public const string EQP = "";
         public const string Edit = "";
         public const string Eye_Close = "";
 
@@ -62,7 +65,8 @@
         public const string Global_Linear = "";
 
         // H:
-        public const string Home = "";
+        public const string Home_1 = "";
+        public const string Home_2 = "";
 
         // I:
         public const string Input = "";
@@ -72,15 +76,20 @@
         public const string Keyboard = "";
 
         // L:
+        public const string Log = "";
+        public const string Lock = "";
         public const string Loop = "";
         public const string Letter = "";
         public const string Lightning = "";
+        public const string Love_Linea = "";
+        public const string Love_Planar = "";
         public const string Loading_Dot = "";
         public const string Loading_Circle = "";
 
         // M:
         public const string Mute = "";
         public const string Menu = "";
+        public const string Memory = "";
         public const string Monitor = "";
         public const string Maximize = "";
         public const string Minimize = "";
@@ -94,6 +103,7 @@
         public const string Output = "";
 
         // P:
+        public const string Pay = "";
         public const string Pet = "";
         public const string PIC = "";
         public const string Play = "";
@@ -104,6 +114,7 @@
         public const string Plugin_Planar = "";
 
         // Q:
+        public const string QQ = "";
         public const string Question = "";
 
         // R:
@@ -115,13 +126,14 @@
         public const string Size = "";
         public const string Stop = "";
         public const string Skin = "";
+        public const string Search = "";
         public const string Switch = "";
         public const string Screen = "";
         public const string StartUp = "";
         public const string SelectAll = "";
+        public const string Save_Linear = "";
         public const string Save_Planar = "";
         public const string ScreenSaver = "";
-        public const string Save_Linear = "";
         public const string SelectButton = "";
         public const string Setting_Linear = "";
         public const string Setting_Planar = "";
@@ -140,14 +152,18 @@
         public const string Topmost_Cancel = "";
 
         // U:
+        public const string User = "";
         public const string Unmute = "";
         public const string ViewProcess = "";
 
         // V:
         public const string Video = "";
+        public const string VerificationCode = "";
 
         // W:
         public const string Write = "";
+        public const string Weibo = "";
+        public const string WeChat = "";
         public const string Window = "";
     }
 }

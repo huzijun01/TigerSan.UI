@@ -136,6 +136,7 @@ namespace TigerSan.UI.Windows
             Loaded += OnLoaded;
             Closed += OnClosed;
             Deactivated += OnDeactivated;
+            AddEvents();
             InitItems(items);
             InitControlPosition();
         }
@@ -443,6 +444,23 @@ namespace TigerSan.UI.Windows
 
             // 开始storyboard：
             storyboard.Begin();
+        }
+        #endregion
+
+        #region 添加“事件”
+        private void AddEvents()
+        {
+            Window window = GetWindow(_control);
+            if (window == null)
+            {
+                LogHelper.Instance.IsNull(nameof(window));
+                return;
+            }
+
+            window.Closing += (s, args) =>
+            {
+                Close();
+            }; // 防止“主进程无法结束”
         }
         #endregion
         #endregion [Private]
