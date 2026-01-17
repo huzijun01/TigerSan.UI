@@ -2,77 +2,82 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:TigerSan.UI.Controls">
-    <!-- 设计数据: -->
-    <local:NavBarDesignData x:Key="NavBarDesignData"/>
-    <local:NavFolderDesignData x:Key="NavFolderDesignData"/>
-    <local:NavButtonDesignData x:Key="NavButtonDesignData"/>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TigerSan.UI;component/Styles/Global/Global.xaml"/>
+        
+        <ResourceDictionary>
+            <!-- 设计数据: -->
+            <local:NavBarDesignData x:Key="NavBarDesignData"/>
+            <local:NavFolderDesignData x:Key="NavFolderDesignData"/>
+            <local:NavButtonDesignData x:Key="NavButtonDesignData"/>
 
-    <!-- 常量: -->
-    <system:Double x:Key="NavIcon.FontSize">16</system:Double>
-    <system:Double x:Key="NavText.FontSize">14</system:Double>
+            <!-- 常量: -->
+            <system:Double x:Key="NavIcon.FontSize">16</system:Double>
+            <system:Double x:Key="NavText.FontSize">14</system:Double>
 
-    <!-- 图标: -->
-    <Style x:Key="NavLabelStyle" TargetType="{x:Type Label}">
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{StaticResource Iconfont}"/>
-        <Setter Property="Width" Value="{StaticResource NavIcon.FontSize}"/>
-        <Setter Property="Height" Value="{StaticResource NavIcon.FontSize}"/>
-        <Setter Property="FontSize" Value="{StaticResource NavIcon.FontSize}"/>
-        <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
-    </Style>
+            <!-- 图标: -->
+            <Style x:Key="NavLabelStyle" TargetType="{x:Type Label}">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{StaticResource Iconfont}"/>
+                <Setter Property="Width" Value="{StaticResource NavIcon.FontSize}"/>
+                <Setter Property="Height" Value="{StaticResource NavIcon.FontSize}"/>
+                <Setter Property="FontSize" Value="{StaticResource NavIcon.FontSize}"/>
+                <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
+            </Style>
 
-    <!-- 文本框: -->
-    <Style x:Key="NavTextBlockStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="Margin" Value="10,0"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-        <Setter Property="FontSize" Value="{StaticResource NavText.FontSize}"/>
-        <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
-    </Style>
+            <!-- 文本框: -->
+            <Style x:Key="NavTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="10,0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                <Setter Property="FontSize" Value="{StaticResource NavText.FontSize}"/>
+                <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
+            </Style>
 
-    <!-- 文件夹模板: -->
-    <DataTemplate x:Key="NavFolderTemplate">
-        <local:NavFolder
-            FolderModel="{Binding}"
-            Icon="{Binding Icon}"
-            Title="{Binding Title}"
-            IsOpen="{Binding IsOpen}"
-            Visibility="{Binding Visibility}"
-            NavBarModel="{Binding NavBarModel}"
-            FolderModels="{Binding FolderModels}"
-            ButtonModels="{Binding ButtonModels}"
-            Command="{Binding Command}"
-            OpenedCommand="{Binding OpenedCommand}"
-            ClosedCommand="{Binding ClosedCommand}"/>
-    </DataTemplate>
+            <!-- 文件夹模板: -->
+            <DataTemplate x:Key="NavFolderTemplate">
+                <local:NavFolder
+                    FolderModel="{Binding}"
+                    Icon="{Binding Icon}"
+                    Title="{Binding Title}"
+                    IsOpen="{Binding IsOpen}"
+                    Visibility="{Binding Visibility}"
+                    NavBarModel="{Binding NavBarModel}"
+                    FolderModels="{Binding FolderModels}"
+                    ButtonModels="{Binding ButtonModels}"
+                    Command="{Binding Command}"
+                    OpenedCommand="{Binding OpenedCommand}"
+                    ClosedCommand="{Binding ClosedCommand}"/>
+            </DataTemplate>
 
-    <!-- 按钮模板: -->
-    <DataTemplate x:Key="NavButtonTemplate">
-        <local:NavButton
-            ButtonModel="{Binding}"
-            Icon="{Binding Icon}"
-            Title="{Binding Title}"
-            IsSelected="{Binding IsSelected}"
-            Visibility="{Binding Visibility}"
-            NavBarModel="{Binding NavBarModel}"
-            Command="{Binding Command}"
-            CheckedCommand="{Binding CheckedCommand}"/>
-    </DataTemplate>
+            <!-- 按钮模板: -->
+            <DataTemplate x:Key="NavButtonTemplate">
+                <local:NavButton
+                    ButtonModel="{Binding}"
+                    Icon="{Binding Icon}"
+                    Title="{Binding Title}"
+                    IsSelected="{Binding IsSelected}"
+                    Visibility="{Binding Visibility}"
+                    NavBarModel="{Binding NavBarModel}"
+                    Command="{Binding Command}"
+                    CheckedCommand="{Binding CheckedCommand}"/>
+            </DataTemplate>
 
-    <!-- Logo标签: -->
-    <Style x:Key="NavLogoImageStyle" TargetType="{x:Type Image}">
-        <Setter Property="Width" Value="25"/>
-        <Setter Property="Height" Value="25"/>
-        <Setter Property="Margin" Value="0,0,5,0"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
-
-    <!-- Logo标签: -->
-    <Style x:Key="NavLogoLabelStyle" TargetType="{x:Type Label}">
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
-    </Style>
+            <!-- Logo标签: -->
+            <Style x:Key="NavLogoImageStyle" TargetType="{x:Type Image}">
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Margin" Value="0,0,5,0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <!-- Logo标签: -->
+            <Style x:Key="NavLogoLabelStyle" TargetType="{x:Type Label}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{StaticResource Colors.PrimaryText}"/>
+            </Style>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
