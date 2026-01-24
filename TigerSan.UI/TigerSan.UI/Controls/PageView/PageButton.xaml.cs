@@ -265,10 +265,14 @@ namespace TigerSan.UI.Controls
         #region 点击“关闭”按钮
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            ButtonModel.IsSelected = false;
+            var oldIsSelected = ButtonModel.IsSelected;
             NavBarModel.OpenedButtonModels.Remove(ButtonModel);
 
-            NavBarModel.SelectedButtonModel = NavBarModel.OpenedButtonModels.FirstOrDefault();
+            if (oldIsSelected)
+            {
+                ButtonModel.IsSelected = false;
+                NavBarModel.SelectedButtonModel = NavBarModel.OpenedButtonModels.FirstOrDefault();
+            }
         }
         #endregion
         #endregion 【Events】

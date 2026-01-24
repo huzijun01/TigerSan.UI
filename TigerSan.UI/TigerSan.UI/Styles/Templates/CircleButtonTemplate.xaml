@@ -6,24 +6,23 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- 常量: -->
-    <system:Double x:Key="PageButton.FontSize">16</system:Double>
-    <system:Double x:Key="PageButton.Button.FontSize">12</system:Double>
-    <CornerRadius x:Key="PageButton.CornerRadius">16</CornerRadius>
+    <system:Double x:Key="CircleButton.FontSize">12</system:Double>
+    <CornerRadius x:Key="CircleButton.CornerRadius">16</CornerRadius>
     <!-- 圆形按钮模板: -->
     <ControlTemplate x:Key="CircleButtonTemplate" TargetType="{x:Type Button}">
         <Border
             x:Name="background"
             Background="Transparent"
-            CornerRadius="{StaticResource PageButton.CornerRadius}">
+            CornerRadius="{StaticResource CircleButton.CornerRadius}">
             <Label
                 Padding="0"
                 Margin="3"
                 Content="{TemplateBinding Content}"
                 Foreground="{TemplateBinding Foreground}"
                 FontFamily="{StaticResource Iconfont}"
-                Width="{StaticResource PageButton.Button.FontSize}"
-                Height="{StaticResource PageButton.Button.FontSize}"
-                FontSize="{StaticResource PageButton.Button.FontSize}"/>
+                Width="{StaticResource CircleButton.FontSize}"
+                Height="{StaticResource CircleButton.FontSize}"
+                FontSize="{StaticResource CircleButton.FontSize}"/>
         </Border>
         <ControlTemplate.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True">

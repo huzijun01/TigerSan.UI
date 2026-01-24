@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    <!--  标题栏按钮：  -->
-    <Style x:Key="SquareButtonStyle" TargetType="{x:Type Button}">
+    <!--  透明方形按钮：（标题栏）  -->
+    <Style x:Key="TransparentSquareButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Width" Value="30" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Padding" Value="1" />

@@ -8,8 +8,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:controls="clr-namespace:TigerSan.UI.Controls;assembly=TigerSan.UI"
              mc:Ignorable="d" 
-             d:DesignWidth="400"
-             d:DesignHeight="300">
+             d:DesignWidth="200"
+             d:DesignHeight="400">
     <StackPanel
         HorizontalAlignment="Left"
         DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}">
@@ -18,6 +18,18 @@
             Content="X"
             Margin="{StaticResource Button.MarginBottom}"
             Style="{StaticResource ScreenSaverButtonStyle}"/>
+
+        <!-- 方形按钮： -->
+        <Button
+            Content="X"
+            Margin="{StaticResource Button.MarginBottom}"
+            Style="{StaticResource TransparentSquareButtonStyle}"/>
+
+        <!-- 方形按钮： -->
+        <Button
+            Content="X"
+            Margin="{StaticResource Button.MarginBottom}"
+            Style="{StaticResource SquareButtonStyle}"/>
 
         <!-- 像素点： -->
         <controls:PixelDot Margin="{StaticResource Button.MarginBottom}"/>

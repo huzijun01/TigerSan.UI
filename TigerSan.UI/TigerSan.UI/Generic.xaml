@@ -20,7 +20,7 @@
         <ResourceDictionary Source="Styles/MenuItemStyle.xaml" />
         <ResourceDictionary Source="Styles/RadioButtonStyle.xaml" />
         <ResourceDictionary Source="Styles/ScrollViewerStyle.xaml" />
-        <ResourceDictionary Source="Styles/SquareButtonStyle.xaml" />
+        <ResourceDictionary Source="Styles/TransparentSquareButtonStyle.xaml" />
         <ResourceDictionary Source="Styles/TabItemStyle.xaml" />
         <ResourceDictionary Source="Styles/TextBlockStyle.xaml" />
         <ResourceDictionary Source="Styles/TextBoxStyle.xaml" />

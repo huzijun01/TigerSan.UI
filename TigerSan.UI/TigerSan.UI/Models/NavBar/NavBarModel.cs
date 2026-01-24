@@ -53,7 +53,7 @@ namespace TigerSan.UI.Models
         private NavButtonModel? _SelectedButtonModel;
 
         /// <summary>
-        /// “文件夹模型”集合
+        /// 文件夹模型
         /// </summary>
         public NavFolderModel FolderModel { get; set; }
 

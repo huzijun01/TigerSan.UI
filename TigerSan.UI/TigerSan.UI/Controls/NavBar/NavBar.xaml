@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TigerSan.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="200">
+             d:DesignWidth="200"
+             d:DesignHeight="500">
 
     <UserControl.Resources>
         <ResourceDictionary Source="/TigerSan.UI;component/Controls/NavBar/NavBarStyle.xaml"/>
@@ -34,7 +35,7 @@
                     Source="{Binding Logo}"
                     Style="{StaticResource NavLogoImageStyle}"/>
 
-                <!-- 文字: -->
+                <!-- 文本: -->
                 <Label
                     Grid.Column="1"
                     Content="{Binding Title}"

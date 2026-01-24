@@ -190,8 +190,8 @@ Colors, Constants, Icons.
 
 `ScrollViewerStyle`: Global.
 
-### SquareButtonStyle:
-`SquareButtonStyle`:
+### TransparentSquareButtonStyle:
+`TransparentSquareButtonStyle`:
 
 ### TabItemStyle:
 `TabControlStyle`: Global.

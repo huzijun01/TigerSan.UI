@@ -50,7 +50,7 @@
                 <Button
                     x:Name="btnNavSwitch"
                     Command="{Binding NavBarModel.btnNavSwitch_ClickCommand}"
-                    Style="{StaticResource SquareArrowButton}"/>
+                    Style="{StaticResource SquareButtonStyle}"/>
 
                 <!-- 分页栏: -->
                 <controls:PageBar
