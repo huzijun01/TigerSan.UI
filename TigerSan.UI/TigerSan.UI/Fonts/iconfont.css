@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3474551 */
-  src: url('iconfont.woff2?t=1768295848739') format('woff2'),
-       url('iconfont.woff?t=1768295848739') format('woff'),
-       url('iconfont.ttf?t=1768295848739') format('truetype');
+  src: url('iconfont.woff2?t=1775716447975') format('woff2'),
+       url('iconfont.woff?t=1775716447975') format('woff'),
+       url('iconfont.ttf?t=1775716447975') format('truetype');
 }
 
 .iconfont {
@@ -13,12 +13,144 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-Memory:before {
-  content: "\f07a";
+.icon-Inbound:before {
+  content: "\e628";
+}
+
+.icon-Outbound:before {
+  content: "\e638";
+}
+
+.icon-Batch:before {
+  content: "\e6c5";
+}
+
+.icon-Review:before {
+  content: "\e615";
+}
+
+.icon-Layer:before {
+  content: "\e690";
+}
+
+.icon-Transport:before {
+  content: "\e6ab";
+}
+
+.icon-Dictionary:before {
+  content: "\e8e9";
+}
+
+.icon-IdCard:before {
+  content: "\e63b";
+}
+
+.icon-Person_Setting:before {
+  content: "\e623";
+}
+
+.icon-Person_Necktie:before {
+  content: "\e688";
+}
+
+.icon-Necktie:before {
+  content: "\e699";
+}
+
+.icon-Role:before {
+  content: "\ea0e";
+}
+
+.icon-Arrow_Planar_Right:before {
+  content: "\f07b";
+}
+
+.icon-Arrow_Planar_Left:before {
+  content: "\f07c";
+}
+
+.icon-Arrow_Planar_Down:before {
+  content: "\f07d";
+}
+
+.icon-Arrow_Planar_Up:before {
+  content: "\e61c";
+}
+
+.icon-Building_1:before {
+  content: "\e85c";
+}
+
+.icon-Building_2:before {
+  content: "\e85d";
+}
+
+.icon-Bell:before {
+  content: "\e680";
+}
+
+.icon-Key_Vertical:before {
+  content: "\e677";
+}
+
+.icon-Key_Tilted:before {
+  content: "\e7d0";
+}
+
+.icon-Group:before {
+  content: "\e694";
+}
+
+.icon-Coin:before {
+  content: "\e614";
+}
+
+.icon-Wallet:before {
+  content: "\e653";
+}
+
+.icon-Asset:before {
+  content: "\e66d";
+}
+
+.icon-Environment:before {
+  content: "\e661";
+}
+
+.icon-Person:before {
+  content: "\e7ec";
+}
+
+.icon-Label_1:before {
+  content: "\e637";
+}
+
+.icon-Label_2:before {
+  content: "\e7ba";
 }
 
 .icon-Search:before {
-  content: "\e699";
+  content: "\e61d";
+}
+
+.icon-Close_Circle:before {
+  content: "\e622";
+}
+
+.icon-Eye:before {
+  content: "\e636";
+}
+
+.icon-Server:before {
+  content: "\e66c";
+}
+
+.icon-Router:before {
+  content: "\e621";
+}
+
+.icon-Memory:before {
+  content: "\f07a";
 }
 
 .icon-QQ:before {
@@ -117,10 +249,6 @@
   content: "\e64d";
 }
 
-.icon-Team:before {
-  content: "\e749";
-}
-
 .icon-File_New:before {
   content: "\e64e";
 }
@@ -167,10 +295,6 @@
 
 .icon-Setting_Linear:before {
   content: "\e62f";
-}
-
-.icon-Eye:before {
-  content: "\e63f";
 }
 
 .icon-InputDataSource:before {

@@ -207,6 +207,10 @@ namespace Test.WPF.ViewModels
             PaginationModel.Count = _rowDatas.Count;
             PaginationModel.OnChecked = buttonModel =>
             {
+                if (IsShowMsg)
+                {
+                    MsgBox.ShowInformation($"Num = {buttonModel.Text}");
+                }
                 EmployeeTable.RowDatas = new ObservableCollection<object>(PaginationModel.GetPageDatas(_rowDatas, buttonModel.Num));
             };
 

@@ -6,18 +6,249 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6241666",
+      "name": "Inbound",
+      "font_class": "Inbound",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "6789076",
+      "name": "Outbound",
+      "font_class": "Outbound",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "7118867",
+      "name": "Batch",
+      "font_class": "Batch",
+      "unicode": "e6c5",
+      "unicode_decimal": 59077
+    },
+    {
+      "icon_id": "11766652",
+      "name": "Review",
+      "font_class": "Review",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "12157029",
+      "name": "Layer",
+      "font_class": "Layer",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
+      "icon_id": "38714842",
+      "name": "Transport",
+      "font_class": "Transport",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    },
+    {
+      "icon_id": "10761910",
+      "name": "Dictionary",
+      "font_class": "Dictionary",
+      "unicode": "e8e9",
+      "unicode_decimal": 59625
+    },
+    {
+      "icon_id": "26381651",
+      "name": "IdCard",
+      "font_class": "IdCard",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "742594",
+      "name": "Person_Setting",
+      "font_class": "Person_Setting",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "2806471",
+      "name": "Person_Necktie",
+      "font_class": "Person_Necktie",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "7627904",
+      "name": "Necktie",
+      "font_class": "Necktie",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
+      "icon_id": "38136072",
+      "name": "Role",
+      "font_class": "Role",
+      "unicode": "ea0e",
+      "unicode_decimal": 59918
+    },
+    {
+      "icon_id": "47069848",
+      "name": "Arrow_Planar_Right",
+      "font_class": "Arrow_Planar_Right",
+      "unicode": "f07b",
+      "unicode_decimal": 61563
+    },
+    {
+      "icon_id": "47069852",
+      "name": "Arrow_Planar_Left",
+      "font_class": "Arrow_Planar_Left",
+      "unicode": "f07c",
+      "unicode_decimal": 61564
+    },
+    {
+      "icon_id": "47069866",
+      "name": "Arrow_Planar_Down",
+      "font_class": "Arrow_Planar_Down",
+      "unicode": "f07d",
+      "unicode_decimal": 61565
+    },
+    {
+      "icon_id": "35104157",
+      "name": "Arrow_Planar_Up",
+      "font_class": "Arrow_Planar_Up",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "35171253",
+      "name": "Building_1",
+      "font_class": "Building_1",
+      "unicode": "e85c",
+      "unicode_decimal": 59484
+    },
+    {
+      "icon_id": "35171267",
+      "name": "Building_2",
+      "font_class": "Building_2",
+      "unicode": "e85d",
+      "unicode_decimal": 59485
+    },
+    {
+      "icon_id": "11437932",
+      "name": "Bell",
+      "font_class": "Bell",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "35505185",
+      "name": "Key_Vertical",
+      "font_class": "Key_Vertical",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "41764821",
+      "name": "Key_Tilted",
+      "font_class": "Key_Tilted",
+      "unicode": "e7d0",
+      "unicode_decimal": 59344
+    },
+    {
+      "icon_id": "4114086",
+      "name": "Group",
+      "font_class": "Group",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "12010274",
+      "name": "Coin",
+      "font_class": "Coin",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "12216451",
+      "name": "Wallet",
+      "font_class": "Wallet",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "15429665",
+      "name": "Asset",
+      "font_class": "Asset",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "11228445",
+      "name": "Environment",
+      "font_class": "Environment",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "29743932",
+      "name": "Person",
+      "font_class": "Person",
+      "unicode": "e7ec",
+      "unicode_decimal": 59372
+    },
+    {
+      "icon_id": "5320370",
+      "name": "Label_1",
+      "font_class": "Label_1",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "28966415",
+      "name": "Label_2",
+      "font_class": "Label_2",
+      "unicode": "e7ba",
+      "unicode_decimal": 59322
+    },
+    {
+      "icon_id": "9097234",
+      "name": "Search",
+      "font_class": "Search",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "1304878",
+      "name": "Close_Circle",
+      "font_class": "Close_Circle",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "1117092",
+      "name": "Eye",
+      "font_class": "Eye",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "12052454",
+      "name": "Server",
+      "font_class": "Server",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "12169486",
+      "name": "Router",
+      "font_class": "Router",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
       "icon_id": "46625583",
       "name": "Memory",
       "font_class": "Memory",
       "unicode": "f07a",
       "unicode_decimal": 61562
-    },
-    {
-      "icon_id": "248980",
-      "name": "Search",
-      "font_class": "Search",
-      "unicode": "e699",
-      "unicode_decimal": 59033
     },
     {
       "icon_id": "405727",
@@ -188,13 +419,6 @@
       "unicode_decimal": 58957
     },
     {
-      "icon_id": "4933374",
-      "name": "Team",
-      "font_class": "Team",
-      "unicode": "e749",
-      "unicode_decimal": 59209
-    },
-    {
       "icon_id": "5086088",
       "name": "File_New",
       "font_class": "File_New",
@@ -277,13 +501,6 @@
       "font_class": "Setting_Linear",
       "unicode": "e62f",
       "unicode_decimal": 58927
-    },
-    {
-      "icon_id": "14314759",
-      "name": "Eye",
-      "font_class": "Eye",
-      "unicode": "e63f",
-      "unicode_decimal": 58943
     },
     {
       "icon_id": "15222465",

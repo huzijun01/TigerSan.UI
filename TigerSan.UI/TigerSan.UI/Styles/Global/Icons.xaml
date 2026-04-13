@@ -5,6 +5,7 @@
     <system:String x:Key="Icons.All">&#xe609;</system:String>
     <system:String x:Key="Icons.Add">&#xe64f;</system:String>
     <system:String x:Key="Icons.About">&#xe602;</system:String>
+    <system:String x:Key="Icons.Asset">&#xe66d;</system:String>
     <system:String x:Key="Icons.Album">&#xe632;</system:String>
     <system:String x:Key="Icons.Add.PIC">&#xe78d;</system:String>
     <system:String x:Key="Icons.Animation">&#xe6ec;</system:String>
@@ -18,17 +19,27 @@
     <system:String x:Key="Icons.Arrow.Left.Small">&#xe765;</system:String>
     <system:String x:Key="Icons.Arrow.Right.Small">&#xe764;</system:String>
     <system:String x:Key="Icons.Arrow_Right_Bold">&#xe610;</system:String>
+    <system:String x:Key="Icons.Arrow_Planar_Up">&#xe61c;</system:String>
+    <system:String x:Key="Icons.Arrow_Planar_Left">&#xf07c;</system:String>
+    <system:String x:Key="Icons.Arrow_Planar_Down">&#xf07d;</system:String>
+    <system:String x:Key="Icons.Arrow_Planar_Right">&#xf07b;</system:String>
 
     <!-- B: -->
+    <system:String x:Key="Icons.Bell">&#xe680;</system:String>
+    <system:String x:Key="Icons.Batch">&#xe6c5;</system:String>
     <system:String x:Key="Icons.Bilibili">&#xe68f;</system:String>
+    <system:String x:Key="Icons.Building_1">&#xe85c;</system:String>
+    <system:String x:Key="Icons.Building_2">&#xe85d;</system:String>
 
     <!-- C: -->
     <system:String x:Key="Icons.Copy">&#xe75d;</system:String>
+    <system:String x:Key="Icons.Coin">&#xe614;</system:String>
     <system:String x:Key="Icons.Click">&#xe7fb;</system:String>
     <system:String x:Key="Icons.Close">&#xe639;</system:String>
     <system:String x:Key="Icons.Covert">&#xf079;</system:String>
     <system:String x:Key="Icons.Close.Thin">&#xe649;</system:String>
     <system:String x:Key="Icons.Close.All">&#xe601;</system:String>
+    <system:String x:Key="Icons.Close.Circle">&#xe622;</system:String>
     <system:String x:Key="Icons.Chart_Pie">&#xe612;</system:String>
     <system:String x:Key="Icons.Chart_Line">&#xe62a;</system:String>
 
@@ -37,6 +48,7 @@
     <system:String x:Key="Icons.Disabled">&#xe658;</system:String>
     <system:String x:Key="Icons.Drag.Hand">&#xe605;</system:String>
     <system:String x:Key="Icons.DataOutput">&#xe748;</system:String>
+    <system:String x:Key="Icons.Dictionary">&#xe8e9;</system:String>
     <system:String x:Key="Icons.Drag.Arrow">&#xe631;</system:String>
     <system:String x:Key="Icons.Drag.Square">&#xe7ab;</system:String>
     <system:String x:Key="Icons.Delete_Linear">&#xe75e;</system:String>
@@ -44,9 +56,10 @@
 
     <!-- E: -->
     <system:String x:Key="Icons.EQP">&#xe60c;</system:String>
-    <system:String x:Key="Icons.Eye">&#xe63f;</system:String>
+    <system:String x:Key="Icons.Eye">&#xe636;</system:String>
     <system:String x:Key="Icons.Edit">&#xe62e;</system:String>
     <system:String x:Key="Icons.Eye.Close">&#xe607;</system:String>
+    <system:String x:Key="Icons.Environment">&#xe661;</system:String>
 
     <!-- F: -->
     <system:String x:Key="Icons.File.New">&#xe64e;</system:String>
@@ -59,6 +72,7 @@
 
     <!-- G: -->
     <system:String x:Key="Icons.Grid">&#xea3d;</system:String>
+    <system:String x:Key="Icons.Group">&#xe694;</system:String>
     <system:String x:Key="Icons.Global.Net">&#xe735;</system:String>
     <system:String x:Key="Icons.Global.Small">&#xeb31;</system:String>
     <system:String x:Key="Icons.Global.Linear">&#xe7eb;</system:String>
@@ -69,16 +83,23 @@
 
     <!-- I: -->
     <system:String x:Key="Icons.Input">&#xe65f;</system:String>
+    <system:String x:Key="Icons.IdCard">&#xe63b;</system:String>
+    <system:String x:Key="Icons.Inbound">&#xe628;</system:String>
     <system:String x:Key="Icons.InputDataSource">&#xe651;</system:String>
 
     <!-- K: -->
     <system:String x:Key="Icons.Keyboard">&#xe646;</system:String>
+    <system:String x:Key="Icons.Key_Tilted">&#xe7d0;</system:String>
+    <system:String x:Key="Icons.Key_Vertical">&#xe677;</system:String>
 
     <!-- L: -->
     <system:String x:Key="Icons.Log">&#xe660;</system:String>
     <system:String x:Key="Icons.Lock">&#xe899;</system:String>
     <system:String x:Key="Icons.Loop">&#xe75f;</system:String>
+    <system:String x:Key="Icons.Layer">&#xe690;</system:String>
     <system:String x:Key="Icons.Letter">&#xe6e6;</system:String>
+    <system:String x:Key="Icons.Label_1">&#xe637;</system:String>
+    <system:String x:Key="Icons.Label_2">&#xe7ba;</system:String>
     <system:String x:Key="Icons.Lightning">&#xe7e0;</system:String>
     <system:String x:Key="Icons.Love_Linea">&#xe799;</system:String>
     <system:String x:Key="Icons.Love_Planar">&#xe652;</system:String>
@@ -98,9 +119,12 @@
     <system:String x:Key="Icons.Measurement.Ruler">&#xe627;</system:String>
     <system:String x:Key="Icons.Measurement.Triangle">&#xe762;</system:String>
 
+    <!-- N: -->
+    <system:String x:Key="Icons.Necktie">&#xe699;</system:String>
+
     <!-- O: -->
-    <system:String x:Key="Icons.QQ">&#xe6a1;</system:String>
     <system:String x:Key="Icons.Output">&#xe65d;</system:String>
+    <system:String x:Key="Icons.Outbound">&#xe638;</system:String>
 
     <!-- P: -->
     <system:String x:Key="Icons.Pay">&#xe608;</system:String>
@@ -108,16 +132,23 @@
     <system:String x:Key="Icons.PIC">&#xe686;</system:String>
     <system:String x:Key="Icons.Play">&#xe619;</system:String>
     <system:String x:Key="Icons.Pause">&#xe618;</system:String>
+    <system:String x:Key="Icons.Person">&#xe7ec;</system:String>
     <system:String x:Key="Icons.Pointer">&#xe7bb;</system:String>
     <system:String x:Key="Icons.Product">&#xe6b6;</system:String>
     <system:String x:Key="Icons.Plugin.Linear">&#xe60b;</system:String>
     <system:String x:Key="Icons.Plugin.Planar">&#xe648;</system:String>
+    <system:String x:Key="Icons.Person.Necktie">&#xe688;</system:String>
+    <system:String x:Key="Icons.Person.Setting">&#xe623;</system:String>
 
     <!-- Q: -->
+    <system:String x:Key="Icons.QQ">&#xe6a1;</system:String>
     <system:String x:Key="Icons.Question">&#xe72d;</system:String>
 
     <!-- R: -->
+    <system:String x:Key="Icons.Role">&#xea0e;</system:String>
     <system:String x:Key="Icons.Radar">&#xe901;</system:String>
+    <system:String x:Key="Icons.Router">&#xe621;</system:String>
+    <system:String x:Key="Icons.Review">&#xe615;</system:String>
     <system:String x:Key="Icons.Refresh">&#xec08;</system:String>
 
     <!-- S: -->
@@ -125,7 +156,8 @@
     <system:String x:Key="Icons.Size">&#xe63c;</system:String>
     <system:String x:Key="Icons.Stop">&#xe737;</system:String>
     <system:String x:Key="Icons.Skin">&#xe6b5;</system:String>
-    <system:String x:Key="Icons.Search">&#xe699;</system:String>
+    <system:String x:Key="Icons.Server">&#xe66c;</system:String>
+    <system:String x:Key="Icons.Search">&#xe61d;</system:String>
     <system:String x:Key="Icons.Switch">&#xe634;</system:String>
     <system:String x:Key="Icons.Screen">&#xe666;</system:String>
     <system:String x:Key="Icons.StartUp">&#xe626;</system:String>
@@ -140,10 +172,10 @@
     <!-- T: -->
     <system:String x:Key="Icons.Tray">&#xe620;</system:String>
     <system:String x:Key="Icons.Time">&#xe635;</system:String>
-    <system:String x:Key="Icons.Team">&#xe749;</system:String>
     <system:String x:Key="Icons.Table">&#xe66b;</system:String>
     <system:String x:Key="Icons.Tools">&#xebb4;</system:String>
     <system:String x:Key="Icons.Topmost">&#xe63d;</system:String>
+    <system:String x:Key="Icons.Transport">&#xe6ab;</system:String>
     <system:String x:Key="Icons.TextBox.A">&#xe77d;</system:String>
     <system:String x:Key="Icons.TextBox.T">&#xe687;</system:String>
     <system:String x:Key="Icons.Time.Small">&#xe60e;</system:String>
@@ -163,5 +195,6 @@
     <system:String x:Key="Icons.Write">&#xe75b;</system:String>
     <system:String x:Key="Icons.Weibo">&#xe65a;</system:String>
     <system:String x:Key="Icons.WeChat">&#xe633;</system:String>
+    <system:String x:Key="Icons.Wallet">&#xe653;</system:String>
     <system:String x:Key="Icons.Window">&#xe60f;</system:String>
 </ResourceDictionary>

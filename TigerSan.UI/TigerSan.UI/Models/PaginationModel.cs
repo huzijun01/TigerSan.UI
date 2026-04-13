@@ -28,7 +28,7 @@ namespace TigerSan.UI.Models
         public Action<PaginationButtonModel>? _onChecked { get; set; }
 
         /// <summary>
-        /// “选中后”委托
+        /// “选中后”内部委托
         /// （由“Pagination”传入）
         /// </summary>
         public Action<PaginationButtonModel>? _onCheckedInternal { get; set; }
@@ -243,12 +243,12 @@ namespace TigerSan.UI.Models
 
         #region [引用]
         /// <summary>
-        /// 总函数
+        /// 总行数
         /// </summary>
         public int RowCount { get => GetRowCount(); }
 
         /// <summary>
-        /// 总函数
+        /// 总页数
         /// </summary>
         public int PageCount { get => GetPageCount(); }
 
@@ -596,7 +596,7 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
-        #region 初始化“按钮模型”
+        #region 初始化“按钮模型”集合
         private void InitButtonModels(int start, int end)
         {
             ButtonModels.Clear();
@@ -661,7 +661,7 @@ namespace TigerSan.UI.Models
             if (PageSizes.Count < 1 || PageSizes.Any(size => size < 1)) // 不为空，大于0
             {
                 PageSizes.Clear();
-                PageSizes.AddRange([10, 20, 30, 50, 100]);
+                PageSizes.AddRange([10, 20, 30, 40, 50]);
             }
 
             if (PageSize < 1) // 非负

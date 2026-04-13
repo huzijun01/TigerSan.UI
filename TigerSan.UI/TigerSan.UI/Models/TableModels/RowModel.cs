@@ -70,9 +70,9 @@ namespace TigerSan.UI.Models
         #endregion [更新状态]
 
         #region [Others]
-        #region 是否选中
+        #region 是否“选中”
         /// <summary>
-        /// 是否选中
+        /// 是否“选中”
         /// </summary>
         public bool IsChecked
         {
