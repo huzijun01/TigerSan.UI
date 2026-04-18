@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6321856",
+      "name": "Flowchart",
+      "font_class": "Flowchart",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "37801192",
+      "name": "MindMap",
+      "font_class": "MindMap",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "9453058",
+      "name": "Log_Exchange",
+      "font_class": "Log_Exchange",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "11599454",
+      "name": "Exchange",
+      "font_class": "Exchange",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "9337393",
+      "name": "Transfer",
+      "font_class": "Transfer",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "851401",
+      "name": "Error",
+      "font_class": "Error",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
       "icon_id": "6241666",
       "name": "Inbound",
       "font_class": "Inbound",

@@ -33,4 +33,7 @@ for /d %%i in (*) do (
 )
 
 endlocal
-pause
+
+echo Operation completed!
+echo The window will automatically close in 3 seconds.
+timeout /t 3 /nobreak >nul

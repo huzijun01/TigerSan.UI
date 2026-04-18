@@ -59,10 +59,13 @@
         public const string Eye = "";
         public const string EQP = "";
         public const string Edit = "";
+        public const string Error = "";
+        public const string Exchange = "";
         public const string Eye_Close = "";
         public const string Environment = "";
 
         // F:
+        public const string Flowchart = "";
         public const string File_New = "";
         public const string File_Linear = "";
         public const string File_Planar = "";
@@ -104,6 +107,7 @@
         public const string Lightning = "";
         public const string Love_Linea = "";
         public const string Love_Planar = "";
+        public const string Log_Exchange = "";
         public const string Loading_Dot = "";
         public const string Loading_Circle = "";
 
@@ -111,6 +115,7 @@
         public const string Mute = "";
         public const string Menu = "";
         public const string Memory = "";
+        public const string MindMap = "";
         public const string Monitor = "";
         public const string Maximize = "";
         public const string Minimize = "";
@@ -176,6 +181,7 @@
         public const string Table = "";
         public const string Tools = "";
         public const string Topmost = "";
+        public const string Transfer = "";
         public const string Transport = "";
         public const string TextBox_A = "";
         public const string TextBox_T = "";

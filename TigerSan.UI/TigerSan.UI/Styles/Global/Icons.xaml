@@ -58,10 +58,13 @@
     <system:String x:Key="Icons.EQP">&#xe60c;</system:String>
     <system:String x:Key="Icons.Eye">&#xe636;</system:String>
     <system:String x:Key="Icons.Edit">&#xe62e;</system:String>
+    <system:String x:Key="Icons.Error">&#xe69d;</system:String>
+    <system:String x:Key="Icons.Exchange">&#xe61b;</system:String>
     <system:String x:Key="Icons.Eye.Close">&#xe607;</system:String>
     <system:String x:Key="Icons.Environment">&#xe661;</system:String>
 
     <!-- F: -->
+    <system:String x:Key="Icons.Flowchart">&#xe673;</system:String>
     <system:String x:Key="Icons.File.New">&#xe64e;</system:String>
     <system:String x:Key="Icons.File.Linear">&#xe718;</system:String>
     <system:String x:Key="Icons.File.Planar">&#xe64a;</system:String>
@@ -110,6 +113,7 @@
     <system:String x:Key="Icons.Mute">&#xe99b;</system:String>
     <system:String x:Key="Icons.Menu">&#xe624;</system:String>
     <system:String x:Key="Icons.Memory">&#xf07a;</system:String>
+    <system:String x:Key="Icons.MindMap">&#xe61e;</system:String>
     <system:String x:Key="Icons.Monitor">&#xe924;</system:String>
     <system:String x:Key="Icons.Maximize">&#xe62c;</system:String>
     <system:String x:Key="Icons.Minimize">&#xe70d;</system:String>
@@ -175,6 +179,7 @@
     <system:String x:Key="Icons.Table">&#xe66b;</system:String>
     <system:String x:Key="Icons.Tools">&#xebb4;</system:String>
     <system:String x:Key="Icons.Topmost">&#xe63d;</system:String>
+    <system:String x:Key="Icons.Transfer">&#xe617;</system:String>
     <system:String x:Key="Icons.Transport">&#xe6ab;</system:String>
     <system:String x:Key="Icons.TextBox.A">&#xe77d;</system:String>
     <system:String x:Key="Icons.TextBox.T">&#xe687;</system:String>
