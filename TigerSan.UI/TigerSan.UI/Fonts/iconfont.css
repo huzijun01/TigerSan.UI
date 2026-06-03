@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3474551 */
-  src: url('iconfont.woff2?t=1776477634778') format('woff2'),
-       url('iconfont.woff?t=1776477634778') format('woff'),
-       url('iconfont.ttf?t=1776477634778') format('truetype');
+  src: url('iconfont.woff2?t=1780451027468') format('woff2'),
+       url('iconfont.woff?t=1780451027468') format('woff'),
+       url('iconfont.ttf?t=1780451027468') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Flag_Linear:before {
+  content: "\e7ef";
+}
+
+.icon-Flag_Planar:before {
+  content: "\e63a";
 }
 
 .icon-Flowchart:before {

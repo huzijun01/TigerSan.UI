@@ -68,6 +68,8 @@
     <system:String x:Key="Icons.File.New">&#xe64e;</system:String>
     <system:String x:Key="Icons.File.Linear">&#xe718;</system:String>
     <system:String x:Key="Icons.File.Planar">&#xe64a;</system:String>
+    <system:String x:Key="Icons.Flag.Linear">&#xe7ef;</system:String>
+    <system:String x:Key="Icons.Flag.Planar">&#xe63a;</system:String>
     <system:String x:Key="Icons.Folder.Linear">&#xec17;</system:String>
     <system:String x:Key="Icons.Folder.Planar">&#xe676;</system:String>
     <system:String x:Key="Icons.Feedback.Write">&#xe6ad;</system:String>

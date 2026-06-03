@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6151211",
+      "name": "Flag_Linear",
+      "font_class": "Flag_Linear",
+      "unicode": "e7ef",
+      "unicode_decimal": 59375
+    },
+    {
+      "icon_id": "14772770",
+      "name": "Flag_Planar",
+      "font_class": "Flag_Planar",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
       "icon_id": "6321856",
       "name": "Flowchart",
       "font_class": "Flowchart",

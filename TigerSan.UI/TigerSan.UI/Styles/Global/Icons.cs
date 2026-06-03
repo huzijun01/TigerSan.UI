@@ -69,6 +69,8 @@
         public const string File_New = "";
         public const string File_Linear = "";
         public const string File_Planar = "";
+        public const string Flag_Linear = "";
+        public const string Flag_Planar = "";
         public const string Folder_Linear = "";
         public const string Folder_Planar = "";
         public const string Feedback_Write = "";
