@@ -11,24 +11,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\Nachoneko.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Logos\logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Nachoneko.jpg" />
+    <Resource Include="Images\Nachoneko.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Logos\logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
     <PackageReference Include="Prism.Unity" Version="9.0.537" />
-    <PackageReference Include="System.IO.Ports" Version="10.0.8" />
-    <PackageReference Include="TigerSan.CsvLog" Version="1.2.2" />
-    <PackageReference Include="TigerSan.PathOperation" Version="1.2.1" />
+    <PackageReference Include="System.IO.Ports" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
   </ItemGroup>
 
   <ItemGroup>
