@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "48312492",
+      "name": "Router_Planar_1",
+      "font_class": "Router_Planar_1",
+      "unicode": "f0f4",
+      "unicode_decimal": 61684
+    },
+    {
+      "icon_id": "48312495",
+      "name": "Router_Planar_2",
+      "font_class": "Router_Planar_2",
+      "unicode": "f0f5",
+      "unicode_decimal": 61685
+    },
+    {
+      "icon_id": "538852",
+      "name": "Tag_Planar_1",
+      "font_class": "Tag_Planar_1",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "5634434",
+      "name": "Tag_Planar_2",
+      "font_class": "Tag_Planar_2",
+      "unicode": "f0f3",
+      "unicode_decimal": 61683
+    },
+    {
+      "icon_id": "15536048",
+      "name": "Add_Thin",
+      "font_class": "Add_Thin",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "4765727",
+      "name": "Info_Circle",
+      "font_class": "Info_Circle",
+      "unicode": "e77e",
+      "unicode_decimal": 59262
+    },
+    {
+      "icon_id": "15838532",
+      "name": "Success_Circle",
+      "font_class": "Success_Circle",
+      "unicode": "e67f",
+      "unicode_decimal": 59007
+    },
+    {
+      "icon_id": "18991776",
+      "name": "Warning_Circle",
+      "font_class": "Warning_Circle",
+      "unicode": "e88f",
+      "unicode_decimal": 59535
+    },
+    {
       "icon_id": "6151211",
       "name": "Flag_Linear",
       "font_class": "Flag_Linear",
@@ -252,15 +308,15 @@
     },
     {
       "icon_id": "5320370",
-      "name": "Label_1",
-      "font_class": "Label_1",
+      "name": "Tag_Linear_1",
+      "font_class": "Tag_Linear_1",
       "unicode": "e637",
       "unicode_decimal": 58935
     },
     {
       "icon_id": "28966415",
-      "name": "Label_2",
-      "font_class": "Label_2",
+      "name": "Tag_Linear_2",
+      "font_class": "Tag_Linear_2",
       "unicode": "e7ba",
       "unicode_decimal": 59322
     },
@@ -294,8 +350,8 @@
     },
     {
       "icon_id": "12169486",
-      "name": "Router",
-      "font_class": "Router",
+      "name": "Router_Linear",
+      "font_class": "Router_Linear",
       "unicode": "e621",
       "unicode_decimal": 58913
     },

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3474551 */
-  src: url('iconfont.woff2?t=1780451027468') format('woff2'),
-       url('iconfont.woff?t=1780451027468') format('woff'),
-       url('iconfont.ttf?t=1780451027468') format('truetype');
+  src: url('iconfont.woff2?t=1786530216161') format('woff2'),
+       url('iconfont.woff?t=1786530216161') format('woff'),
+       url('iconfont.ttf?t=1786530216161') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,38 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Router_Planar_1:before {
+  content: "\f0f4";
+}
+
+.icon-Router_Planar_2:before {
+  content: "\f0f5";
+}
+
+.icon-Tag_Planar_1:before {
+  content: "\e616";
+}
+
+.icon-Tag_Planar_2:before {
+  content: "\f0f3";
+}
+
+.icon-Add_Thin:before {
+  content: "\e674";
+}
+
+.icon-Info_Circle:before {
+  content: "\e77e";
+}
+
+.icon-Success_Circle:before {
+  content: "\e67f";
+}
+
+.icon-Warning_Circle:before {
+  content: "\e88f";
 }
 
 .icon-Flag_Linear:before {
@@ -153,11 +185,11 @@
   content: "\e7ec";
 }
 
-.icon-Label_1:before {
+.icon-Tag_Linear_1:before {
   content: "\e637";
 }
 
-.icon-Label_2:before {
+.icon-Tag_Linear_2:before {
   content: "\e7ba";
 }
 
@@ -177,7 +209,7 @@
   content: "\e66c";
 }
 
-.icon-Router:before {
+.icon-Router_Linear:before {
   content: "\e621";
 }
 

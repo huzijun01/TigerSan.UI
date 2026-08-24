@@ -9,6 +9,7 @@
         public const string Asset = "";
         public const string Album = "";
         public const string Add_PIC = "";
+        public const string Add_Thin = "";
         public const string Animation = "";
         public const string Add_Small = "";
         public const string Arrow_Down = "";
@@ -91,6 +92,7 @@
         public const string Input = "";
         public const string IdCard = "";
         public const string Inbound = "";
+        public const string Info_Circle = "";
         public const string InputDataSource = "";
 
         // K:
@@ -104,8 +106,6 @@
         public const string Loop = "";
         public const string Layer = "";
         public const string Letter = "";
-        public const string Label_1 = "";
-        public const string Label_2 = "";
         public const string Lightning = "";
         public const string Love_Linea = "";
         public const string Love_Planar = "";
@@ -155,9 +155,11 @@
         // R:
         public const string Role = "";
         public const string Radar = "";
-        public const string Router = "";
         public const string Review = "";
         public const string Refresh = "";
+        public const string Router_Linear = "";
+        public const string Router_Planar_1 = "";
+        public const string Router_Planar_2 = "";
 
         // S:
         public const string Sub = "";
@@ -174,6 +176,7 @@
         public const string Save_Planar = "";
         public const string ScreenSaver = "";
         public const string SelectButton = "";
+        public const string Success_Circle = "";
         public const string Setting_Linear = "";
         public const string Setting_Planar = "";
 
@@ -188,6 +191,10 @@
         public const string TextBox_A = "";
         public const string TextBox_T = "";
         public const string Time_Small = "";
+        public const string Tag_Linear_1 = "";
+        public const string Tag_Linear_2 = "";
+        public const string Tag_Planar_1 = "";
+        public const string Tag_Planar_2 = "";
         public const string TuningButton = "";
         public const string Topmost_Cancel = "";
 
@@ -206,5 +213,6 @@
         public const string WeChat = "";
         public const string Wallet = "";
         public const string Window = "";
+        public const string Warning_Circle = "";
     }
 }
