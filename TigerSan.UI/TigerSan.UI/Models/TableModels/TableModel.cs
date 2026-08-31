@@ -571,6 +571,27 @@ namespace TigerSan.UI.Models
         }
         #endregion
 
+        #region 设置“行数据”集合
+        public void SetRowDatas<TData>(IEnumerable<TData> rowDatas) where TData : class, new()
+        {
+            RowDatas = new ObservableCollection<object>(rowDatas);
+        }
+        #endregion
+
+        #region 获取“行数据”集合
+        public List<TData> GetRowDatas<TData>() where TData : class, new()
+        {
+            return RowDatas.OfType<TData>().ToList();
+        }
+        #endregion
+
+        #region 获取“被选中”的“行数据”集合
+        public List<TData> GetSelectedRowDatas<TData>() where TData : class, new()
+        {
+            return GetSelectedRowModels().Select(model => model.RowData).OfType<TData>().ToList();
+        }
+        #endregion
+
         #region 判断“数据是否正确”
         public bool IsVerifyOK()
         {

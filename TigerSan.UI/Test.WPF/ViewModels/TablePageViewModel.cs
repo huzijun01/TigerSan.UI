@@ -143,7 +143,7 @@ namespace Test.WPF.ViewModels
             #endregion 设置“数据改变”委托
 
             #region 设置“表头初始化”委托
-            EmployeeTable._onHeaderInit = (headerModel) =>
+            EmployeeTable._onHeaderInit = headerModel =>
             {
                 if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Id)))
                 {
@@ -166,7 +166,7 @@ namespace Test.WPF.ViewModels
                 }
                 else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.Salary)))
                 {
-                    headerModel.Converter = new Double2StringConverter();
+                    headerModel.Converter = new Double2StringConverter(2);
                 }
                 else if (string.Equals(headerModel.PropName, nameof(EmployeeInfo.JoinDate)))
                 {
@@ -176,7 +176,7 @@ namespace Test.WPF.ViewModels
             #endregion 设置“表头初始化”委托
 
             #region 设置“项目初始化”委托
-            EmployeeTable._onItemInit = (itemModel) =>
+            EmployeeTable._onItemInit = itemModel =>
             {
                 if (string.Equals(itemModel._headerModel.PropName, nameof(EmployeeInfo.Name)))
                 {

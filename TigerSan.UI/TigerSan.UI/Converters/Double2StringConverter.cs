@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System.Windows;
+using System.Windows.Data;
 using System.Globalization;
 using TigerSan.CsvLog;
 
@@ -7,39 +8,54 @@ namespace TigerSan.UI.Converters
     [ValueConversion(typeof(double), typeof(string))]
     public class Double2StringConverter : IValueConverter
     {
-        #region 源到目标
-        public object? Convert(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
+        #region 【Props】
+        public int? Digits { get; set; }
+        #endregion 【Props】
+
+        #region 【Ctor】
+        public Double2StringConverter() { }
+        public Double2StringConverter(int digits‌)
         {
-            if (value == null)
+            Digits = digits;
+        }
+        #endregion 【Ctor】
+
+        #region 源到目标
+        public object Convert(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
+        {
+            if (value is double number)
             {
-                LogHelper.Instance.IsNull(nameof(value));
-                return null;
+                int? digits = Digits;
+
+                if (parameter != null)
+                {
+                    if (int.TryParse(parameter.ToString(), out int paramDigits))
+                    {
+                        digits = paramDigits;
+                    }
+                }
+
+                return digits == null ? number.ToString() : number.ToString($"F{digits}", culture);
             }
 
-            var source = (double)value;
-
-            if (parameter == null) return string.Format("{0:F2}", source);
-
-            return string.Format("{0:F" + parameter + "}", source);
+            LogHelper.Instance.Warning($"Unable to convert the value! ({value})");
+            return DependencyProperty.UnsetValue;
         }
         #endregion
 
         #region 目标到源
-        public object? ConvertBack(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
+        public object ConvertBack(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
         {
-            if (value == null)
+            if (value is string str)
             {
-                LogHelper.Instance.IsNull(nameof(value));
-                return null;
+                if (double.TryParse(str, NumberStyles.Any, culture, out double result))
+                {
+                    return result;
+                }
             }
 
-            var target = (string)value;
-
-            double source;
-
-            if (!double.TryParse(target, out source)) return null;
-
-            return source;
+            LogHelper.Instance.Warning($"Unable to convert the value! ({value})");
+            return DependencyProperty.UnsetValue;
         }
         #endregion
 
@@ -49,7 +65,7 @@ namespace TigerSan.UI.Converters
         public static double GetDouble(string str)
         {
             var num = new Double2StringConverter().ConvertBack(str);
-            return num == null ? 0 : (double)num;
+            return num == DependencyProperty.UnsetValue ? 0 : (double)num;
         }
         #endregion
         #endregion [Static]
