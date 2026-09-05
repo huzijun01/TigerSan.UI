@@ -198,7 +198,7 @@ namespace TigerSan.UI.Controls
                 nameof(ChangeDelaySeconds),
                 typeof(double),
                 typeof(NumBox),
-                new PropertyMetadata(0.5, Changed));
+                new PropertyMetadata(1.5, Changed));
 
         private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -422,7 +422,7 @@ namespace TigerSan.UI.Controls
         #region 将“文本”赋值给“值”
         private void SetTextToValue()
         {
-            var value = new Double2StringConverter().ConvertBack(content.Text);
+            var value = new Double2StringConverter().ConvertBack(content.Text) as double?;
             if (value == null)
             {
                 SetValueToText();
@@ -430,7 +430,7 @@ namespace TigerSan.UI.Controls
                 return;
             }
 
-            Value = (double)value;
+            Value = value.Value;
             SetValueToText();
         }
         #endregion

@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using System.Globalization;
 using TigerSan.CsvLog;
 
@@ -21,7 +20,7 @@ namespace TigerSan.UI.Converters
         #endregion 【Ctor】
 
         #region 源到目标
-        public object Convert(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
+        public object? Convert(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
         {
             if (value is double number)
             {
@@ -39,12 +38,12 @@ namespace TigerSan.UI.Converters
             }
 
             LogHelper.Instance.Warning($"Unable to convert the value! ({value})");
-            return DependencyProperty.UnsetValue;
+            return null;
         }
         #endregion
 
         #region 目标到源
-        public object ConvertBack(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
+        public object? ConvertBack(object? value, Type? targetType = null, object? parameter = null, CultureInfo? culture = null)
         {
             if (value is string str)
             {
@@ -55,17 +54,16 @@ namespace TigerSan.UI.Converters
             }
 
             LogHelper.Instance.Warning($"Unable to convert the value! ({value})");
-            return DependencyProperty.UnsetValue;
+            return null;
         }
         #endregion
 
         #region 【Functions】
         #region [Static]
         #region 获取“double”
-        public static double GetDouble(string str)
+        public static double? GetDouble(string str)
         {
-            var num = new Double2StringConverter().ConvertBack(str);
-            return num == DependencyProperty.UnsetValue ? 0 : (double)num;
+            return new Double2StringConverter().ConvertBack(str) as double?;
         }
         #endregion
         #endregion [Static]

@@ -37,7 +37,7 @@
             MaxValue="1"
             MinValue="-1"
             DecimalPlaces="2"
-            ChangeDelaySeconds="0.5"
+            ChangeDelaySeconds="2"
             LostFocusCommand="{Binding NumBox_LostFocusCommand}"
             ValueChangedCommand="{Binding NumBox_ValueChangedCommand}"/>
     </StackPanel>
